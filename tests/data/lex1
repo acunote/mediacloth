@@ -1,0 +1,23 @@
+TEXTThis is a simple text with BOLD'''TEXTBold textBOLD'''TEXT and ITALIC''TEXTItalic textITALIC''TEXT inside.
+One paragraph can be written in several lines.
+
+Another paragraph starts after a blank line.
+
+
+Another one.
+
+This is text with INTLINKSTART[[TEXTInternal LinkINTLINKEND]]TEXT and LINKSTART[TEXThttp://www.example.com external linkLINKEND]TEXT.
+
+We can have headlines:
+
+
+SECTION=TEXT Headline1 SECTION=SECTION==TEXT Headline2 SECTION==SECTION===TEXT Headline3 SECTION===SECTION====TEXT Headline4 SECTION====SECTION=====TEXT Headline5 SECTION=====SECTION======TEXT Headline6 SECTION======SECTION=======TEXT Headline7 SECTION=======TEXT
+
+PREThis is a preformatted ''' ''' << '' '' text
+PREyes
+HLINE----TEXT
+This is a text after the line.
+
+UL_STARTLI_STARTTEXTfoo
+LI_ENDLI_STARTTEXTfoo2
+LI_ENDUL_ENDfalsefalse
