@@ -12,8 +12,9 @@
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
+    <description></description>
     <versioncontrol>kdevsubversion</versioncontrol>
+    <defaultencoding></defaultencoding>
   </general>
   <kdevscriptproject>
     <general>
@@ -90,10 +91,10 @@
   </kdevfilecreate>
   <kdevrubysupport>
     <run>
-      <interpreter>ruby -I/home/gremlin/projects/commercial/rubymediawiki/src</interpreter>
+      <interpreter>ruby -I/home/gremlin/projects/oss/mediacloth/trunk/src</interpreter>
       <shell>irb</shell>
-      <mainprogram/>
-      <programargs/>
+      <mainprogram></mainprogram>
+      <programargs></programargs>
       <runmainprogram>1</runmainprogram>
       <terminal>false</terminal>
       <charactercoding>0</charactercoding>
