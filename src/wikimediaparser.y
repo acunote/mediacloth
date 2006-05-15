@@ -6,7 +6,6 @@
 # parser = WikiMediaParser.new
 # parser.lexer = WikiMediaLexer.new
 # parser.parse(input)
-
 class WikiMediaParser
 
 token BOLD ITALIC LINKSTART LINKEND
@@ -21,7 +20,11 @@ wiki: wiki contents
     ;
 
 contents: paragraph
-/*         { puts "paragraph" } */
+        {
+            n = ParagraphAST.new
+            @node.children << n
+            @node = n
+        }
     | bulleted_list
 /*         { puts "bulleted_list" } */
     | preformatted
@@ -65,6 +68,9 @@ section: SECTION TEXT SECTION
     ;
 
 end
+
+---- header ----
+@node = WikiAST.new
 
 ---- inner ----
 

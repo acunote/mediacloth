@@ -9,7 +9,7 @@ require 'racc/parser'
 
 class WikiMediaParser < Racc::Parser
 
-module_eval <<'..end wikimediaparser.y modeval..id189d0d9581', 'wikimediaparser.y', 70
+module_eval <<'..end wikimediaparser.y modeval..idf4c85d356d', 'wikimediaparser.y', 70
 
 attr_accessor :lexer
 
@@ -27,7 +27,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end wikimediaparser.y modeval..id189d0d9581
+..end wikimediaparser.y modeval..idf4c85d356d
 
 ##### racc 1.4.5 generates ###
 
