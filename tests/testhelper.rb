@@ -12,15 +12,16 @@ module TestHelper
         Dir.glob("data/input*").each do |filename|
             resultname = filename.gsub(/input(.*)/, "#{baseName}\\1")
             #exclude backup files
-            return if resultname.include?("~")
+            if not resultname.include?("~")
+                inputFile = File.new(filename, "r")
+                input = inputFile.read
+                if File.exists?(resultname)
+                    resultFile = File.new(resultname, "r")
+                    result = resultFile.read
 
-            inputFile = File.new(filename, "r")
-            input = inputFile.read
-            return if not File.exists?(resultname)
-            resultFile = File.new(resultname, "r")
-            result = resultFile.read
-
-            yield(input, result)
+                    yield(input, result)
+                end
+            end
         end
     end
 end

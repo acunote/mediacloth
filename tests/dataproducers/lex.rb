@@ -1,11 +1,11 @@
-require 'wikimedialexer'
+require 'mediawikilexer'
 
 def produce(index)
     file = File.new("../data/lex#{index}", "w")
     inputFile = File.new("../data/input#{index}", "r")
     input = inputFile.read
 
-    lexer = WikiMediaLexer.new
+    lexer = MediaWikiLexer.new
     tokens = lexer.tokenize(input)
     file.write(tokens.to_s)
     file.close

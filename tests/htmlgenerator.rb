@@ -1,22 +1,22 @@
 require 'mediawikilexer'
 require 'mediawikiparser'
+require 'mediawikihtmlgenerator'
 
 require 'test/unit'
 require 'testhelper'
-require 'debugwalker'
 
 class Parser_Test < Test::Unit::TestCase
 
     include TestHelper
 
     def test_input
-        testFiles("result") { |input,result|
+        testFiles("html") { |input,result|
             parser = MediaWikiParser.new
             parser.lexer = MediaWikiLexer.new
             ast = parser.parse(input)
-            walker = DebugWalker.new
-            walker.parse(ast)
-            puts walker.tree
+            generator = MediaWikiHTMLGenerator.new
+            generator.parse(ast)
+            puts generator.html
         }
     end
 

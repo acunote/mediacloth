@@ -1,4 +1,4 @@
-require 'wikimedialexer'
+require 'mediawikilexer'
 require 'test/unit'
 require 'testhelper'
 
@@ -8,7 +8,7 @@ class Lexer_Test < Test::Unit::TestCase
 
     def test_input
         testFiles("lex") { |input,result|
-            lexer = WikiMediaLexer.new
+            lexer = MediaWikiLexer.new
             tokens = lexer.tokenize(input)
             assert_equal(tokens.to_s, result)
         }
@@ -50,7 +50,7 @@ class Lexer_Test < Test::Unit::TestCase
 
 private
     def lex(string)
-        lexer = WikiMediaLexer.new
+        lexer = MediaWikiLexer.new
         lexer.tokenize(string)
     end
 

@@ -12,9 +12,9 @@
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description></description>
+    <description/>
     <versioncontrol>kdevsubversion</versioncontrol>
-    <defaultencoding></defaultencoding>
+    <defaultencoding/>
   </general>
   <kdevscriptproject>
     <general>
@@ -93,8 +93,8 @@
     <run>
       <interpreter>ruby -I/home/gremlin/projects/oss/mediacloth/trunk/src</interpreter>
       <shell>irb</shell>
-      <mainprogram></mainprogram>
-      <programargs></programargs>
+      <mainprogram/>
+      <programargs/>
       <runmainprogram>1</runmainprogram>
       <terminal>false</terminal>
       <charactercoding>0</charactercoding>

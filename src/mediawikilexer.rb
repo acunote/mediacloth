@@ -1,9 +1,9 @@
-#The lexer for WikiMedia language.
+#The lexer for MediaWiki language.
 #
 #Standalone usage:
 # file = File.new("somefile", "r")
 # input = file.read
-# lexer = WikiMediaLexer.new
+# lexer = MediaWikiLexer.new
 # lexer.tokenize(input)
 #
 #Inside RACC-generated parser:
@@ -18,10 +18,10 @@
 #     return @lexer.lex
 # end
 # ...
-# parser = Parser.new
-# parser.lexer = WikiMediaLexer.new
+# parser = MediaWikiParser.new
+# parser.lexer = MediaWikiLexer.new
 # parser.parse(input)
-class WikiMediaLexer
+class MediaWikiLexer
 
     #Initialized the lexer with a match table.
     #
@@ -70,7 +70,7 @@ class WikiMediaLexer
                 @tokens << @currentToken unless emptyTextToken?
                 @nextToken[1] = @text[@tokenStart, @cursor - @tokenStart]
                 @tokens << @nextToken
-                #hack!
+                #hack to enable sub-lexing!
                 if @subTokens
                     @tokens += @subTokens
                     @subTokens = nil
@@ -196,17 +196,20 @@ private
         if atStartOfLine?
             listId = @text[@cursor, 1]
             subText = extractListContents(listId)
+            extracted = 0
 
             #hack to tokenize everything inside the list
             @subTokens = []
             subLines = ""
             @subTokens << [:LI_START, ""]
             subText.each do |t|
+                extracted += 1
                 if textIsList? t
                     subLines += t
                 else
                     if not subLines.empty?
                         @subTokens += subLex(subLines)
+                        subLines = ""
                     end
                     if @subTokens.last[0] != :LI_START
                         @subTokens << [:LI_END, ""]
@@ -223,7 +226,7 @@ private
             end
 
             #end of hack
-            @cursor += subText.length + 1
+            @cursor += subText.length + extracted
             @tokenStart = @cursor
 
             case
@@ -312,7 +315,7 @@ private
 
     #Runs sublexer to tokenize subText
     def subLex(subText)
-        subLexer = WikiMediaLexer.new
+        subLexer = MediaWikiLexer.new
         subTokens = subLexer.tokenize(subText)
         subTokens.pop
         subTokens
@@ -337,7 +340,6 @@ private
             list += curr unless (curr == listId) and (@text[i-1, 1] == "\n")
             i += 1
         end
-#         puts "List is:'#{list}'"
         list
     end
 

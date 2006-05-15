@@ -1,4 +1,4 @@
-MediaCloth is the first WikiMedia parser and html generator written in ruby. 
+MediaCloth is the first MediaWiki parser and html generator written in ruby. 
 It's small, fast and aims to recognize the complete MediaWiki language.
 
 = DEVELOPMENT =

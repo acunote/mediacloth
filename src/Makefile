@@ -1,5 +1,5 @@
 FLAGS=
-FLAGS=-g -v
+#FLAGS=-g -v
 
-all: wikimediaparser.y
-	racc ${FLAGS} wikimediaparser.y -o wikimediaparser.rb
+all: mediawikiparser.y
+	racc ${FLAGS} mediawikiparser.y -o mediawikiparser.rb
