@@ -110,7 +110,7 @@ private
     # "'''"     { return :BOLD; }
     # "''"      { return :ITALIC; }
     def matchItalicOrBold
-        if @text[@cursor, 3] == "'''"
+        if @text[@cursor, 3] == "'''" and @pairStack.last[0] != :ITALIC
             matchBold
             @cursor += 3
             return
@@ -125,10 +125,20 @@ private
 
     def matchBold
         @nextToken[0] = :BOLD
+        if @pairStack.last[0] == :BOLD
+            @pairStack.pop
+        else
+            @pairStack.push @nextToken
+        end
     end
 
     def matchItalic
         @nextToken[0] = :ITALIC
+        if @pairStack.last[0] == :ITALIC
+            @pairStack.pop
+        else
+            @pairStack.push @nextToken
+        end
     end
 
     #Matches sections
