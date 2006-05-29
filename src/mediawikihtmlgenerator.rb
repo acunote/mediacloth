@@ -1,4 +1,5 @@
 require 'mediawikiwalker'
+require 'mediawikiparams'
 
 #HTML generator for a MediaWiki parse tree
 #
@@ -67,6 +68,12 @@ private
         elsif ast.formatting == :HLine
             ast.contents = ""
             tag = ["hr", ""]
+        elsif ast.formatting == :SignatureDate
+            ast.contents = MediaWikiParams.instance.time.to_s
+        elsif ast.formatting == :SignatureName
+            ast.contents = MediaWikiParams.instance.author
+        elsif ast.formatting == :SignatureFull
+            ast.contents = MediaWikiParams.instance.author + " " + MediaWikiParams.instance.time.to_s
         end
         tag
     end

@@ -1,4 +1,3 @@
-
 #AST Node
 class AST
     attr_accessor :contents

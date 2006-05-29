@@ -90,6 +90,12 @@ element: BOLD TEXT BOLD
         { return [:None, val[0]] }
     | HLINE
         { return [:HLine, val[0]] }
+    | SIGNATURE_DATE
+        { return [:SignatureDate, val[0]] }
+    | SIGNATURE_NAME
+        { return [:SignatureName, val[0]] }
+    | SIGNATURE_FULL
+        { return [:SignatureFull, val[0]] }
     ;
 
 bulleted_list: UL_START list_item list_contents UL_END

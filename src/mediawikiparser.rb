@@ -12,7 +12,7 @@ require 'mediawikiast'
 
 class MediaWikiParser < Racc::Parser
 
-module_eval <<'..end mediawikiparser.y modeval..id413cf46e52', 'mediawikiparser.y', 138
+module_eval <<'..end mediawikiparser.y modeval..id6a5e4b9e09', 'mediawikiparser.y', 144
 
 attr_accessor :lexer
 
@@ -36,7 +36,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end mediawikiparser.y modeval..id413cf46e52
+..end mediawikiparser.y modeval..id6a5e4b9e09
 
 ##### racc 1.4.5 generates ###
 
@@ -61,67 +61,72 @@ racc_reduce_table = [
  3, 33, :_reduce_17,
  1, 33, :_reduce_18,
  1, 33, :_reduce_19,
- 4, 26, :_reduce_20,
- 0, 36, :_reduce_21,
- 3, 35, :_reduce_22,
- 0, 35, :_reduce_23,
- 3, 34, :_reduce_24,
- 1, 27, :_reduce_25,
- 3, 28, :_reduce_26 ]
+ 1, 33, :_reduce_20,
+ 1, 33, :_reduce_21,
+ 1, 33, :_reduce_22,
+ 4, 26, :_reduce_23,
+ 0, 36, :_reduce_24,
+ 3, 35, :_reduce_25,
+ 0, 35, :_reduce_26,
+ 3, 34, :_reduce_27,
+ 1, 27, :_reduce_28,
+ 3, 28, :_reduce_29 ]
 
-racc_reduce_n = 27
+racc_reduce_n = 30
 
-racc_shift_n = 46
+racc_shift_n = 49
 
 racc_action_table = [
-     7,     8,    11,    29,    14,    -3,    16,    17,    18,     4,
-     7,     8,    11,    10,    14,    21,    16,    17,    18,     4,
-     7,     8,    11,    10,    14,    22,    16,    17,    18,     4,
-    24,    25,    26,    10,    27,    28,    19,   -23,    34,    35,
-    36,    37,    24,    39,    -3,   -23,   -12,     3,   -12 ]
+     9,    11,    14,    32,    17,    -3,    19,    20,    21,     4,
+     6,     8,    10,    13,     9,    11,    14,    24,    17,    25,
+    19,    20,    21,     4,     6,     8,    10,    13,     9,    11,
+    14,    27,    17,    28,    19,    20,    21,     4,     6,     8,
+    10,    13,    29,    30,    31,    22,   -26,    37,    38,    39,
+    40,    27,    42,    -3,   -26,   -12,     3,   -12 ]
 
 racc_action_check = [
-     2,     2,     2,    22,     2,     6,     2,     2,     2,     2,
-    43,    43,    43,     2,    43,     7,    43,    43,    43,    43,
-    33,    33,    33,    43,    33,     8,    33,    33,    33,    33,
-    10,    11,    14,    33,    16,    21,     3,    23,    25,    26,
-    27,    30,    31,    32,     0,    38,    40,     1,    44 ]
+     2,     2,     2,    25,     2,     7,     2,     2,     2,     2,
+     2,     2,     2,     2,    46,    46,    46,     9,    46,    11,
+    46,    46,    46,    46,    46,    46,    46,    46,    36,    36,
+    36,    13,    36,    14,    36,    36,    36,    36,    36,    36,
+    36,    36,    17,    19,    24,     3,    26,    28,    29,    30,
+    33,    34,    35,     0,    41,    43,     1,    47 ]
 
 racc_action_pointer = [
-    44,    47,    -2,    36,   nil,   nil,     5,     6,    16,   nil,
-    13,    22,   nil,   nil,    23,   nil,    25,   nil,   nil,   nil,
-   nil,    33,     0,    21,   nil,    33,    32,    32,   nil,   nil,
-    25,    25,    25,    18,   nil,   nil,   nil,   nil,    29,   nil,
-    28,   nil,   nil,     8,    30,   nil ]
+    53,    56,    -2,    45,   nil,   nil,   nil,     5,   nil,     8,
+   nil,    10,   nil,    14,    24,   nil,   nil,    33,   nil,    34,
+   nil,   nil,   nil,   nil,    42,     0,    30,   nil,    42,    41,
+    41,   nil,   nil,    34,    34,    34,    26,   nil,   nil,   nil,
+   nil,    38,   nil,    37,   nil,   nil,    12,    39,   nil ]
 
 racc_action_default = [
-    -1,   -27,   -27,   -27,   -19,   -13,    -1,   -27,   -27,    -4,
-   -27,   -27,    -5,    -6,   -27,    -7,   -27,   -18,   -25,    46,
-    -2,   -27,   -27,   -21,    -8,   -27,   -27,   -27,   -14,   -15,
-   -27,   -27,   -27,   -27,   -16,   -17,   -26,   -20,   -21,   -24,
-   -10,   -22,    -9,   -27,   -10,   -11 ]
+    -1,   -30,   -30,   -30,   -19,   -13,   -21,    -1,   -20,   -30,
+   -22,   -30,    -4,   -30,   -30,    -5,    -6,   -30,    -7,   -30,
+   -18,   -28,    49,    -2,   -30,   -30,   -24,    -8,   -30,   -30,
+   -30,   -14,   -15,   -30,   -30,   -30,   -30,   -16,   -17,   -29,
+   -23,   -24,   -27,   -10,   -25,    -9,   -30,   -10,   -11 ]
 
 racc_goto_table = [
-     6,    23,    30,     1,    42,    32,    33,   nil,    45,    20,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,    41,   nil,   nil,
-   nil,   nil,    38,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,    40,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,    44 ]
+     7,    26,    33,     1,    45,    35,    36,   nil,    48,   nil,
+    23,   nil,   nil,   nil,   nil,   nil,   nil,    44,   nil,   nil,
+   nil,   nil,    41,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
+   nil,   nil,   nil,   nil,    43,   nil,   nil,   nil,   nil,   nil,
+   nil,   nil,   nil,   nil,    47 ]
 
 racc_goto_check = [
-     2,    13,    14,     1,     9,     8,    10,   nil,     9,     1,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,    14,   nil,   nil,
+     2,    13,    14,     1,     9,     8,    10,   nil,     9,   nil,
+     1,   nil,   nil,   nil,   nil,   nil,   nil,    14,   nil,   nil,
    nil,   nil,    13,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,     2,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,     2 ]
+   nil,   nil,   nil,   nil,     2,   nil,   nil,   nil,   nil,   nil,
+   nil,   nil,   nil,   nil,     2 ]
 
 racc_goto_pointer = [
-   nil,     3,    -2,   nil,   nil,   nil,   nil,   nil,   -19,   -36,
-   -18,   nil,   nil,    -9,   -21,   nil ]
+   nil,     3,    -2,   nil,   nil,   nil,   nil,   nil,   -22,   -39,
+   -21,   nil,   nil,   -12,   -24,   nil ]
 
 racc_goto_default = [
-   nil,   nil,   nil,     2,     9,    12,    13,    15,   nil,   nil,
-   nil,    43,     5,   nil,   nil,    31 ]
+   nil,   nil,   nil,     2,    12,    15,    16,    18,   nil,   nil,
+   nil,    46,     5,   nil,   nil,    34 ]
 
 racc_token_table = {
  false => 0,
@@ -348,8 +353,29 @@ module_eval <<'.,.,', 'mediawikiparser.y', 91
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 102
+module_eval <<'.,.,', 'mediawikiparser.y', 93
   def _reduce_20( val, _values, result )
+ return [:SignatureDate, val[0]]
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'mediawikiparser.y', 95
+  def _reduce_21( val, _values, result )
+ return [:SignatureName, val[0]]
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'mediawikiparser.y', 97
+  def _reduce_22( val, _values, result )
+ return [:SignatureFull, val[0]]
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'mediawikiparser.y', 108
+  def _reduce_23( val, _values, result )
             list = ListAST.new
             list.type = :Bulleted
             list.children << val[1]
@@ -359,30 +385,30 @@ module_eval <<'.,.,', 'mediawikiparser.y', 102
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 105
-  def _reduce_21( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 111
+  def _reduce_24( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 111
-  def _reduce_22( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 117
+  def _reduce_25( val, _values, result )
             result << val[1]
             result += val[2]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 112
-  def _reduce_23( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 118
+  def _reduce_26( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 121
-  def _reduce_24( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 127
+  def _reduce_27( val, _values, result )
             li = ListItemAST.new
             li.children += val[1]
             result = li
@@ -390,15 +416,15 @@ module_eval <<'.,.,', 'mediawikiparser.y', 121
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 124
-  def _reduce_25( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 130
+  def _reduce_28( val, _values, result )
  result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 128
-  def _reduce_26( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 134
+  def _reduce_29( val, _values, result )
  result = val[1]
    result
   end
