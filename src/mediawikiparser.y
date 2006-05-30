@@ -8,7 +8,7 @@
 # parser.parse(input)
 class MediaWikiParser
 
-token BOLD ITALIC LINKSTART LINKEND
+token BOLDSTART BOLDEND ITALICSTART ITALICEND LINKSTART LINKEND
     INTLINKSTART INTLINKEND SECTION TEXT PRE
     HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
     UL_START UL_END LI_START LI_END OL_START OL_END
@@ -16,14 +16,13 @@ token BOLD ITALIC LINKSTART LINKEND
 rule
 
 wiki:
+    repeated_contents
         {
             @nodes.push WikiAST.new
+            #@nodes.last.children.insert(0, val[0])
+            #puts val[0]
+            @nodes.last.children += val[0]
         }
-    contents wiki
-        {
-            @nodes.last.children.insert(0, val[1])
-        }
-    |
     ;
 
 contents:
@@ -49,24 +48,17 @@ contents:
         }
     ;
 
-repeated_contents:
-        { result = [] }
-    contents repeated_contents_cont
+repeated_contents: contents
         {
-            result << val[1]
-            result += val[2]
+            result = []
+            result << val[0]
         }
-    ;
-
-repeated_contents_cont:
-        { result = [] }
-    contents repeated_contents_cont
+    | contents repeated_contents
         {
-            result << val[1]
-            result += val[2]
+            result = []
+            result << val[0]
+            result += val[1]
         }
-    |
-        { result = [] }
     ;
 
 text: element
@@ -76,13 +68,13 @@ text: element
             p.contents = val[0][1]
             result = p
         }
+    | formatted_element
+        {
+            result = val[0]
+        }
     ;
 
-element: BOLD TEXT BOLD
-        { return [:Bold, val[1]] }
-    | ITALIC TEXT ITALIC
-        { return [:Italic, val[1]] }
-    | LINKSTART TEXT LINKEND
+element: LINKSTART TEXT LINKEND
         { return [:Link, val[1]] }
     | INTLINKSTART TEXT INTLINKEND
         { return [:InternalLink, val[1]] }
@@ -96,6 +88,22 @@ element: BOLD TEXT BOLD
         { return [:SignatureName, val[0]] }
     | SIGNATURE_FULL
         { return [:SignatureFull, val[0]] }
+    ;
+
+formatted_element: BOLDSTART repeated_contents BOLDEND
+        {
+            p = FormattedAST.new
+            p.formatting = :Bold
+            p.children += val[1]
+            result = p
+        }
+    | ITALICSTART repeated_contents ITALICEND
+        {
+            p = FormattedAST.new
+            p.formatting = :Italic
+            p.children += val[1]
+            result = p
+        }
     ;
 
 bulleted_list: UL_START list_item list_contents UL_END

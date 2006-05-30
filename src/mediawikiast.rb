@@ -17,9 +17,15 @@ class WikiAST < AST
 end
 
 #The node to represent a simple or formatted text
-class TextAST < AST
-    #Currently recognized formatting: :None, :Bold, :Italic, :Link, :InternalLink, :HLine
+#with more AST nodes inside.
+class FormattedAST < AST
+    #Currently recognized formatting: :Bold, :Italic, :Link, :InternalLink, :HLine
     attr_accessor :formatting
+end
+
+#The node to represent a simple or formatted text
+class TextAST < FormattedAST
+    #Currently recognized formatting: :Link, :InternalLink, :HLine
 end
 
 #The node to represent a list

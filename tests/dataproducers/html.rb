@@ -20,4 +20,4 @@ def produce(index)
 end
 
 # (3..5).each { |i| produce(i) }
-produce(3)
+produce(4)

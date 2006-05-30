@@ -22,11 +22,17 @@ protected
     #Reimplement this
     def parseWikiAST(ast)
         ast.children.each do |c|
+            parseFormatted(c) if c.class == FormattedAST
             parseText(c) if c.class == TextAST
             parseList(c) if c.class == ListAST
             parsePreformatted(c) if c.class == PreformattedAST
             parseSection(c) if c.class == SectionAST
         end
+    end
+
+    #Reimplement this
+    def parseFormatted(ast)
+        parseWikiAST(ast)
     end
 
     #Reimplement this

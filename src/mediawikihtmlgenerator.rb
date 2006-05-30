@@ -33,6 +33,13 @@ protected
         super(ast)
     end
 
+    def parseFormatted(ast)
+        tag = formattingToTag(ast)
+        @html += "<#{tag}>"
+        super(ast)
+        @html += "</#{tag}>"
+    end
+
     def parseList(ast)
         tag = listTag(ast)
         @html += "<#{tag}>"

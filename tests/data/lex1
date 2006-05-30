@@ -1,4 +1,4 @@
-TEXTThis is a simple text with BOLD'''TEXTBold textBOLD'''TEXT and ITALIC''TEXTItalic textITALIC''TEXT inside.
+TEXTThis is a simple text with BOLDSTART'''TEXTBold textBOLDEND'''TEXT and ITALICSTART''TEXTItalic textITALICEND''TEXT inside.
 One paragraph can be written in several lines.
 
 Another paragraph starts after a blank line.

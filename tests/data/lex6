@@ -1,4 +1,4 @@
-TEXTThis is some text with BOLD'''TEXTboldBOLD'''TEXT and ITALIC''TEXTitalicITALIC''TEXT formating.
+TEXTThis is some text with BOLDSTART'''TEXTboldBOLDEND'''TEXT and ITALICSTART''TEXTitalicITALICEND''TEXT formating.
 The list is also here:
 UL_STARTLI_STARTTEXTList Item 1
 UL_STARTLI_STARTTEXTSub list item 1
