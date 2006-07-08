@@ -71,7 +71,10 @@ private
         elsif ast.formatting == :Italic
             tag = ["i", ""]
         elsif ast.formatting == :Link or ast.formatting == :ExternalLink
-            tag = ["a", " href=#{ast.contents.split}"]
+            links = ast.contents.split
+            link = links[0]
+            ast.contents = links[1, links.length-1].join(" ")
+            tag = ["a", " href=\"#{link}\" rel=\"nofollow\""]
         elsif ast.formatting == :HLine
             ast.contents = ""
             tag = ["hr", ""]
