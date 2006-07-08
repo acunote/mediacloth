@@ -1,0 +1,3 @@
+LINKSTART[TEXThttp://www.example.com external linkLINKEND]TEXT
+http://www.example.com [foo]
+falsefalse
