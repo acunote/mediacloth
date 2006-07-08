@@ -58,6 +58,9 @@ protected
     end
 
     def parseSection(ast)
+        @html += "<h#{ast.level}>"
+        @html += ast.contents.strip
+        @html += "</h#{ast.level}>"
         super(ast)
     end
 

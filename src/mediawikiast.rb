@@ -40,6 +40,9 @@ end
 
 #The node to represent a section
 class SectionAST < AST
+    #The level of the section (1,2,3...) that would correspond to
+    #<h1>, <h2>, <h3>, etc.
+    attr_accessor :level
 end
 
 #The node to represent a preformatted contents

@@ -1,0 +1,21 @@
+This is a simple text with <b>Bold text</b> and <i>Italic text</i> inside.
+One paragraph can be written in several lines.
+
+Another paragraph starts after a blank line.
+
+
+Another one.
+
+This is text with Internal Link and <a href="http://www.example.com" rel="nofollow">external link</a>.
+
+We can have headlines:
+
+
+<h1>Headline1</h1><h2>Headline2</h2><h3>Headline3</h3><h4>Headline4</h4><h5>Headline5</h5><h6>Headline6</h6><h7>Headline7</h7>
+
+<hr></hr>
+This is a text after the line.
+
+<ul><li>foo
+</li><li>foo2
+</li></ul>

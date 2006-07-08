@@ -12,7 +12,7 @@ require 'mediawikiast'
 
 class MediaWikiParser < Racc::Parser
 
-module_eval <<'..end mediawikiparser.y modeval..id38196a4e43', 'mediawikiparser.y', 152
+module_eval <<'..end mediawikiparser.y modeval..ideb0b37e1bf', 'mediawikiparser.y', 153
 
 attr_accessor :lexer
 
@@ -36,7 +36,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end mediawikiparser.y modeval..id38196a4e43
+..end mediawikiparser.y modeval..ideb0b37e1bf
 
 ##### racc 1.4.5 generates ###
 
@@ -246,16 +246,17 @@ module_eval <<'.,.,', 'mediawikiparser.y', 42
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 48
+module_eval <<'.,.,', 'mediawikiparser.y', 49
   def _reduce_5( val, _values, result )
             s = SectionAST.new
-            s.contents = val[0]
+            s.contents = val[0][0]
+            s.level = val[0][1]
             result = s
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 55
+module_eval <<'.,.,', 'mediawikiparser.y', 56
   def _reduce_6( val, _values, result )
             result = []
             result << val[0]
@@ -263,7 +264,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 55
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 61
+module_eval <<'.,.,', 'mediawikiparser.y', 62
   def _reduce_7( val, _values, result )
             result = []
             result << val[0]
@@ -272,7 +273,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 61
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 70
+module_eval <<'.,.,', 'mediawikiparser.y', 71
   def _reduce_8( val, _values, result )
             p = TextAST.new
             p.formatting = val[0][0]
@@ -282,63 +283,63 @@ module_eval <<'.,.,', 'mediawikiparser.y', 70
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 74
+module_eval <<'.,.,', 'mediawikiparser.y', 75
   def _reduce_9( val, _values, result )
             result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 77
+module_eval <<'.,.,', 'mediawikiparser.y', 78
   def _reduce_10( val, _values, result )
  return [:Link, val[1]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 79
+module_eval <<'.,.,', 'mediawikiparser.y', 80
   def _reduce_11( val, _values, result )
  return [:InternalLink, val[1]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 81
+module_eval <<'.,.,', 'mediawikiparser.y', 82
   def _reduce_12( val, _values, result )
  return [:None, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 83
+module_eval <<'.,.,', 'mediawikiparser.y', 84
   def _reduce_13( val, _values, result )
  return [:HLine, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 85
+module_eval <<'.,.,', 'mediawikiparser.y', 86
   def _reduce_14( val, _values, result )
  return [:SignatureDate, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 87
+module_eval <<'.,.,', 'mediawikiparser.y', 88
   def _reduce_15( val, _values, result )
  return [:SignatureName, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 89
+module_eval <<'.,.,', 'mediawikiparser.y', 90
   def _reduce_16( val, _values, result )
  return [:SignatureFull, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 99
+module_eval <<'.,.,', 'mediawikiparser.y', 100
   def _reduce_17( val, _values, result )
             p = FormattedAST.new
             p.formatting = :Bold
@@ -348,7 +349,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 99
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 106
+module_eval <<'.,.,', 'mediawikiparser.y', 107
   def _reduce_18( val, _values, result )
             p = FormattedAST.new
             p.formatting = :Italic
@@ -358,7 +359,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 106
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 116
+module_eval <<'.,.,', 'mediawikiparser.y', 117
   def _reduce_19( val, _values, result )
             list = ListAST.new
             list.type = :Bulleted
@@ -369,14 +370,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 116
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 119
+module_eval <<'.,.,', 'mediawikiparser.y', 120
   def _reduce_20( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 125
+module_eval <<'.,.,', 'mediawikiparser.y', 126
   def _reduce_21( val, _values, result )
             result << val[1]
             result += val[2]
@@ -384,14 +385,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 125
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 126
+module_eval <<'.,.,', 'mediawikiparser.y', 127
   def _reduce_22( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 135
+module_eval <<'.,.,', 'mediawikiparser.y', 136
   def _reduce_23( val, _values, result )
             li = ListItemAST.new
             li.children += val[1]
@@ -400,16 +401,16 @@ module_eval <<'.,.,', 'mediawikiparser.y', 135
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 138
+module_eval <<'.,.,', 'mediawikiparser.y', 139
   def _reduce_24( val, _values, result )
  result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 142
+module_eval <<'.,.,', 'mediawikiparser.y', 143
   def _reduce_25( val, _values, result )
- result = val[1]
+ result = [val[1], val[0].length]
    result
   end
 .,.,

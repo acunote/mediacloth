@@ -43,7 +43,8 @@ contents:
     | section
         {
             s = SectionAST.new
-            s.contents = val[0]
+            s.contents = val[0][0]
+            s.level = val[0][1]
             result = s
         }
     ;
@@ -140,7 +141,7 @@ preformatted: PRE
     ;
 
 section: SECTION TEXT SECTION
-        { result = val[1] }
+        { result = [val[1], val[0].length] }
     ;
 
 end
