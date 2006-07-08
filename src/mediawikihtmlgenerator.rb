@@ -73,7 +73,9 @@ private
         elsif ast.formatting == :Link or ast.formatting == :ExternalLink
             links = ast.contents.split
             link = links[0]
-            ast.contents = links[1, links.length-1].join(" ")
+            link_name = links[1, links.length-1].join(" ")
+            link_name = link if link_name.empty?
+            ast.contents = link_name
             tag = ["a", " href=\"#{link}\" rel=\"nofollow\""]
         elsif ast.formatting == :HLine
             ast.contents = ""

@@ -43,6 +43,7 @@ class MediaWikiLexer
         @lexerTable[":"] = method(:matchList)
         @lexerTable["-"] = method(:matchLine)
         @lexerTable["~"] = method(:matchSignature)
+        @lexerTable["h"] = method(:matchInlineLink)
     end
 
     #Transforms input stream (string) into the stream of tokens.
@@ -196,6 +197,25 @@ private
         end
     end
 
+    #Matches inlined unformatted html link
+    # "http://[^\s]*"   { return [ LINKSTART TEXT LINKEND]; }
+    def matchInlineLink
+        #if no link start token was detected and the text starts with http://
+        #then it's the inlined unformatted html link
+        if htmlLink?(@cursor) and @pairStack.last[0] != :INTLINKSTART and
+                @pairStack.last[0] != :LINKSTART
+            @nextToken[0] = :LINKSTART
+            linkText = extractTillWhitespace
+            @subTokens = []
+            @subTokens << [:TEXT, linkText]
+            @subTokens << [:LINKEND, ']']
+            @cursor += linkText.length
+            @tokenStart = @cursor
+        else
+            matchOther
+        end
+    end
+
     #Matches space to find preformatted areas which start with a space after a newline
     # "\n\s[^\n]*"     { return PRE; }
     def matchSpace
@@ -344,6 +364,21 @@ private
         subTokens = subLexer.tokenize(subText)
         subTokens.pop
         subTokens
+    end
+
+    #Extracts the text from current cursor position till the next whitespace
+    def extractTillWhitespace
+        i = @cursor
+        text = ""
+        while i < @text.length
+            curr = @text[i, 1]
+            if (curr == "\n") or (curr == "\t") or (curr == " ")
+                break
+            end
+            text += curr
+            i += 1
+        end
+        text
     end
 
     #Extract list contents of list type set by listId variable.
