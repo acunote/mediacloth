@@ -168,10 +168,14 @@ private
     def matchLinkStart
         if @text[@cursor, 2] == "[["
             @nextToken[0] = :INTLINKSTART
+            @pairStack.push @nextToken
             @cursor += 2
-        else
+        elsif @text[@cursor, 1] == "[" and htmlLink?(@cursor+1)
             @nextToken[0] = :LINKSTART
+            @pairStack.push @nextToken
             @cursor += 1
+        else
+            matchOther
         end
     end
 
@@ -179,12 +183,16 @@ private
     # "]]"      { return INTLINKEND; }
     # "]"       { return LINKEND; }
     def matchLinkEnd
-        if @text[@cursor, 2] == "]]"
+        if @text[@cursor, 2] == "]]" and @pairStack.last[0] == :INTLINKSTART
             @nextToken[0] = :INTLINKEND
+            @pairStack.pop
             @cursor += 2
-        else
+        elsif @text[@cursor, 1] == "]" and @pairStack.last[0] == :LINKSTART
             @nextToken[0] = :LINKEND
+            @pairStack.pop
             @cursor += 1
+        else
+            matchOther
         end
     end
 
@@ -307,6 +315,11 @@ private
         else
             false
         end
+    end
+
+    #Checks if the text at position contains the start of the html link
+    def htmlLink?(position)
+        return @text[position, 7] == 'http://'
     end
 
     #Adjusts @tokenStart to skip leading whitespaces
