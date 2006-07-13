@@ -54,11 +54,11 @@ repeated_contents: contents
             result = []
             result << val[0]
         }
-    | contents repeated_contents
+    | repeated_contents contents
         {
             result = []
-            result << val[0]
-            result += val[1]
+            result += val[0]
+            result << val[1]
         }
     ;
 
@@ -159,9 +159,6 @@ def initialize
 end
 
 #Tokenizes input string and parses it.
-#--
-#TODO: return AST here
-#++
 def parse(input)
     @yydebug=true
     lexer.tokenize(input)

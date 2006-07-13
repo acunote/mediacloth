@@ -12,7 +12,7 @@ require 'mediawikiast'
 
 class MediaWikiParser < Racc::Parser
 
-module_eval <<'..end mediawikiparser.y modeval..ideb0b37e1bf', 'mediawikiparser.y', 153
+module_eval <<'..end mediawikiparser.y modeval..id9065974c2d', 'mediawikiparser.y', 153
 
 attr_accessor :lexer
 
@@ -22,9 +22,6 @@ def initialize
 end
 
 #Tokenizes input string and parses it.
-#--
-#TODO: return AST here
-#++
 def parse(input)
     @yydebug=true
     lexer.tokenize(input)
@@ -36,7 +33,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end mediawikiparser.y modeval..ideb0b37e1bf
+..end mediawikiparser.y modeval..id9065974c2d
 
 ##### racc 1.4.5 generates ###
 
@@ -73,52 +70,62 @@ racc_reduce_n = 26
 racc_shift_n = 44
 
 racc_action_table = [
-     3,    32,     8,    28,    14,    29,    17,    30,    20,     1,
-     2,     4,     6,     9,    11,    13,     3,    31,     8,    27,
-    14,    33,    17,   -22,    20,     1,     2,     4,     6,     9,
-    11,    13,     3,    23,     8,    37,    14,    38,    17,    39,
-    20,     1,     2,     4,     6,     9,    11,    13,     3,    40,
-     8,    27,    14,    42,    17,   -22,    20,     1,     2,     4,
-     6,     9,    11,    13,     3,   nil,     8,   nil,    14,   nil,
-    17,   nil,    20,     1,     2,     4,     6,     9,    11,    13 ]
+     3,    32,     8,    29,    14,    30,    17,    28,    20,     1,
+     2,     4,     6,     9,    11,    13,   -22,     3,    42,     8,
+    27,    14,    37,    17,    38,    20,     1,     2,     4,     6,
+     9,    11,    13,     3,    39,     8,    40,    14,    27,    17,
+    23,    20,     1,     2,     4,     6,     9,    11,    13,     3,
+   -22,     8,   nil,    14,   nil,    17,   nil,    20,     1,     2,
+     4,     6,     9,    11,    13,     3,   nil,     8,   nil,    14,
+   nil,    17,   nil,    20,     1,     2,     4,     6,     9,    11,
+    13,     3,   nil,     8,   nil,    14,   nil,    17,   nil,    20,
+     1,     2,     4,     6,     9,    11,    13,     3,   nil,     8,
+    33,    14,   nil,    17,   nil,    20,     1,     2,     4,     6,
+     9,    11,    13,     3,    31,     8,   nil,    14,   nil,    17,
+   nil,    20,     1,     2,     4,     6,     9,    11,    13 ]
 
 racc_action_check = [
-     0,    23,     0,    14,     0,    17,     0,    20,     0,     0,
-     0,     0,     0,     0,     0,     0,     3,    22,     3,    13,
-     3,    24,     3,    26,     3,     3,     3,     3,     3,     3,
-     3,     3,    27,     5,    27,    28,    27,    29,    27,    30,
-    27,    27,    27,    27,    27,    27,    27,    27,     8,    34,
-     8,    35,     8,    36,     8,    41,     8,     8,     8,     8,
-     8,     8,     8,     8,    10,   nil,    10,   nil,    10,   nil,
-    10,   nil,    10,    10,    10,    10,    10,    10,    10,    10 ]
+    36,    23,    36,    17,    36,    20,    36,    14,    36,    36,
+    36,    36,    36,    36,    36,    36,    26,     8,    36,     8,
+    13,     8,    28,     8,    29,     8,     8,     8,     8,     8,
+     8,     8,     8,     0,    30,     0,    34,     0,    35,     0,
+     5,     0,     0,     0,     0,     0,     0,     0,     0,     7,
+    41,     7,   nil,     7,   nil,     7,   nil,     7,     7,     7,
+     7,     7,     7,     7,     7,     3,   nil,     3,   nil,     3,
+   nil,     3,   nil,     3,     3,     3,     3,     3,     3,     3,
+     3,    27,   nil,    27,   nil,    27,   nil,    27,   nil,    27,
+    27,    27,    27,    27,    27,    27,    27,    25,   nil,    25,
+    25,    25,   nil,    25,   nil,    25,    25,    25,    25,    25,
+    25,    25,    25,    22,    22,    22,   nil,    22,   nil,    22,
+   nil,    22,    22,    22,    22,    22,    22,    22,    22 ]
 
 racc_action_pointer = [
-    -2,   nil,   nil,    14,   nil,    33,   nil,   nil,    46,   nil,
-    62,   nil,   nil,     0,    -8,   nil,   nil,    -6,   nil,   nil,
-    -4,   nil,    14,     1,    16,   nil,     5,    30,    28,    28,
-    29,   nil,   nil,   nil,    31,    32,    33,   nil,   nil,   nil,
-   nil,    37,   nil,   nil ]
+    31,   nil,   nil,    63,   nil,    40,   nil,    47,    15,   nil,
+   nil,   nil,   nil,     1,    -4,   nil,   nil,    -8,   nil,   nil,
+    -6,   nil,   111,     1,   nil,    95,    -2,    79,    15,    15,
+    24,   nil,   nil,   nil,    18,    19,    -2,   nil,   nil,   nil,
+   nil,    32,   nil,   nil ]
 
 racc_action_default = [
    -26,   -12,   -24,   -26,   -13,   -26,   -15,    -1,   -26,   -14,
     -6,   -16,    -2,   -26,   -26,    -3,    -4,   -26,    -5,    -8,
-   -26,    -9,   -26,   -26,   -26,    -7,   -20,   -26,   -26,   -26,
+   -26,    -9,   -26,   -26,    -7,   -26,   -20,   -26,   -26,   -26,
    -26,   -17,    44,   -18,   -26,   -26,   -26,   -10,   -11,   -25,
    -19,   -20,   -23,   -21 ]
 
 racc_goto_table = [
-     7,    26,    34,    22,     5,   nil,   nil,   nil,    24,   nil,
-    25,   nil,   nil,   nil,   nil,   nil,   nil,    43,   nil,   nil,
-   nil,   nil,   nil,    41,   nil,   nil,   nil,    36 ]
+    24,     7,    26,     5,    22,    34,   nil,   nil,   nil,    25,
+   nil,   nil,   nil,   nil,   nil,    24,   nil,   nil,    24,   nil,
+    43,   nil,   nil,   nil,    41,   nil,   nil,   nil,    36,    24 ]
 
 racc_goto_check = [
-     2,    10,    11,     2,     1,   nil,   nil,   nil,     2,   nil,
-     2,   nil,   nil,   nil,   nil,   nil,   nil,    11,   nil,   nil,
-   nil,   nil,   nil,    10,   nil,   nil,   nil,     2 ]
+     3,     2,    10,     1,     2,    11,   nil,   nil,   nil,     2,
+   nil,   nil,   nil,   nil,   nil,     3,   nil,   nil,     3,   nil,
+    11,   nil,   nil,   nil,    10,   nil,   nil,   nil,     2,     3 ]
 
 racc_goto_pointer = [
-   nil,     4,     0,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   -12,   -24,   nil ]
+   nil,     3,     1,    -7,   nil,   nil,   nil,   nil,   nil,   nil,
+   -11,   -21,   nil ]
 
 racc_goto_default = [
    nil,   nil,   nil,    10,    12,    15,    16,    18,    19,    21,
@@ -267,8 +274,8 @@ module_eval <<'.,.,', 'mediawikiparser.y', 56
 module_eval <<'.,.,', 'mediawikiparser.y', 62
   def _reduce_7( val, _values, result )
             result = []
-            result << val[0]
-            result += val[1]
+            result += val[0]
+            result << val[1]
    result
   end
 .,.,
