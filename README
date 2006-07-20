@@ -4,5 +4,4 @@ It's small, fast and aims to recognize the complete MediaWiki language.
 = DEVELOPMENT =
 If you want to modify mediacloth sources you will need:
 1) Download and install RACC parser generator (http://i.loveruby.net/en/projects/racc/)
-2) Execute "make" in src/ directory to update your parser from .y definition
- 
+2) Execute "rake parser" to update your parser from .y definition
