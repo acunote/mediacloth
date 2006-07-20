@@ -21,31 +21,31 @@ class DebugWalker < MediaWikiWalker
 
 protected
 
-    def parseWikiAST(ast)
+    def parse_wiki_ast(ast)
         info(ast)
         super(ast)
     end
 
-    def parseText(ast)
+    def parse_text(ast)
         info(ast, ast.formatting)
         super(ast)
     end
 
-    def parseList(ast)
+    def parse_list(ast)
         info(ast, ast.type)
         super(ast)
     end
 
-    def parseListItem(ast)
+    def parse_list_item(ast)
         info(ast)
         super(ast)
     end
 
-    def parsePreformatted(ast)
+    def parse_preformatted(ast)
         info(ast)
     end
 
-    def parseSection(ast)
+    def parse_section(ast)
         info(ast)
     end
 

@@ -10,7 +10,7 @@ class Parser_Test < Test::Unit::TestCase
     include TestHelper
 
     def test_input
-        testFiles("result") { |input,result|
+        test_files("result") { |input,result|
             parser = MediaWikiParser.new
             parser.lexer = MediaWikiLexer.new
             ast = parser.parse(input)

@@ -8,16 +8,16 @@ module TestHelper
     #contents of "baseNameXXX" into the "result" variable.
     #
     #Then it calls the block with input and result as parameters.
-    def testFiles(baseName, &action)
+    def test_files(baseName, &action)
         Dir.glob("data/input*").each do |filename|
             resultname = filename.gsub(/input(.*)/, "#{baseName}\\1")
             #exclude backup files
             if not resultname.include?("~")
-                inputFile = File.new(filename, "r")
-                input = inputFile.read
+                input_file = File.new(filename, "r")
+                input = input_file.read
                 if File.exists?(resultname)
-                    resultFile = File.new(resultname, "r")
-                    result = resultFile.read
+                    result_file = File.new(resultname, "r")
+                    result = result_file.read
 
                     yield(input, result)
                 end

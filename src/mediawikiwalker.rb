@@ -12,7 +12,7 @@ class MediaWikiWalker
 
     #Walks through the AST
     def parse(ast)
-        parseWikiAST(ast)
+        parse_wiki_ast(ast)
     end
 
 protected
@@ -20,43 +20,43 @@ protected
 #===== reimplement these methods and don't forget to call super() ====#
 
     #Reimplement this
-    def parseWikiAST(ast)
+    def parse_wiki_ast(ast)
         ast.children.each do |c|
-            parseFormatted(c) if c.class == FormattedAST
-            parseText(c) if c.class == TextAST
-            parseList(c) if c.class == ListAST
-            parsePreformatted(c) if c.class == PreformattedAST
-            parseSection(c) if c.class == SectionAST
+            parse_formatted(c) if c.class == FormattedAST
+            parse_text(c) if c.class == TextAST
+            parse_list(c) if c.class == ListAST
+            parse_preformatted(c) if c.class == PreformattedAST
+            parse_section(c) if c.class == SectionAST
         end
     end
 
     #Reimplement this
-    def parseFormatted(ast)
-        parseWikiAST(ast)
+    def parse_formatted(ast)
+        parse_wiki_ast(ast)
     end
 
     #Reimplement this
-    def parseText(ast)
+    def parse_text(ast)
     end
 
     #Reimplement this
-    def parseList(ast)
+    def parse_list(ast)
         ast.children.each do |c|
-            parseListItem(c) if c.class == ListItemAST
+            parse_list_item(c) if c.class == ListItemAST
         end
     end
 
     #Reimplement this
-    def parseListItem(ast)
-        parseWikiAST(ast)
+    def parse_list_item(ast)
+        parse_wiki_ast(ast)
     end
 
     #Reimplement this
-    def parsePreformatted(ast)
+    def parse_preformatted(ast)
     end
 
     #Reimplement this
-    def parseSection(ast)
+    def parse_section(ast)
     end
 
 end

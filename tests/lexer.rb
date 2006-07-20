@@ -7,7 +7,7 @@ class Lexer_Test < Test::Unit::TestCase
     include TestHelper
 
     def test_input
-        testFiles("lex") { |input,result|
+        test_files("lex") { |input,result|
             lexer = MediaWikiLexer.new
             tokens = lexer.tokenize(input)
             assert_equal(tokens.to_s, result)

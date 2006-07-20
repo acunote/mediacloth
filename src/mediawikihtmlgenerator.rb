@@ -19,12 +19,12 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
 
 protected
 
-    def parseWikiAST(ast)
+    def parse_wiki_ast(ast)
         super(ast)
     end
 
-    def parseText(ast)
-        tag = formattingToTag(ast)
+    def parse_text(ast)
+        tag = formatting_to_tag(ast)
         if tag[0].empty?
             @html += ast.contents
         else
@@ -33,31 +33,31 @@ protected
         super(ast)
     end
 
-    def parseFormatted(ast)
-        tag = formattingToTag(ast)
+    def parse_formatted(ast)
+        tag = formatting_to_tag(ast)
         @html += "<#{tag}>"
         super(ast)
         @html += "</#{tag}>"
     end
 
-    def parseList(ast)
-        tag = listTag(ast)
+    def parse_list(ast)
+        tag = list_tag(ast)
         @html += "<#{tag}>"
         super(ast)
         @html += "</#{tag}>"
     end
 
-    def parseListItem(ast)
+    def parse_list_item(ast)
         @html += "<li>"
         super(ast)
         @html += "</li>"
     end
 
-    def parsePreformatted(ast)
+    def parse_preformatted(ast)
         super(ast)
     end
 
-    def parseSection(ast)
+    def parse_section(ast)
         @html += "<h#{ast.level}>"
         @html += ast.contents.strip
         @html += "</h#{ast.level}>"
@@ -67,7 +67,7 @@ protected
 private
 
     #returns an array with a tag name and tag attributes
-    def formattingToTag(ast)
+    def formatting_to_tag(ast)
         tag = ["", ""]
         if ast.formatting == :Bold
             tag = ["b", ""]
@@ -94,7 +94,7 @@ private
     end
 
     #returns a tag name of the list in ast node
-    def listTag(ast)
+    def list_tag(ast)
         if ast.type == :Bulleted
             return "ul"
         elsif ast.type == :Numbered
