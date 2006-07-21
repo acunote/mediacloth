@@ -9,7 +9,7 @@ module TestHelper
     #
     #Then it calls the block with input and result as parameters.
     def test_files(baseName, &action)
-        Dir.glob("data/input*").each do |filename|
+        Dir.glob(File.dirname(__FILE__) + "/data/input*").each do |filename|
             resultname = filename.gsub(/input(.*)/, "#{baseName}\\1")
             #exclude backup files
             if not resultname.include?("~")

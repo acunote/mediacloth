@@ -1,4 +1,4 @@
-require 'mediawikiast'
+require 'mediacloth/mediawikiast'
 
 #Default walker to traverse the parse tree.
 #

@@ -147,7 +147,7 @@ section: SECTION TEXT SECTION
 end
 
 ---- header ----
-require 'mediawikiast'
+require 'mediacloth/mediawikiast'
 
 ---- inner ----
 

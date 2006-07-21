@@ -1,4 +1,4 @@
-require 'mediawikilexer'
+require 'mediacloth/mediawikilexer'
 require 'test/unit'
 require 'testhelper'
 

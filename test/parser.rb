@@ -1,5 +1,5 @@
-require 'mediawikilexer'
-require 'mediawikiparser'
+require 'mediacloth/mediawikilexer'
+require 'mediacloth/mediawikiparser'
 
 require 'test/unit'
 require 'testhelper'

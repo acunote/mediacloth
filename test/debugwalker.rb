@@ -1,4 +1,4 @@
-require 'mediawikiwalker'
+require 'mediacloth/mediawikiwalker'
 
 #A walker to build textual representation of the parse tree.
 #

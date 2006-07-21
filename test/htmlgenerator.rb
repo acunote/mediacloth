@@ -1,6 +1,6 @@
-require 'mediawikilexer'
-require 'mediawikiparser'
-require 'mediawikihtmlgenerator'
+require 'mediacloth/mediawikilexer'
+require 'mediacloth/mediawikiparser'
+require 'mediacloth/mediawikihtmlgenerator'
 
 require 'test/unit'
 require 'testhelper'

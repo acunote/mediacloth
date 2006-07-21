@@ -1,5 +1,5 @@
-require 'mediawikiwalker'
-require 'mediawikiparams'
+require 'mediacloth/mediawikiwalker'
+require 'mediacloth/mediawikiparams'
 
 #HTML generator for a MediaWiki parse tree
 #
