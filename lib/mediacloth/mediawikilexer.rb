@@ -44,6 +44,7 @@ class MediaWikiLexer
         @lexer_table["-"] = method(:match_line)
         @lexer_table["~"] = method(:match_signature)
         @lexer_table["h"] = method(:match_inline_link)
+        @lexer_table["\n"] = method(:match_newline)
     end
 
     #Transforms input stream (string) into the stream of tokens.
@@ -52,6 +53,7 @@ class MediaWikiLexer
     #modification. The last token [false, false] inficates EOF.
     def tokenize(input)
         @tokens = []
+        start_para
         @cursor = 0
         @text = input
         @next_token = []
@@ -68,7 +70,27 @@ class MediaWikiLexer
                 @current_token[1] += @text[@token_start, 1]
             else
                 #skip empty :TEXT tokens
-                @tokens << @current_token unless empty_text_token?
+                unless empty_text_token?
+                    @tokens << @current_token
+                    unless para_breaker?(@next_token[0])
+                        #if no paragraph was previously started
+                        #then we should start it
+                        start_para if !@para
+                    else
+                        #if we already have a paragraph this is the time to close it
+                        end_para if @para
+                    end
+
+                end
+
+                if para_breaker?(@next_token[0])
+                    if @tokens.last and @tokens.last[0] == :PARA_START
+                        #we need to remove para start token because no para end is possible
+                        @tokens.pop
+                        @para = false
+                    end
+                end
+
                 @next_token[1] = @text[@token_start, @cursor - @token_start]
                 @tokens << @next_token
                 #hack to enable sub-lexing!
@@ -77,6 +99,10 @@ class MediaWikiLexer
                     @sub_tokens = nil
                 end
                 #end of hack!
+
+                #if the next token can start the paragraph, let's try that
+                start_para if @tokens.last and para_starter?(@tokens.last[0])
+
                 @current_token = nil
                 @next_token = []
             end
@@ -84,6 +110,13 @@ class MediaWikiLexer
         #add the last TEXT token if it exists
         @tokens << @current_token if @current_token and not empty_text_token?
 
+        #remove empty para start or finish the paragraph if necessary
+        if @tokens.last and @tokens.last[0] == :PARA_START
+            @tokens.pop
+            @para = false
+        else
+            end_para if @para
+        end
         #RACC wants us to put this to indicate EOF
         @tokens << [false, false]
         @tokens
@@ -98,6 +131,18 @@ class MediaWikiLexer
 
 
 private
+    #Returns true if the token breaks the paragraph.
+    def para_breaker?(token)
+        [:SECTION_START, :SECTION_END,
+        :UL_START, :UL_END, :OL_START, :OL_END,
+        :DL_START, :DL_END, :HLINE, :PRE].include?(token)
+    end
+
+    #Returns true if the paragraph can be started after the token
+    def para_starter?(token)
+        [:SECTION_END, :UL_END, :OL_END, :DL_END, :HLINE, :PRE].include?(token)
+    end
+
     #-- ================== Match methods ================== ++#
 
     #Matches anything that was not matched. Returns :TEXT to indicate
@@ -145,17 +190,17 @@ private
     end
 
     #Matches sections
-    # "=+"  { return SECTION; }
     def match_section
-        if (@text[@cursor-1, 1] == "\n") or (@pair_stack.last[0] == :SECTION)
+        if (@text[@cursor-1, 1] == "\n") or (@pair_stack.last[0] == :SECTION_START)
             i = 0
             i += 1 while @text[@cursor+i, 1] == "="
             @cursor += i
-            @next_token[0] = :SECTION
 
-            if @pair_stack.last[0] == :SECTION
+            if @pair_stack.last[0] == :SECTION_START
+                @next_token[0] = :SECTION_END
                 @pair_stack.pop
             else
+                @next_token[0] = :SECTION_START
                 @pair_stack.push @next_token
             end
         else
@@ -326,6 +371,20 @@ private
         end
     end
 
+    #Matches new line and breaks the paragraph if two newlines are met
+    def match_newline
+        if @text[@cursor, 2] == "\n\n"
+            if @para
+                @next_token[0] = :PARA_END
+#                @para = false
+                @sub_tokens = [[:PARA_START, ""]]
+                @cursor += 2
+                return
+            end
+        end
+        match_other
+    end
+
     #-- ================== Helper methods ================== ++#
 
     #Checks if the token is placed at the start of the line.
@@ -359,10 +418,16 @@ private
     end
 
     #Runs sublexer to tokenize sub_text
-    def sub_lex(sub_text)
+    def sub_lex(sub_text, strip_paragraphs=true)
         sub_lexer = MediaWikiLexer.new
         sub_tokens = sub_lexer.tokenize(sub_text)
-        sub_tokens.pop
+        sub_tokens.pop #false token
+        if strip_paragraphs
+            #the last PARA_END token
+            sub_tokens.pop if sub_tokens.last[0] == :PARA_END
+            #the first PARA_START token
+            sub_tokens.delete_at(0) if sub_tokens[0][0] == :PARA_START
+        end
         sub_tokens
     end
 
@@ -401,6 +466,16 @@ private
             i += 1
         end
         list
+    end
+
+    def start_para
+        @tokens << [:PARA_START, ""]
+        @para = true
+    end
+
+    def end_para
+        @tokens << [:PARA_END, ""]
+        @para = false
     end
 
 end

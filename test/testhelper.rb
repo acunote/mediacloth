@@ -19,7 +19,7 @@ module TestHelper
                     result_file = File.new(resultname, "r")
                     result = result_file.read
 
-                    yield(input, result)
+                    yield(input, result, resultname)
                 end
             end
         end

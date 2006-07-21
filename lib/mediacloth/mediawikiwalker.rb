@@ -27,7 +27,13 @@ protected
             parse_list(c) if c.class == ListAST
             parse_preformatted(c) if c.class == PreformattedAST
             parse_section(c) if c.class == SectionAST
+            parse_paragraph(c) if c.class == ParagraphAST
         end
+    end
+
+    #Reimplement this
+    def parse_paragraph(ast)
+        parse_wiki_ast(ast)
     end
 
     #Reimplement this

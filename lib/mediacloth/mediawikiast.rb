@@ -16,6 +16,10 @@ class WikiAST < AST
 
 end
 
+#The node to represent paragraph with text inside
+class ParagraphAST < AST
+end
+
 #The node to represent a simple or formatted text
 #with more AST nodes inside.
 class FormattedAST < AST

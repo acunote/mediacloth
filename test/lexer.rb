@@ -7,11 +7,17 @@ class Lexer_Test < Test::Unit::TestCase
     include TestHelper
 
     def test_input
-        test_files("lex") { |input,result|
+        test_files("lex") { |input,result,resultname|
             lexer = MediaWikiLexer.new
             tokens = lexer.tokenize(input)
             assert_equal(tokens.to_s, result)
         }
+    end
+
+    def test_paragraphs
+        assert_equal(lex("Before\n\n\n=Headline="),
+            [[:PARA_START, ""], [:TEXT, "Before"], [:PARA_END, "\n\n"],
+             [:SECTION_START, "="], [:TEXT, "Headline"], [:SECTION_END, "="], [false,false]])
     end
 
     def test_empty
@@ -32,9 +38,12 @@ class Lexer_Test < Test::Unit::TestCase
 
     def test_ending_text_token
         #check for a problem when the last token is TEXT and it's not included
-        assert_equal(lex("\n----\nfoo\n"), [[:HLINE, "----"], [:TEXT, "\nfoo\n"], [false, false]])
+        assert_equal(lex("\n----\nfoo\n"),
+            [[:HLINE, "----"], [:PARA_START, ""],
+                [:TEXT, "\nfoo\n"], [:PARA_END, ""], [false, false]])
         assert_equal(lex("\n----\nfoo\n Hehe"),
-            [[:HLINE, "----"], [:TEXT, "\nfoo\n"], [:PRE, "Hehe"], [false, false]])
+            [[:HLINE, "----"], [:PARA_START, ""], [:TEXT, "\nfoo\n"],
+                [:PARA_END, ""], [:PRE, "Hehe"], [false, false]])
     end
 
     def test_bullets

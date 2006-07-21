@@ -1,4 +1,4 @@
-require 'mediawikilexer'
+require 'mediacloth/mediawikilexer'
 
 def produce(index)
     file = File.new("../data/lex#{index}", "w")
@@ -12,4 +12,4 @@ def produce(index)
 end
 
 #1..5.each { |i| produce(1) }
-produce(7)
+produce(1)

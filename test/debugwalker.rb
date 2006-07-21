@@ -26,6 +26,11 @@ protected
         super(ast)
     end
 
+    def parse_paragraph(ast)
+        info(ast)
+        super(ast)
+    end
+
     def parse_text(ast)
         info(ast, ast.formatting)
         super(ast)

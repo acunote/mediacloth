@@ -9,9 +9,10 @@
 class MediaWikiParser
 
 token BOLDSTART BOLDEND ITALICSTART ITALICEND LINKSTART LINKEND
-    INTLINKSTART INTLINKEND SECTION TEXT PRE
+    INTLINKSTART INTLINKEND SECTION_START SECTION_END TEXT PRE
     HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
     UL_START UL_END LI_START LI_END OL_START OL_END
+    PARA_START PARA_END
 
 rule
 
@@ -34,6 +35,10 @@ contents:
         {
             result = val[0]
         }
+    | numbered_list
+        {
+            result = val[0]
+        }
     | preformatted
         {
             p = PreformattedAST.new
@@ -47,7 +52,25 @@ contents:
             s.level = val[0][1]
             result = s
         }
+    | PARA_START para_contents PARA_END
+        {
+            if val[1]
+                p = ParagraphAST.new
+                p.children = val[1]
+                result = p
+            end
+        }
     ;
+
+#TODO: remove empty paragraphs in lexer
+para_contents: 
+        {
+            result = nil
+        }
+    | repeated_contents
+        {
+            result = val[0]
+        }
 
 repeated_contents: contents
         {
@@ -117,6 +140,15 @@ bulleted_list: UL_START list_item list_contents UL_END
         }
     ;
 
+numbered_list: OL_START list_item list_contents OL_END
+        {
+            list = ListAST.new
+            list.type = :Bulleted
+            list.children << val[1]
+            list.children += val[2]
+            result = list
+        }
+    ;
 list_contents:
         { result = [] }
     list_item list_contents
@@ -140,7 +172,7 @@ preformatted: PRE
         { result = val[0] }
     ;
 
-section: SECTION TEXT SECTION
+section: SECTION_START TEXT SECTION_END
         { result = [val[1], val[0].length] }
     ;
 

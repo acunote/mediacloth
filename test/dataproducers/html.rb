@@ -1,7 +1,7 @@
-require 'mediawikilexer'
-require 'mediawikiparser'
-require 'mediawikiparams'
-require 'mediawikihtmlgenerator'
+require 'mediacloth/mediawikilexer'
+require 'mediacloth/mediawikiparser'
+require 'mediacloth/mediawikiparams'
+require 'mediacloth/mediawikihtmlgenerator'
 
 def produce(index)
     file = File.new("../data/html#{index}", "w")
@@ -15,9 +15,10 @@ def produce(index)
     generator = MediaWikiHTMLGenerator.new
     generator.parse(ast)
 
+#    puts generator.html
     file.write(generator.html)
     file.close
 end
 
 # (3..5).each { |i| produce(i) }
-produce(6)
+produce(5)

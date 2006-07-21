@@ -23,6 +23,12 @@ protected
         super(ast)
     end
 
+    def parse_paragraph(ast)
+        @html += "<p>"
+        super(ast)
+        @html += "</p>"
+    end
+
     def parse_text(ast)
         tag = formatting_to_tag(ast)
         if tag[0].empty?
