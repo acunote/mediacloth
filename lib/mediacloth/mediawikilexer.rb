@@ -191,7 +191,7 @@ private
 
     #Matches sections
     def match_section
-        if (@text[@cursor-1, 1] == "\n") or (@pair_stack.last[0] == :SECTION_START)
+        if at_start_of_line? or (@pair_stack.last[0] == :SECTION_START)
             i = 0
             i += 1 while @text[@cursor+i, 1] == "="
             @cursor += i

@@ -12,7 +12,7 @@ require 'mediacloth/mediawikiast'
 
 class MediaWikiParser < Racc::Parser
 
-module_eval <<'..end mediawikiparser.y modeval..idaaac6a2fec', 'mediawikiparser.y', 185
+module_eval <<'..end mediawikiparser.y modeval..id823eb1450e', 'mediawikiparser.y', 186
 
 attr_accessor :lexer
 
@@ -33,7 +33,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end mediawikiparser.y modeval..idaaac6a2fec
+..end mediawikiparser.y modeval..id823eb1450e
 
 ##### racc 1.4.5 generates ###
 
@@ -430,7 +430,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 130
 module_eval <<'.,.,', 'mediawikiparser.y', 140
   def _reduce_23( val, _values, result )
             list = ListAST.new
-            list.type = :Bulleted
+            list.list_type = :Bulleted
             list.children << val[1]
             list.children += val[2]
             result = list
@@ -441,7 +441,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 140
 module_eval <<'.,.,', 'mediawikiparser.y', 150
   def _reduce_24( val, _values, result )
             list = ListAST.new
-            list.type = :Bulleted
+            list.list_type = :Numbered
             list.children << val[1]
             list.children += val[2]
             result = list
@@ -449,14 +449,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 150
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 152
+module_eval <<'.,.,', 'mediawikiparser.y', 153
   def _reduce_25( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 158
+module_eval <<'.,.,', 'mediawikiparser.y', 159
   def _reduce_26( val, _values, result )
             result << val[1]
             result += val[2]
@@ -464,14 +464,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 158
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 159
+module_eval <<'.,.,', 'mediawikiparser.y', 160
   def _reduce_27( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 168
+module_eval <<'.,.,', 'mediawikiparser.y', 169
   def _reduce_28( val, _values, result )
             li = ListItemAST.new
             li.children += val[1]
@@ -480,14 +480,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 168
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 171
+module_eval <<'.,.,', 'mediawikiparser.y', 172
   def _reduce_29( val, _values, result )
  result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 175
+module_eval <<'.,.,', 'mediawikiparser.y', 176
   def _reduce_30( val, _values, result )
  result = [val[1], val[0].length]
    result

@@ -101,9 +101,9 @@ private
 
     #returns a tag name of the list in ast node
     def list_tag(ast)
-        if ast.type == :Bulleted
+        if ast.list_type == :Bulleted
             return "ul"
-        elsif ast.type == :Numbered
+        elsif ast.list_type == :Numbered
             return "ol"
         end
     end

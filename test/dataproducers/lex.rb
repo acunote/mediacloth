@@ -12,4 +12,4 @@ def produce(index)
 end
 
 #1..5.each { |i| produce(1) }
-produce(1)
+produce(8)

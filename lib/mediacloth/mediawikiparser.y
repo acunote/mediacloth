@@ -133,7 +133,7 @@ formatted_element: BOLDSTART repeated_contents BOLDEND
 bulleted_list: UL_START list_item list_contents UL_END
         {
             list = ListAST.new
-            list.type = :Bulleted
+            list.list_type = :Bulleted
             list.children << val[1]
             list.children += val[2]
             result = list
@@ -143,12 +143,13 @@ bulleted_list: UL_START list_item list_contents UL_END
 numbered_list: OL_START list_item list_contents OL_END
         {
             list = ListAST.new
-            list.type = :Bulleted
+            list.list_type = :Numbered
             list.children << val[1]
             list.children += val[2]
             result = list
         }
     ;
+
 list_contents:
         { result = [] }
     list_item list_contents

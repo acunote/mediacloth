@@ -35,7 +35,7 @@ end
 #The node to represent a list
 class ListAST < AST
     #Currently recognized types: :Bulleted, :Numbered
-    attr_accessor :type
+    attr_accessor :list_type
 end
 
 #The node to represent a list item
