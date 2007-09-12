@@ -5,7 +5,7 @@ require 'mediacloth/mediawikihtmlgenerator'
 require 'test/unit'
 require 'testhelper'
 
-class Parser_Test < Test::Unit::TestCase
+class HTMLGenerator_Test < Test::Unit::TestCase
 
     include TestHelper
 
@@ -14,7 +14,7 @@ class Parser_Test < Test::Unit::TestCase
             parser = MediaWikiParser.new
             parser.lexer = MediaWikiLexer.new
             ast = parser.parse(input)
-            MediaWikiParams.instance.time = Time.mktime(2000, 1, 1, 1, 1, 1, 1)
+            MediaWikiParams.instance.time = Time.utc(2000, 1, 1, 1, 1, 1, 1)
             generator = MediaWikiHTMLGenerator.new
             generator.parse(ast)
             assert_equal generator.html, result
