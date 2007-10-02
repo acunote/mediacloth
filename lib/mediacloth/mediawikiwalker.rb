@@ -21,13 +21,14 @@ protected
 
     #Reimplement this
     def parse_wiki_ast(ast)
-        ast.children.each do |c|
-            parse_formatted(c) if c.class == FormattedAST
-            parse_text(c) if c.class == TextAST
-            parse_list(c) if c.class == ListAST
-            parse_preformatted(c) if c.class == PreformattedAST
-            parse_section(c) if c.class == SectionAST
-            parse_paragraph(c) if c.class == ParagraphAST
+        ast.children.map do |c|
+            r = parse_formatted(c) if c.class == FormattedAST
+            r = parse_text(c) if c.class == TextAST
+            r = parse_list(c) if c.class == ListAST
+            r = parse_preformatted(c) if c.class == PreformattedAST
+            r = parse_section(c) if c.class == SectionAST
+            r = parse_paragraph(c) if c.class == ParagraphAST
+            r
         end
     end
 
@@ -47,7 +48,7 @@ protected
 
     #Reimplement this
     def parse_list(ast)
-        ast.children.each do |c|
+        ast.children.map do |c|
             parse_list_item(c) if c.class == ListItemAST
         end
     end

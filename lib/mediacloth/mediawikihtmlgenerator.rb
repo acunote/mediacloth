@@ -17,60 +17,51 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
         @html = ""
     end
 
+    def parse(ast)
+        @html = super(ast)
+    end
+
 protected
 
     def parse_wiki_ast(ast)
-        super(ast)
+        super(ast).join
     end
 
     def parse_paragraph(ast)
-        @html += "<p>"
-        super(ast)
-        @html += "</p>"
+        "<p>" + super(ast) + "</p>"
     end
 
     def parse_text(ast)
         tag = formatting_to_tag(ast)
         if tag[0].empty?
-            @html += ast.contents
+            ast.contents
         else
-            @html += "<#{tag[0]}#{tag[1]}>#{ast.contents}</#{tag[0]}>"
+            "<#{tag[0]}#{tag[1]}>#{ast.contents}</#{tag[0]}>"
         end
-        super(ast)
     end
 
     def parse_formatted(ast)
         tag = formatting_to_tag(ast)
-        @html += "<#{tag}>"
-        super(ast)
-        @html += "</#{tag}>"
+        "<#{tag}>" + super(ast) + "</#{tag}>"
     end
 
     def parse_list(ast)
         tag = list_tag(ast)
-        @html += "<#{tag}>"
-        super(ast)
-        @html += "</#{tag}>"
+        (["<#{tag}>"] +
+         super(ast) +
+         ["</#{tag}>"]).join
     end
 
     def parse_list_item(ast)
-        @html += "<li>"
-        super(ast)
-        @html += "</li>"
+        "<li>" + super(ast) + "</li>"
     end
 
     def parse_preformatted(ast)
-        super(ast)
     end
 
     def parse_section(ast)
-        @html += "<h#{ast.level}>"
-        @html += ast.contents.strip
-        @html += "</h#{ast.level}>"
-        super(ast)
+        "<h#{ast.level}>" + ast.contents.strip + "</h#{ast.level}>"
     end
-
-private
 
     #returns an array with a tag name and tag attributes
     def formatting_to_tag(ast)
