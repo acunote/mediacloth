@@ -45,6 +45,7 @@ class MediaWikiLexer
         @lexer_table["~"] = method(:match_signature)
         @lexer_table["h"] = method(:match_inline_link)
         @lexer_table["\n"] = method(:match_newline)
+        @lexer_table["\r"] = method(:match_carriagereturn)
     end
 
     #Transforms input stream (string) into the stream of tokens.
@@ -371,7 +372,8 @@ private
         end
     end
 
-    #Matches new line and breaks the paragraph if two newlines are met
+    #Matches a new line and breaks the paragraph if two newline characters 
+    #("\n\n") are met.
     def match_newline
         if @text[@cursor, 2] == "\n\n"
             if @para
@@ -379,6 +381,21 @@ private
 #                @para = false
                 @sub_tokens = [[:PARA_START, ""]]
                 @cursor += 2
+                return
+            end
+        end
+        match_other
+    end
+
+    #Matches a new line and breaks the paragraph if two carriage return - newline
+    #sequences ("\r\n\r\n") are met.
+    def match_carriagereturn
+        if @text[@cursor, 4] == "\r\n\r\n"
+            if @para
+                @next_token[0] = :PARA_END
+#                @para = false
+                @sub_tokens = [[:PARA_START, ""]]
+                @cursor += 4
                 return
             end
         end
@@ -408,7 +425,8 @@ private
 
     #Returns true if the TEXT token is empty or contains newline only
     def empty_text_token?
-        @current_token == [:TEXT, ''] or @current_token == [:TEXT, "\n"]
+        @current_token[0] == :TEXT and
+            (@current_token[1] == '' or @current_token[1] == "\n" or @current_token[1] == "\r\n")
     end
 
     #Returns true if the text is a list, i.e. starts with one of #;*: symbols
