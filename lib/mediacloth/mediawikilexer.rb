@@ -157,7 +157,17 @@ private
     # "'''"     { return :BOLD; }
     # "''"      { return :ITALIC; }
     def match_italic_or_bold
-        if @text[@cursor, 3] == "'''" and @pair_stack.last[0] != :ITALICSTART
+        if @text[@cursor, 5] == "'''''"
+            if @pair_stack.last[0] == :BOLDSTART
+              matchBold
+              @cursor += 3
+            else
+              matchItalic
+              @cursor += 2
+            end
+            return
+        end
+        if @text[@cursor, 3] == "'''"
             matchBold
             @cursor += 3
             return

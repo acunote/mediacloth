@@ -1,1 +1,1 @@
-<p><b><i>Foo</i></b></p>
+<p>Test mixing of bold and italic formatting</p><p><i>italic<b>bold</b>italic</i></p><p><b>bold<i>italic</i>bold</b></p><p><i><b>boldalic</b></i></p><p><i>italic<b>bold</b>italic</i><b>bold<i>italic</i>bold</b></p>

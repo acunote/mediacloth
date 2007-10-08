@@ -1,1 +1,9 @@
-'''''Foo'''''
+Test mixing of bold and italic formatting
+
+''italic'''bold'''italic''
+
+'''bold''italic''bold'''
+
+'''''boldalic'''''
+
+''italic'''bold'''italic'''''bold''italic''bold'''
