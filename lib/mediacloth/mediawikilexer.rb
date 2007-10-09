@@ -450,7 +450,7 @@ private
         sub_lexer = MediaWikiLexer.new
         sub_tokens = sub_lexer.tokenize(sub_text)
         sub_tokens.pop #false token
-        if strip_paragraphs
+        if strip_paragraphs and sub_tokens.size > 0
             #the last PARA_END token
             sub_tokens.pop if sub_tokens.last[0] == :PARA_END
             #the first PARA_START token
@@ -490,9 +490,13 @@ private
                 list+=curr
                 break
             end
-            list += curr unless (curr == list_id) and (@text[i-1, 1] == "\n")
+            if (curr == list_id) and (@text[i-1, 1] == "\n")
+                list += "\n" if i + 1 == @text.length
+            else
+                list += curr
+            end
             i += 1
-        end
+        end 
         list
     end
 

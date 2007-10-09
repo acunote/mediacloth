@@ -161,7 +161,12 @@ list_contents:
         { result = [] }
     ;
 
-list_item: LI_START repeated_contents LI_END
+list_item: 
+      LI_START LI_END
+        {
+            result = ListItemAST.new
+        }
+    | LI_START repeated_contents LI_END
         {
             li = ListItemAST.new
             li.children += val[1]

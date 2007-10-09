@@ -82,6 +82,11 @@ class Lexer_Test < Test::Unit::TestCase
             [:UL_END, ""], [:LI_END, ""], [:UL_END, ""], [false, false]])
     end
 
+    def test_bullets_at_eof
+        assert_equal(lex("* Foo\n*"),
+            [[:UL_START, nil], [:LI_START, ""], [:TEXT, "Foo\n"], [:LI_END, ""], [:LI_START, ""], [:LI_END, ""], [:UL_END, ""], [false, false]])
+    end
+
 private
     def lex(string)
         lexer = MediaWikiLexer.new

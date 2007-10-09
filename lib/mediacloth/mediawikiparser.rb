@@ -12,7 +12,7 @@ require 'mediacloth/mediawikiast'
 
 class MediaWikiParser < Racc::Parser
 
-module_eval <<'..end mediawikiparser.y modeval..id823eb1450e', 'mediawikiparser.y', 186
+module_eval <<'..end mediawikiparser.y modeval..idaad5825df3', 'mediawikiparser.y', 191
 
 attr_accessor :lexer
 
@@ -33,7 +33,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end mediawikiparser.y modeval..id823eb1450e
+..end mediawikiparser.y modeval..idaad5825df3
 
 ##### racc 1.4.5 generates ###
 
@@ -66,34 +66,35 @@ racc_reduce_table = [
  0, 40, :_reduce_25,
  3, 39, :_reduce_26,
  0, 39, :_reduce_27,
- 3, 38, :_reduce_28,
- 1, 33, :_reduce_29,
- 3, 34, :_reduce_30 ]
+ 2, 38, :_reduce_28,
+ 3, 38, :_reduce_29,
+ 1, 33, :_reduce_30,
+ 3, 34, :_reduce_31 ]
 
-racc_reduce_n = 31
+racc_reduce_n = 32
 
-racc_shift_n = 53
+racc_shift_n = 54
 
 racc_action_table = [
-     6,    36,    10,   -27,    16,    35,    20,    26,    23,    41,
+     6,    36,    10,   -27,    16,    35,    20,    26,    23,    42,
      3,     5,     8,    11,    13,    15,    18,     6,    32,    10,
-     1,    16,     7,    20,    31,    23,    43,     3,     5,     8,
-    11,    13,    15,    18,    44,   -27,    50,     1,     6,     7,
-    10,    46,    16,    47,    20,    48,    23,    26,     3,     5,
+     1,    16,     7,    20,    31,    23,    44,     3,     5,     8,
+    11,    13,    15,    18,    45,   -27,    51,     1,     6,     7,
+    10,    47,    16,    48,    20,    49,    23,    26,     3,     5,
      8,    11,    13,    15,    18,     6,    26,    10,     1,    16,
-     7,    20,    51,    23,   -25,     3,     5,     8,    11,    13,
+     7,    20,    52,    23,   -25,     3,     5,     8,    11,    13,
     15,    18,     6,   nil,    10,     1,    16,     7,    20,   nil,
     23,   nil,     3,     5,     8,    11,    13,    15,    18,   nil,
-   nil,   nil,     1,     6,     7,    10,    42,    16,   nil,    20,
+   nil,   nil,     1,     6,     7,    10,    43,    16,   nil,    20,
    nil,    23,   nil,     3,     5,     8,    11,    13,    15,    18,
      6,   nil,    10,     1,    16,     7,    20,   nil,    23,   nil,
      3,     5,     8,    11,    13,    15,    18,     6,   nil,    10,
      1,    16,     7,    20,   nil,    23,   nil,     3,     5,     8,
     11,    13,    15,    18,     6,   nil,    10,     1,    16,     7,
     20,   nil,    23,   nil,     3,     5,     8,    11,    13,    15,
-    18,     6,    40,    10,     1,    16,     7,    20,   nil,    23,
-   nil,     3,     5,     8,    11,    13,    15,    18,   nil,   nil,
-   nil,     1,   nil,     7 ]
+    18,   nil,   nil,    40,     1,   nil,     7,     6,    41,    10,
+   nil,    16,   nil,    20,   nil,    23,   nil,     3,     5,     8,
+    11,    13,    15,    18,   nil,   nil,   nil,     1,   nil,     7 ]
 
 racc_action_check = [
      0,    23,     0,    25,     0,    20,     0,    18,     0,    28,
@@ -102,7 +103,7 @@ racc_action_check = [
     39,    39,    39,    39,    32,    34,    39,    39,     6,    39,
      6,    35,     6,    36,     6,    37,     6,    38,     6,     6,
      6,     6,     6,     6,     6,     7,     1,     7,     6,     7,
-     6,     7,    45,     7,    49,     7,     7,     7,     7,     7,
+     6,     7,    46,     7,    50,     7,     7,     7,     7,     7,
      7,     7,    10,   nil,    10,     7,    10,     7,    10,   nil,
     10,   nil,    10,    10,    10,    10,    10,    10,    10,   nil,
    nil,   nil,    10,    30,    10,    30,    30,    30,   nil,    30,
@@ -112,41 +113,41 @@ racc_action_check = [
     29,    17,    29,    17,   nil,    17,   nil,    17,    17,    17,
     17,    17,    17,    17,    26,   nil,    26,    17,    26,    17,
     26,   nil,    26,   nil,    26,    26,    26,    26,    26,    26,
-    26,    27,    27,    27,    26,    27,    26,    27,   nil,    27,
-   nil,    27,    27,    27,    27,    27,    27,    27,   nil,   nil,
-   nil,    27,   nil,    27 ]
+    26,   nil,   nil,    26,    26,   nil,    26,    27,    27,    27,
+   nil,    27,   nil,    27,   nil,    27,   nil,    27,    27,    27,
+    27,    27,    27,    27,   nil,   nil,   nil,    27,   nil,    27 ]
 
 racc_action_pointer = [
     -2,    36,   nil,   nil,   nil,   nil,    36,    53,   nil,   nil,
     70,   nil,   nil,   nil,    24,   nil,     6,   125,   -13,   nil,
-    -7,   nil,   nil,   -11,   nil,   -20,   142,   159,   -16,   108,
+    -7,   nil,   nil,   -11,   nil,   -20,   142,   165,   -16,   108,
     91,    26,    27,   nil,    16,    32,    32,    22,    27,    15,
-   nil,   nil,   nil,   nil,   nil,    43,   nil,   nil,   nil,    44,
-   nil,   nil,   nil ]
+   nil,   nil,   nil,   nil,   nil,   nil,    43,   nil,   nil,   nil,
+    44,   nil,   nil,   nil ]
 
 racc_action_default = [
-   -31,   -31,    -5,   -16,    -6,   -29,   -31,    -8,   -17,   -12,
-   -31,   -19,   -13,   -18,   -31,   -20,   -31,    -1,   -31,   -10,
-   -31,    -2,    -3,   -31,    -4,   -25,   -31,   -31,   -31,    -9,
-   -31,   -31,   -31,   -11,   -25,   -31,   -31,   -31,   -31,   -31,
-   -21,    -7,   -22,    53,   -14,   -31,   -15,   -30,   -24,   -27,
-   -28,   -23,   -26 ]
+   -32,   -32,    -5,   -16,    -6,   -30,   -32,    -8,   -17,   -12,
+   -32,   -19,   -13,   -18,   -32,   -20,   -32,    -1,   -32,   -10,
+   -32,    -2,    -3,   -32,    -4,   -25,   -32,   -32,   -32,    -9,
+   -32,   -32,   -32,   -11,   -25,   -32,   -32,   -32,   -32,   -32,
+   -28,   -21,    -7,   -22,    54,   -14,   -32,   -15,   -31,   -24,
+   -27,   -29,   -23,   -26 ]
 
 racc_goto_table = [
-    25,    17,    33,    28,    37,    14,   nil,    27,    29,   nil,
-   nil,    30,    33,    45,    33,    33,   nil,    34,   nil,   nil,
-   nil,   nil,   nil,   nil,    33,   nil,   nil,    39,    52,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,    49 ]
+    25,    17,    28,    37,    14,   nil,   nil,    27,    29,    33,
+   nil,    30,    46,   nil,   nil,   nil,   nil,    34,   nil,    33,
+   nil,    33,    33,   nil,   nil,   nil,   nil,    39,    53,   nil,
+   nil,    33,   nil,   nil,   nil,   nil,   nil,    50 ]
 
 racc_goto_check = [
-    12,     2,     3,     9,    13,     1,   nil,     2,     2,   nil,
-   nil,     2,     3,    13,     3,     3,   nil,    12,   nil,   nil,
-   nil,   nil,   nil,   nil,     3,   nil,   nil,     2,    13,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,    12 ]
+    12,     2,     9,    13,     1,   nil,   nil,     2,     2,     3,
+   nil,     2,    13,   nil,   nil,   nil,   nil,    12,   nil,     3,
+   nil,     3,     3,   nil,   nil,   nil,   nil,     2,    13,   nil,
+   nil,     3,   nil,   nil,   nil,   nil,   nil,    12 ]
 
 racc_goto_pointer = [
-   nil,     5,     1,   -15,   nil,   nil,   nil,   nil,   nil,    -4,
-   nil,   nil,    -1,   -21,   nil ]
+   nil,     4,     1,    -8,   nil,   nil,   nil,   nil,   nil,    -5,
+   nil,   nil,    -1,   -22,   nil ]
 
 racc_goto_default = [
    nil,   nil,   nil,    19,    21,    22,    24,     2,     4,   nil,
@@ -471,8 +472,15 @@ module_eval <<'.,.,', 'mediawikiparser.y', 160
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 169
+module_eval <<'.,.,', 'mediawikiparser.y', 168
   def _reduce_28( val, _values, result )
+            result = ListItemAST.new
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'mediawikiparser.y', 174
+  def _reduce_29( val, _values, result )
             li = ListItemAST.new
             li.children += val[1]
             result = li
@@ -480,15 +488,15 @@ module_eval <<'.,.,', 'mediawikiparser.y', 169
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 172
-  def _reduce_29( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 177
+  def _reduce_30( val, _values, result )
  result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 176
-  def _reduce_30( val, _values, result )
+module_eval <<'.,.,', 'mediawikiparser.y', 181
+  def _reduce_31( val, _values, result )
  result = [val[1], val[0].length]
    result
   end
