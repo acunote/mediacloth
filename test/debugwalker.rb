@@ -37,7 +37,7 @@ protected
     end
 
     def parse_list(ast)
-        info(ast, ast.type)
+        info(ast, ast.class)
         super(ast)
     end
 
