@@ -30,6 +30,7 @@ protected
             r = parse_paragraph(c) if c.class == ParagraphAST
             r = parse_link(c) if c.class == LinkAST
             r = parse_internal_link(c) if c.class == InternalLinkAST
+            r = parse_resource_link(c) if c.class == ResourceLinkAST
             r = parse_internal_link_item(c) if c.class == InternalLinkItemAST
             r
         end
@@ -81,6 +82,13 @@ protected
         end
     end
      
+    #Reimplement this
+    def parse_resource_link(ast)
+        ast.children.map do |c|
+            parse_internal_link_item(c) if c.class == InternalLinkItemAST
+        end
+    end
+
     #Reimplement this
     def parse_internal_link_item(ast)
         parse_wiki_ast(ast)

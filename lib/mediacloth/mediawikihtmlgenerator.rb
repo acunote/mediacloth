@@ -103,24 +103,19 @@ protected
     end
     
     def parse_internal_link(ast)
-        tokens = ast.locator.split(':')
-        resource = tokens.pop
-        prefix = tokens.pop
-        if prefix
-            options = ast.children.map do
-                |node|
-                r = parse_internal_link_item(node)
-                r
-            end
-            link_handler.link_for(prefix, resource, options)
-        else
-            text = parse_wiki_ast(ast)
-            text = ast.locator if text.length == 0
-            href = link_handler.url_for(ast.locator)
-            "<a href=\"#{href}\">#{text}</a>"
-        end
+        text = parse_wiki_ast(ast)
+        text = ast.locator if text.length == 0
+        href = link_handler.url_for(ast.locator)
+        "<a href=\"#{href}\">#{text}</a>"
     end
      
+    def parse_resource_link(ast)
+        options = ast.children.map do |node|
+            parse_internal_link_item(node)
+        end
+        link_handler.link_for(ast.prefix, ast.locator, options)
+    end
+
     #Reimplement this
     def parse_internal_link_item(ast)
         text = super(ast)

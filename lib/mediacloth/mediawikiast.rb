@@ -40,9 +40,18 @@ end
 
 #The node to represent a Mediawiki internal link
 class InternalLinkAST < AST
-    #Holds the link locator, which may be composed of a resource name (e.g. the
-    #name of a wiki page), or a prefix, followed by a colon, follwed by a resource 
-    #name (e.g. an image link, prefixed by "Image").
+    #Holds the link locator, which is composed of a resource name only (e.g. the
+    #name of a wiki page)
+    attr_accessor :locator
+end
+
+#The node to represent a MediaWiki resource reference (embedded images, videos,
+#etc.)
+class ResourceLinkAST < AST
+    #The resource prefix that indicates the type of resource (e.g. an image
+    #resource is prefixed by "Image")
+    attr_accessor :prefix
+    #The resource locator
     attr_accessor :locator
 end
 

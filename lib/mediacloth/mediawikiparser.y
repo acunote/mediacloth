@@ -9,7 +9,8 @@
 class MediaWikiParser
 
 token BOLDSTART BOLDEND ITALICSTART ITALICEND LINKSTART LINKEND LINKSEP
-    INTLINKSTART INTLINKEND INTLINKSEP SECTION_START SECTION_END TEXT PRE
+    INTLINKSTART INTLINKEND INTLINKSEP RESOURCE_SEP
+    SECTION_START SECTION_END TEXT PRE
     HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
     UL_START UL_END LI_START LI_END OL_START OL_END
     PARA_START PARA_END
@@ -68,11 +69,19 @@ contents:
             l.children += val[1][1..-1] if val[1].length > 1
             result = l
         }
-    | INTLINKSTART intlink_contents INTLINKEND
+    | INTLINKSTART TEXT RESOURCE_SEP TEXT reslink_repeated_contents INTLINKEND
+        {
+            l = ResourceLinkAST.new
+            l.prefix = val[1]
+            l.locator = val[3]
+            l.children = val[4] unless val[4].nil? or val[4].empty?
+            result = l
+        }
+    | INTLINKSTART TEXT intlink_repeated_contents INTLINKEND
         {
             l = InternalLinkAST.new
-            l.locator = val[1][0]
-            l.children = val[1][1..-1] if val[1].length > 1
+            l.locator = val[1]
+            l.children = val[2] unless val[2].nil? or val[2].empty?
             result = l
         }
     ;
@@ -114,24 +123,25 @@ link_repeated_contents:
     ;
 
 
-intlink_contents: 
-      TEXT intlink_repeated_contents
-        {
-            result = [val[0]]
-            result += val[1] if val[1]
-        }
-    ;
-
-
 intlink_repeated_contents:
         {
             result = nil
         }
-    | INTLINKSEP intlink_repeated_contents
+    | INTLINKSEP repeated_contents
         {
             result = val[1]
         }
-    | INTLINKSEP repeated_contents intlink_repeated_contents
+    ;
+
+reslink_repeated_contents:
+        {
+            result = nil
+        }
+    | INTLINKSEP reslink_repeated_contents
+        {
+            result = val[1]
+        }
+    | INTLINKSEP repeated_contents reslink_repeated_contents
         {
             i = InternalLinkItemAST.new
             i.children = val[1]
@@ -139,7 +149,6 @@ intlink_repeated_contents:
             result += val[2] if val[2]
         }
     ;
-
 
 repeated_contents: contents
         {

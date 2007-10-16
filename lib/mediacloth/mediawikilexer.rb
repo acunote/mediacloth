@@ -258,7 +258,7 @@ private
     
     #Matches link separator inside of internal links
     def match_link_sep
-      if @pair_stack.last[0] == :INTLINKSTART
+      if @tokens[-1][0] == :INTLINKSTART or inside_resource_link
         @next_token[0] = :INTLINKSEP
         @cursor += 1
       else
@@ -360,7 +360,9 @@ private
                     @next_token[0] = :DL_START
                     @sub_tokens << [:DL_END, ""]
             end
-
+        elsif @text[@cursor, 1] == ':' and @tokens[-1][0] == :INTLINKSTART
+            @next_token[0] = :RESOURCE_SEP
+            @cursor += 1
         else
             match_other
         end
@@ -440,6 +442,22 @@ private
 
     #-- ================== Helper methods ================== ++#
 
+    # Checks if we are lexing inside a resource link like
+    # [[Image:example.png|100px|Embedded image]]
+    def inside_resource_link
+      if @pair_stack.last[0] == :INTLINKSTART
+        pos = -1
+        while((token = @tokens[pos][0])  != :INTLINKSTART)
+          if token == :RESOURCE_SEP
+            return true
+          else
+            pos -= 1
+          end
+        end
+      end
+      false
+    end
+    
     #Checks if the token is placed at the start of the line.
     def at_start_of_line?
         if @cursor == 0 or @text[@cursor-1, 1] == "\n"
