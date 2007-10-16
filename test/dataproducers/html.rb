@@ -4,8 +4,8 @@ require 'mediacloth/mediawikiparams'
 require 'mediacloth/mediawikihtmlgenerator'
 
 def produce(index)
-    file = File.new("../data/html#{index}", "w")
-    inputFile = File.new("../data/input#{index}", "r")
+    file = File.new("../test/data/html#{index}", "w")
+    inputFile = File.new("../test/data/input#{index}", "r")
     input = inputFile.read
 
     parser = MediaWikiParser.new

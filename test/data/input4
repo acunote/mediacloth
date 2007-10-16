@@ -1,4 +1,4 @@
-Test mixing of bold and italic formatting
+Test mixing of bold and italic formatting:
 
 ''italic'''bold'''italic''
 
@@ -7,3 +7,44 @@ Test mixing of bold and italic formatting
 '''''boldalic'''''
 
 ''italic'''bold'''italic'''''bold''italic''bold'''
+
+
+Test bold and italic wrapped around inline links:
+
+''http://example.com''
+
+'''http://example.com'''
+
+''http://example.com'''
+
+'''http://example.com' is good'''
+
+''http://example.com' is good''
+
+
+Test unclosed bold and italic formatting:
+
+''Some italic and now ''bold
+==Heading==
+Text
+
+
+''Some italic and now '''bold
+==Heading==
+Text
+
+
+''Some italic and now '''bold
+
+==Heading==
+Text
+
+
+''Some italic and now '''bold
+* one
+* two
+
+
+''Some italic and now '''bold
+
+Text

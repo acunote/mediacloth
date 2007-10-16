@@ -28,6 +28,9 @@ protected
             r = parse_preformatted(c) if c.class == PreformattedAST
             r = parse_section(c) if c.class == SectionAST
             r = parse_paragraph(c) if c.class == ParagraphAST
+            r = parse_link(c) if c.class == LinkAST
+            r = parse_internal_link(c) if c.class == InternalLinkAST
+            r = parse_internal_link_item(c) if c.class == InternalLinkItemAST
             r
         end
     end
@@ -64,6 +67,23 @@ protected
 
     #Reimplement this
     def parse_section(ast)
+    end
+    
+    #Reimplement this
+    def parse_link(ast)
+        parse_wiki_ast(ast)
+    end
+    
+    #Reimplement this
+    def parse_internal_link(ast)
+        ast.children.map do |c|
+            parse_internal_link_item(c) if c.class == InternalLinkItemAST
+        end
+    end
+     
+    #Reimplement this
+    def parse_internal_link_item(ast)
+        parse_wiki_ast(ast)
     end
 
 end

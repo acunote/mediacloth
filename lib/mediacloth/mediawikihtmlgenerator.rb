@@ -20,6 +20,45 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
     def parse(ast)
         @html = super(ast)
     end
+    
+    #The default link handler. A custom link handler may extend this class.
+    class MediaWikiLinkHandler
+      
+      #Method invoked to resolve references to wiki pages when they occur in an
+      #internal link. In all the following internal links, the page name is
+      #<tt>My Page</tt>:
+      #* <tt>[[My Page]]</tt>
+      #* <tt>[[My Page|Click here to view my page]]</tt>
+      #* <tt>[[My Page|Click ''here'' to view my page]]</tt>
+      #The return value should be a URL that references the page resource.
+      def url_for(resource)
+        "javascript:void(0)"
+      end
+      
+      #Method invoked to resolve references to resources of unknown types. The
+      #type is indicated by the resource prefix. Examples of inline links to
+      #unknown references include:
+      #* <tt>[[Media:video.mpg]]</tt> (prefix <tt>Media</tt>, resource <tt>video.mpg</tt>)
+      #* <tt>[[Image:pretty.png|100px|A ''pretty'' picture]]</tt> (prefix <tt>Image</tt>,
+      #  resource <tt>pretty.png</tt>, and options <tt>100px</tt> and <tt>A
+      #  <i>pretty</i> picture</tt>.
+      #The return value should be a well-formed hyperlink, image, object or 
+      #applet tag.
+      def link_for(prefix, resource, options=[])
+        "<a href=\"javascript:void(0)\">#{prefix}:#{resource}(#{options.join(', ')})</a>"
+      end
+    end
+    
+    #Set this generator's URL handler.
+    def link_handler=(handler)
+      @link_handler = handler
+    end
+    
+    #Returns's this generator URL handler. If no handler was set, returns the default
+    #handler.
+    def link_handler
+      @link_handler ||= MediaWikiLinkHandler.new
+    end
 
 protected
 
@@ -62,6 +101,38 @@ protected
     def parse_section(ast)
         "<h#{ast.level}>" + ast.contents.strip + "</h#{ast.level}>"
     end
+    
+    def parse_internal_link(ast)
+        tokens = ast.locator.split(':')
+        resource = tokens.pop
+        prefix = tokens.pop
+        if prefix
+            options = ast.children.map do
+                |node|
+                r = parse_internal_link_item(node)
+                r
+            end
+            link_handler.link_for(prefix, resource, options)
+        else
+            text = parse_wiki_ast(ast)
+            text = ast.locator if text.length == 0
+            href = link_handler.url_for(ast.locator)
+            "<a href=\"#{href}\">#{text}</a>"
+        end
+    end
+     
+    #Reimplement this
+    def parse_internal_link_item(ast)
+        text = super(ast)
+        text.strip
+    end
+    
+    def parse_link(ast)
+        text = super(ast)
+        href = ast.url
+        text = href if text.length == 0
+        "<a href=\"#{href}\">#{text}</a>"
+    end
 
     #returns an array with a tag name and tag attributes
     def formatting_to_tag(ast)
@@ -70,13 +141,6 @@ protected
             tag = ["b", ""]
         elsif ast.formatting == :Italic
             tag = ["i", ""]
-        elsif ast.formatting == :Link or ast.formatting == :ExternalLink
-            links = ast.contents.split
-            link = links[0]
-            link_name = links[1, links.length-1].join(" ")
-            link_name = link if link_name.empty?
-            ast.contents = link_name
-            tag = ["a", " href=\"#{link}\" rel=\"nofollow\""]
         elsif ast.formatting == :HLine
             ast.contents = ""
             tag = ["hr", ""]

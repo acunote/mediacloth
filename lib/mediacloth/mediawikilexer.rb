@@ -36,6 +36,7 @@ class MediaWikiLexer
         @lexer_table["="] = method(:match_section)
         @lexer_table["["] = method(:match_link_start)
         @lexer_table["]"] = method(:match_link_end)
+        @lexer_table["|"] = method(:match_link_sep)
         @lexer_table[" "] = method(:match_space)
         @lexer_table["*"] = method(:match_list)
         @lexer_table["#"] = method(:match_list)
@@ -89,6 +90,8 @@ class MediaWikiLexer
                         #we need to remove para start token because no para end is possible
                         @tokens.pop
                         @para = false
+                    elsif @para
+                        end_para
                     end
                 end
 
@@ -223,11 +226,11 @@ private
     # "[["      { return INTLINKSTART; }
     # "["       { return LINKSTART; }
     def match_link_start
-        if @text[@cursor, 2] == "[["
+        if @text[@cursor, 2] == "[[" and @text[@cursor+2, @text.length - (@cursor + 2)] =~ %r{\A\s*[^\s\]]}
             @next_token[0] = :INTLINKSTART
             @pair_stack.push @next_token
             @cursor += 2
-        elsif @text[@cursor, 1] == "[" and html_link?(@cursor+1)
+        elsif @text[@cursor, 1] == "[" and link_protocol?(@cursor+1)
             @next_token[0] = :LINKSTART
             @pair_stack.push @next_token
             @cursor += 1
@@ -252,16 +255,33 @@ private
             match_other
         end
     end
+    
+    #Matches link separator inside of internal links
+    def match_link_sep
+      if @pair_stack.last[0] == :INTLINKSTART
+        @next_token[0] = :INTLINKSEP
+        @cursor += 1
+      else
+        match_other
+      end
+    end
 
     #Matches inlined unformatted html link
     # "http://[^\s]*"   { return [ LINKSTART TEXT LINKEND]; }
     def match_inline_link
         #if no link start token was detected and the text starts with http://
         #then it's the inlined unformatted html link
-        if html_link?(@cursor) and @pair_stack.last[0] != :INTLINKSTART and
-                @pair_stack.last[0] != :LINKSTART
+        last_pair_token = @pair_stack.last[0]
+        if link_protocol?(@cursor) and last_pair_token != :INTLINKSTART and last_pair_token != :LINKSTART
             @next_token[0] = :LINKSTART
-            linkText = extract_till_whitespace
+            text = @text[@cursor..-1]
+            if last_pair_token == :ITALICSTART and text =~ /\A([^\s\n]+)''/
+              linkText = $1
+            elsif last_pair_token == :BOLDSTART and text =~ /\A([^\s\n]+)'''/
+              linkText = $1
+            elsif text =~ /\A([^\s\n]+)[\s\n]/
+              linkText = $1
+            end
             @sub_tokens = []
             @sub_tokens << [:TEXT, linkText]
             @sub_tokens << [:LINKEND, ']']
@@ -278,6 +298,10 @@ private
         if at_start_of_line?
             match_untill_eol
             @next_token[0] = :PRE
+            strip_ws_from_token_start
+        elsif @pair_stack.last[0] == :LINKSTART and @current_token[0] == :TEXT and @tokens.last[0] != :LINKSEP
+            @next_token[0] = :LINKSEP
+            @cursor += 1
             strip_ws_from_token_start
         else
             match_other
@@ -387,9 +411,10 @@ private
     def match_newline
         if @text[@cursor, 2] == "\n\n"
             if @para
-                @next_token[0] = :PARA_END
-#                @para = false
-                @sub_tokens = [[:PARA_START, ""]]
+                @sub_tokens = end_tokens_for_open_pairs
+                @sub_tokens << [:PARA_END, '']
+                @sub_tokens << [:PARA_START, '']
+                @next_token[0] = @sub_tokens.slice!(0)[0]
                 @cursor += 2
                 return
             end
@@ -402,9 +427,10 @@ private
     def match_carriagereturn
         if @text[@cursor, 4] == "\r\n\r\n"
             if @para
-                @next_token[0] = :PARA_END
-#                @para = false
-                @sub_tokens = [[:PARA_START, ""]]
+                @sub_tokens = end_tokens_for_open_pairs
+                @sub_tokens << [:PARA_END, '']
+                @sub_tokens << [:PARA_START, '']
+                @next_token[0] = @sub_tokens.slice!(0)[0]
                 @cursor += 4
                 return
             end
@@ -423,9 +449,10 @@ private
         end
     end
 
-    #Checks if the text at position contains the start of the html link
-    def html_link?(position)
-        return @text[position, 7] == 'http://'
+    #Checks if the text at position contains the start of a link using any of
+    #HTTP, HTTPS, MAILTO or FILE protocols
+    def link_protocol?(position)
+        return @text[position, @text.length - position] =~ %r{\A((http|https|file)://|mailto:)}
     end
 
     #Adjusts @token_start to skip leading whitespaces
@@ -457,21 +484,6 @@ private
             sub_tokens.delete_at(0) if sub_tokens[0][0] == :PARA_START
         end
         sub_tokens
-    end
-
-    #Extracts the text from current cursor position till the next whitespace
-    def extract_till_whitespace
-        i = @cursor
-        text = ""
-        while i < @text.length
-            curr = @text[i, 1]
-            if (curr == "\n") or (curr == "\t") or (curr == " ")
-                break
-            end
-            text += curr
-            i += 1
-        end
-        text
     end
 
     #Extract list contents of list type set by list_id variable.
@@ -506,8 +518,30 @@ private
     end
 
     def end_para
+        @tokens += end_tokens_for_open_pairs
         @tokens << [:PARA_END, ""]
         @para = false
+    end
+    
+    def end_tokens_for_open_pairs
+        tokens = []
+        restore = []
+        while(@pair_stack.size > 1) do
+          last = @pair_stack.pop
+          if last[0] == :ITALICSTART
+            tokens << [:ITALICEND, '']
+          elsif last[0] == :BOLDSTART
+            tokens << [:BOLDEND, '']
+          elsif last[0] == :INTLINKSTART
+            tokens << [:INTLINKEND, '']
+          elsif last[0] == :LINKSTART
+            tokens << [:LINKEND, '']
+          else
+            restore << last
+          end
+        end
+        @pair_stack += restore.reverse
+        tokens
     end
 
 end

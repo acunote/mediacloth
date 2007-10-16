@@ -16,6 +16,7 @@ class Parser_Test < Test::Unit::TestCase
             ast = parser.parse(input)
             walker = DebugWalker.new
             walker.parse(ast)
+            puts walker.tree
         }
     end
 

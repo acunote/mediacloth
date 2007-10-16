@@ -6,7 +6,7 @@ PARA_STARTTEXTAnother paragraph starts after a blank line.PARA_END
 PARA_STARTTEXT
 Another one.PARA_END
 
-PARA_STARTTEXTThis is text with INTLINKSTART[[TEXTInternal LinkINTLINKEND]]TEXT and LINKSTART[TEXThttp://www.example.com external linkLINKEND]TEXT.PARA_END
+PARA_STARTTEXTThis is text with INTLINKSTART[[TEXTInternal LinkINTLINKEND]]TEXT and LINKSTART[TEXThttp://www.example.comLINKSEPTEXTexternal linkLINKEND]TEXT.PARA_END
 
 PARA_STARTTEXTWe can have headlines:PARA_END
 

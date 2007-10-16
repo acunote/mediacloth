@@ -32,6 +32,23 @@ class TextAST < FormattedAST
     #Currently recognized formatting: :Link, :InternalLink, :HLine
 end
 
+#The node to represent a simple Mediawiki link.
+class LinkAST < AST
+    #The link's URL
+    attr_accessor :url
+end
+
+#The node to represent a Mediawiki internal link
+class InternalLinkAST < AST
+    #Holds the link locator, which may be composed of a resource name (e.g. the
+    #name of a wiki page), or a prefix, followed by a colon, follwed by a resource 
+    #name (e.g. an image link, prefixed by "Image").
+    attr_accessor :locator
+end
+
+class InternalLinkItemAST < AST
+end
+
 #The node to represent a list
 class ListAST < AST
     #Currently recognized types: :Bulleted, :Numbered

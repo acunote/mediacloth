@@ -8,11 +8,12 @@
 # parser.parse(input)
 class MediaWikiParser
 
-token BOLDSTART BOLDEND ITALICSTART ITALICEND LINKSTART LINKEND
-    INTLINKSTART INTLINKEND SECTION_START SECTION_END TEXT PRE
+token BOLDSTART BOLDEND ITALICSTART ITALICEND LINKSTART LINKEND LINKSEP
+    INTLINKSTART INTLINKEND INTLINKSEP SECTION_START SECTION_END TEXT PRE
     HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
     UL_START UL_END LI_START LI_END OL_START OL_END
     PARA_START PARA_END
+
 
 rule
 
@@ -60,6 +61,20 @@ contents:
                 result = p
             end
         }
+    | LINKSTART link_contents LINKEND
+        {
+            l = LinkAST.new
+            l.url = val[1][0]
+            l.children += val[1][1..-1] if val[1].length > 1
+            result = l
+        }
+    | INTLINKSTART intlink_contents INTLINKEND
+        {
+            l = InternalLinkAST.new
+            l.locator = val[1][0]
+            l.children = val[1][1..-1] if val[1].length > 1
+            result = l
+        }
     ;
 
 #TODO: remove empty paragraphs in lexer
@@ -71,6 +86,60 @@ para_contents:
         {
             result = val[0]
         }
+    ;
+
+link_contents:
+      TEXT
+        {
+            result = val
+        }
+    | TEXT LINKSEP link_repeated_contents
+        {
+            result = [val[0]]
+            result += val[2]
+        }
+    ;
+
+
+link_repeated_contents:
+      repeated_contents
+        {
+            result = val[0]
+        }
+    | repeated_contents LINKSEP link_repeated_contents
+        {
+            result = val[0]
+            result += val[2] if val[2]
+        }
+    ;
+
+
+intlink_contents: 
+      TEXT intlink_repeated_contents
+        {
+            result = [val[0]]
+            result += val[1] if val[1]
+        }
+    ;
+
+
+intlink_repeated_contents:
+        {
+            result = nil
+        }
+    | INTLINKSEP intlink_repeated_contents
+        {
+            result = val[1]
+        }
+    | INTLINKSEP repeated_contents intlink_repeated_contents
+        {
+            i = InternalLinkItemAST.new
+            i.children = val[1]
+            result = [i]
+            result += val[2] if val[2]
+        }
+    ;
+
 
 repeated_contents: contents
         {
@@ -98,11 +167,8 @@ text: element
         }
     ;
 
-element: LINKSTART TEXT LINKEND
-        { return [:Link, val[1]] }
-    | INTLINKSTART TEXT INTLINKEND
-        { return [:InternalLink, val[1]] }
-    | TEXT
+element:
+      TEXT
         { return [:None, val[0]] }
     | HLINE
         { return [:HLine, val[0]] }
@@ -114,7 +180,20 @@ element: LINKSTART TEXT LINKEND
         { return [:SignatureFull, val[0]] }
     ;
 
-formatted_element: BOLDSTART repeated_contents BOLDEND
+formatted_element: 
+      BOLDSTART BOLDEND
+        {
+            result = FormattedAST.new
+            result.formatting = :Bold
+            result
+        } 
+    | ITALICSTART ITALICEND
+        {
+            result = FormattedAST.new
+            result.formatting = :Italic
+            result
+        }
+    | BOLDSTART repeated_contents BOLDEND
         {
             p = FormattedAST.new
             p.formatting = :Bold

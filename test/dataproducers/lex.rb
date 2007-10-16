@@ -1,8 +1,8 @@
 require 'mediacloth/mediawikilexer'
 
 def produce(index)
-    file = File.new("../data/lex#{index}", "w")
-    inputFile = File.new("../data/input#{index}", "r")
+    file = File.new("../test/data/lex#{index}", "w")
+    inputFile = File.new("../test/data/input#{index}", "r")
     input = inputFile.read
 
     lexer = MediaWikiLexer.new
@@ -12,4 +12,4 @@ def produce(index)
 end
 
 #1..5.each { |i| produce(1) }
-produce(8)
+produce(5)
