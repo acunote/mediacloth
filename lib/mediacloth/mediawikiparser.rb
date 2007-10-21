@@ -12,7 +12,7 @@ require 'mediacloth/mediawikiast'
 
 class MediaWikiParser < Racc::Parser
 
-module_eval <<'..end mediawikiparser.y modeval..idd88f833ea9', 'mediawikiparser.y', 279
+module_eval <<'..end mediawikiparser.y modeval..idb09fa34574', 'mediawikiparser.y', 281
 
 attr_accessor :lexer
 
@@ -33,7 +33,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end mediawikiparser.y modeval..idd88f833ea9
+..end mediawikiparser.y modeval..idb09fa34574
 
 ##### racc 1.4.5 generates ###
 
@@ -88,15 +88,17 @@ racc_reduce_n = 44
 racc_shift_n = 73
 
 racc_action_table = [
-     5,    61,     9,   -39,    15,    51,    52,    20,    50,    47,
-   -39,     4,    40,    10,    12,    14,    16,    17,    19,    22,
-     5,    56,     9,     7,    15,    13,    28,    20,    28,    66,
-    37,     4,    48,    10,    12,    14,    16,    17,    19,    22,
-     5,    26,     9,     7,    15,    13,    62,    20,    63,   -37,
-    36,     4,    34,    10,    12,    14,    16,    17,    19,    22,
-     5,    66,     9,     7,    15,    13,    28,    20,    25,    71,
-    49,     4,   nil,    10,    12,    14,    16,    17,    19,    22,
+     5,    62,     9,    48,    15,    51,    52,    20,   -39,    47,
+    56,     4,    28,    10,    12,    14,    16,    17,    19,    22,
+     5,   -39,     9,     7,    15,    13,    28,    20,    61,    50,
+    63,     4,   -37,    10,    12,    14,    16,    17,    19,    22,
+     5,    26,     9,     7,    15,    13,    37,    20,    36,    66,
+    34,     4,    28,    10,    12,    14,    16,    17,    19,    22,
+     5,    71,     9,     7,    15,    13,    49,    20,   nil,    66,
+   nil,     4,   nil,    10,    12,    14,    16,    17,    19,    22,
    nil,   nil,   nil,     7,     5,    13,     9,    30,    15,   nil,
+   nil,    20,   nil,   nil,   nil,     4,   nil,    10,    12,    14,
+    16,    17,    19,    22,     5,   nil,     9,     7,    15,    13,
    nil,    20,   nil,   nil,   nil,     4,   nil,    10,    12,    14,
     16,    17,    19,    22,     5,   nil,     9,     7,    15,    13,
    nil,    20,   nil,   nil,   nil,     4,   nil,    10,    12,    14,
@@ -109,71 +111,77 @@ racc_action_table = [
     16,    17,    19,    22,     5,   nil,     9,     7,    15,    13,
    nil,    20,   nil,   nil,   nil,     4,   nil,    10,    12,    14,
     16,    17,    19,    22,     5,   nil,     9,     7,    15,    13,
+   nil,    20,   nil,   nil,   nil,     4,    40,    10,    12,    14,
+    16,    17,    19,    22,     5,    41,     9,     7,    15,    13,
    nil,    20,   nil,   nil,   nil,     4,   nil,    10,    12,    14,
     16,    17,    19,    22,     5,   nil,     9,     7,    15,    13,
    nil,    20,   nil,   nil,   nil,     4,   nil,    10,    12,    14,
-    16,    17,    19,    22,   nil,   nil,    55,     7,   nil,    13,
-     5,    41,     9,   nil,    15,   nil,   nil,    20,   nil,   nil,
-   nil,     4,   nil,    10,    12,    14,    16,    17,    19,    22,
-     5,   nil,     9,     7,    15,    13,   nil,    20,   nil,   nil,
-   nil,     4,   nil,    10,    12,    14,    16,    17,    19,    22,
-   nil,   nil,    42,     7,     5,    13,     9,   nil,    15,   nil,
-   nil,    20,   nil,   nil,   nil,     4,   nil,    10,    12,    14,
-    16,    17,    19,    22,   nil,   nil,   nil,     7,     5,    13,
-     9,    46,    15,   nil,   nil,    20,   nil,   nil,   nil,     4,
-   nil,    10,    12,    14,    16,    17,    19,    22,     5,   nil,
-     9,     7,    15,    13,   nil,    20,   nil,    66,   nil,     4,
+    16,    17,    19,    22,   nil,   nil,    42,     7,     5,    13,
+     9,   nil,    15,   nil,   nil,    20,   nil,   nil,   nil,     4,
    nil,    10,    12,    14,    16,    17,    19,    22,   nil,   nil,
-   nil,     7,   nil,    13 ]
+   nil,     7,     5,    13,     9,    46,    15,   nil,   nil,    20,
+   nil,   nil,   nil,     4,   nil,    10,    12,    14,    16,    17,
+    19,    22,     5,   nil,     9,     7,    15,    13,   nil,    20,
+   nil,   nil,   nil,     4,   nil,    10,    12,    14,    16,    17,
+    19,    22,   nil,   nil,    55,     7,     5,    13,     9,   nil,
+    15,   nil,   nil,    20,   nil,   nil,   nil,     4,   nil,    10,
+    12,    14,    16,    17,    19,    22,     5,   nil,     9,     7,
+    15,    13,   nil,    20,   nil,    66,   nil,     4,   nil,    10,
+    12,    14,    16,    17,    19,    22,   nil,   nil,   nil,     7,
+   nil,    13 ]
 
 racc_action_check = [
-     0,    52,     0,    29,     0,    37,    37,     0,    36,    32,
-    39,     0,    25,     0,     0,     0,     0,     0,     0,     0,
-    66,    44,    66,     0,    66,     0,    45,    66,    22,    66,
-    20,    66,    34,    66,    66,    66,    66,    66,    66,    66,
-     5,     5,     5,    66,     5,    66,    53,     5,    54,    57,
-    18,     5,    15,     5,     5,     5,     5,     5,     5,     5,
-    65,    61,    65,     5,    65,     5,     7,    65,     4,    67,
-    35,    65,   nil,    65,    65,    65,    65,    65,    65,    65,
-   nil,   nil,   nil,    65,     9,    65,     9,     9,     9,   nil,
+     0,    53,     0,    34,     0,    37,    37,     0,    39,    32,
+    44,     0,    45,     0,     0,     0,     0,     0,     0,     0,
+     4,    29,     4,     0,     4,     0,    22,     4,    52,    36,
+    54,     4,    57,     4,     4,     4,     4,     4,     4,     4,
+     5,     5,     5,     4,     5,     4,    20,     5,    18,    61,
+    15,     5,     7,     5,     5,     5,     5,     5,     5,     5,
+    66,    67,    66,     5,    66,     5,    35,    66,   nil,    66,
+   nil,    66,   nil,    66,    66,    66,    66,    66,    66,    66,
+   nil,   nil,   nil,    66,     9,    66,     9,     9,     9,   nil,
    nil,     9,   nil,   nil,   nil,     9,   nil,     9,     9,     9,
      9,     9,     9,     9,    13,   nil,    13,     9,    13,     9,
    nil,    13,   nil,   nil,   nil,    13,   nil,    13,    13,    13,
-    13,    13,    13,    13,    60,   nil,    60,    13,    60,    13,
+    13,    13,    13,    13,    65,   nil,    65,    13,    65,    13,
+   nil,    65,   nil,   nil,   nil,    65,   nil,    65,    65,    65,
+    65,    65,    65,    65,    60,   nil,    60,    65,    60,    65,
    nil,    60,   nil,   nil,   nil,    60,   nil,    60,    60,    60,
     60,    60,    60,    60,    58,   nil,    58,    60,    58,    60,
     58,    58,   nil,   nil,   nil,    58,   nil,    58,    58,    58,
-    58,    58,    58,    58,    51,   nil,    51,    58,    51,    58,
-   nil,    51,   nil,   nil,   nil,    51,   nil,    51,    51,    51,
-    51,    51,    51,    51,    21,   nil,    21,    51,    21,    51,
+    58,    58,    58,    58,    21,   nil,    21,    58,    21,    58,
    nil,    21,   nil,   nil,   nil,    21,   nil,    21,    21,    21,
-    21,    21,    21,    21,    48,   nil,    48,    21,    48,    21,
-   nil,    48,   nil,   nil,   nil,    48,   nil,    48,    48,    48,
-    48,    48,    48,    48,    43,   nil,    43,    48,    43,    48,
-   nil,    43,   nil,   nil,   nil,    43,   nil,    43,    43,    43,
-    43,    43,    43,    43,   nil,   nil,    43,    43,   nil,    43,
-    27,    27,    27,   nil,    27,   nil,   nil,    27,   nil,   nil,
-   nil,    27,   nil,    27,    27,    27,    27,    27,    27,    27,
-    28,   nil,    28,    27,    28,    27,   nil,    28,   nil,   nil,
-   nil,    28,   nil,    28,    28,    28,    28,    28,    28,    28,
-   nil,   nil,    28,    28,    33,    28,    33,   nil,    33,   nil,
-   nil,    33,   nil,   nil,   nil,    33,   nil,    33,    33,    33,
-    33,    33,    33,    33,   nil,   nil,   nil,    33,    31,    33,
-    31,    31,    31,   nil,   nil,    31,   nil,   nil,   nil,    31,
-   nil,    31,    31,    31,    31,    31,    31,    31,    70,   nil,
-    70,    31,    70,    31,   nil,    70,   nil,    70,   nil,    70,
-   nil,    70,    70,    70,    70,    70,    70,    70,   nil,   nil,
-   nil,    70,   nil,    70 ]
+    21,    21,    21,    21,    51,   nil,    51,    21,    51,    21,
+   nil,    51,   nil,   nil,   nil,    51,   nil,    51,    51,    51,
+    51,    51,    51,    51,    25,   nil,    25,    51,    25,    51,
+   nil,    25,   nil,   nil,   nil,    25,    25,    25,    25,    25,
+    25,    25,    25,    25,    27,    27,    27,    25,    27,    25,
+   nil,    27,   nil,   nil,   nil,    27,   nil,    27,    27,    27,
+    27,    27,    27,    27,    28,   nil,    28,    27,    28,    27,
+   nil,    28,   nil,   nil,   nil,    28,   nil,    28,    28,    28,
+    28,    28,    28,    28,   nil,   nil,    28,    28,    48,    28,
+    48,   nil,    48,   nil,   nil,    48,   nil,   nil,   nil,    48,
+   nil,    48,    48,    48,    48,    48,    48,    48,   nil,   nil,
+   nil,    48,    31,    48,    31,    31,    31,   nil,   nil,    31,
+   nil,   nil,   nil,    31,   nil,    31,    31,    31,    31,    31,
+    31,    31,    43,   nil,    43,    31,    43,    31,   nil,    43,
+   nil,   nil,   nil,    43,   nil,    43,    43,    43,    43,    43,
+    43,    43,   nil,   nil,    43,    43,    33,    43,    33,   nil,
+    33,   nil,   nil,    33,   nil,   nil,   nil,    33,   nil,    33,
+    33,    33,    33,    33,    33,    33,    70,   nil,    70,    33,
+    70,    33,   nil,    70,   nil,    70,   nil,    70,   nil,    70,
+    70,    70,    70,    70,    70,    70,   nil,   nil,   nil,    70,
+   nil,    70 ]
 
 racc_action_pointer = [
-    -2,   nil,   nil,   nil,    53,    38,   nil,    43,   nil,    82,
-   nil,   nil,   nil,   102,   nil,    37,   nil,   nil,    50,   nil,
-    15,   182,     5,   nil,   nil,    -2,   nil,   248,   268,   -23,
-   nil,   316,   -19,   292,    24,    63,     8,    -6,   nil,   -12,
-   nil,   nil,   nil,   222,    -5,     3,   nil,   nil,   202,   nil,
-   nil,   162,   -14,    36,    26,   nil,   nil,    26,   142,   nil,
-   122,    50,   nil,   nil,   nil,    58,    18,    59,   nil,   nil,
-   336,   nil,   nil ]
+    -2,   nil,   nil,   nil,    18,    38,   nil,    29,   nil,    82,
+   nil,   nil,   nil,   102,   nil,    35,   nil,   nil,    48,   nil,
+    31,   182,     3,   nil,   nil,   222,   nil,   242,   262,    -5,
+   nil,   310,   -19,   354,    -5,    59,    29,    -6,   nil,   -14,
+   nil,   nil,   nil,   330,   -16,   -11,   nil,   nil,   286,   nil,
+   nil,   202,    13,    -9,     8,   nil,   nil,     9,   162,   nil,
+   142,    38,   nil,   nil,   nil,   122,    58,    51,   nil,   nil,
+   374,   nil,   nil ]
 
 racc_action_default = [
    -44,   -25,    -2,    -3,   -44,   -44,    -4,   -44,    -5,   -44,
@@ -186,26 +194,26 @@ racc_action_default = [
    -19,    -9,   -21 ]
 
 racc_goto_table = [
-    21,    44,    29,    59,    38,    27,    53,    35,    32,    31,
-    38,    54,    18,    33,    38,   nil,    38,    39,    67,   nil,
-    68,   nil,   nil,    69,   nil,   nil,    38,    72,    43,    64,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-    57,    38,   nil,    38,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,    60,   nil,    38,   nil,   nil,   nil,   nil,   nil,   nil,
+    21,    29,    59,    53,    25,    27,    67,    44,    38,    31,
+    35,    69,    38,    33,    38,    72,    39,    54,    38,    68,
+    38,    32,    18,   nil,   nil,   nil,   nil,   nil,    43,   nil,
+    38,   nil,   nil,   nil,   nil,    64,   nil,   nil,   nil,    57,
+   nil,   nil,   nil,   nil,   nil,    38,   nil,    38,   nil,   nil,
+   nil,    60,   nil,   nil,   nil,   nil,   nil,    38,   nil,   nil,
    nil,   nil,   nil,   nil,   nil,   nil,    70 ]
 
 racc_goto_check = [
-     2,    17,    16,    13,     3,     2,    12,    10,     9,     2,
-     3,    17,     1,     2,     3,   nil,     3,    16,    11,   nil,
-    13,   nil,   nil,    11,   nil,   nil,     3,    11,     2,    17,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-    16,     3,   nil,     3,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,     2,   nil,     3,   nil,   nil,   nil,   nil,   nil,   nil,
+     2,    16,    13,    12,     2,     2,    11,    17,     3,     2,
+    10,    11,     3,     2,     3,    11,    16,    17,     3,    13,
+     3,     9,     1,   nil,   nil,   nil,   nil,   nil,     2,   nil,
+     3,   nil,   nil,   nil,   nil,    17,   nil,   nil,   nil,    16,
+   nil,   nil,   nil,   nil,   nil,     3,   nil,     3,   nil,   nil,
+   nil,     2,   nil,   nil,   nil,   nil,   nil,     3,   nil,   nil,
    nil,   nil,   nil,   nil,   nil,   nil,     2 ]
 
 racc_goto_pointer = [
-   nil,    12,     0,   -17,   nil,   nil,   nil,   nil,   nil,    -5,
-    -8,   -43,   -31,   -45,   nil,   nil,    -5,   -28,   nil ]
+   nil,    22,     0,   -13,   nil,   nil,   nil,   nil,   nil,     8,
+    -5,   -55,   -34,   -46,   nil,   nil,    -6,   -22,   nil ]
 
 racc_goto_default = [
    nil,   nil,    58,    24,     2,     3,     6,     8,    11,   nil,
@@ -358,17 +366,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 49
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 56
+module_eval <<'.,.,', 'mediawikiparser.y', 53
   def _reduce_6( val, _values, result )
-            s = SectionAST.new
-            s.contents = val[0][0]
-            s.level = val[0][1]
-            result = s
+            result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 64
+module_eval <<'.,.,', 'mediawikiparser.y', 61
   def _reduce_7( val, _values, result )
             if val[1]
                 p = ParagraphAST.new
@@ -379,7 +384,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 64
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 71
+module_eval <<'.,.,', 'mediawikiparser.y', 68
   def _reduce_8( val, _values, result )
             l = LinkAST.new
             l.url = val[1][0]
@@ -389,7 +394,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 71
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 79
+module_eval <<'.,.,', 'mediawikiparser.y', 76
   def _reduce_9( val, _values, result )
             l = ResourceLinkAST.new
             l.prefix = val[1]
@@ -400,7 +405,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 79
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 86
+module_eval <<'.,.,', 'mediawikiparser.y', 83
   def _reduce_10( val, _values, result )
             l = InternalLinkAST.new
             l.locator = val[1]
@@ -410,28 +415,28 @@ module_eval <<'.,.,', 'mediawikiparser.y', 86
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 93
+module_eval <<'.,.,', 'mediawikiparser.y', 90
   def _reduce_11( val, _values, result )
             result = nil
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 97
+module_eval <<'.,.,', 'mediawikiparser.y', 94
   def _reduce_12( val, _values, result )
             result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 104
+module_eval <<'.,.,', 'mediawikiparser.y', 101
   def _reduce_13( val, _values, result )
             result = val
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 109
+module_eval <<'.,.,', 'mediawikiparser.y', 106
   def _reduce_14( val, _values, result )
             result = [val[0]]
             result += val[2]
@@ -439,14 +444,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 109
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 117
+module_eval <<'.,.,', 'mediawikiparser.y', 114
   def _reduce_15( val, _values, result )
             result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 122
+module_eval <<'.,.,', 'mediawikiparser.y', 119
   def _reduce_16( val, _values, result )
             result = val[0]
             result += val[2] if val[2]
@@ -454,35 +459,35 @@ module_eval <<'.,.,', 'mediawikiparser.y', 122
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 129
+module_eval <<'.,.,', 'mediawikiparser.y', 126
   def _reduce_17( val, _values, result )
             result = nil
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 133
+module_eval <<'.,.,', 'mediawikiparser.y', 130
   def _reduce_18( val, _values, result )
             result = val[1]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 139
+module_eval <<'.,.,', 'mediawikiparser.y', 136
   def _reduce_19( val, _values, result )
             result = nil
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 143
+module_eval <<'.,.,', 'mediawikiparser.y', 140
   def _reduce_20( val, _values, result )
             result = val[1]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 150
+module_eval <<'.,.,', 'mediawikiparser.y', 147
   def _reduce_21( val, _values, result )
             i = InternalLinkItemAST.new
             i.children = val[1]
@@ -492,7 +497,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 150
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 157
+module_eval <<'.,.,', 'mediawikiparser.y', 154
   def _reduce_22( val, _values, result )
             result = []
             result << val[0]
@@ -500,7 +505,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 157
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 163
+module_eval <<'.,.,', 'mediawikiparser.y', 160
   def _reduce_23( val, _values, result )
             result = []
             result += val[0]
@@ -509,7 +514,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 163
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 172
+module_eval <<'.,.,', 'mediawikiparser.y', 169
   def _reduce_24( val, _values, result )
             p = TextAST.new
             p.formatting = val[0][0]
@@ -519,49 +524,49 @@ module_eval <<'.,.,', 'mediawikiparser.y', 172
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 176
+module_eval <<'.,.,', 'mediawikiparser.y', 173
   def _reduce_25( val, _values, result )
             result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 180
+module_eval <<'.,.,', 'mediawikiparser.y', 177
   def _reduce_26( val, _values, result )
  return [:None, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 182
+module_eval <<'.,.,', 'mediawikiparser.y', 179
   def _reduce_27( val, _values, result )
  return [:HLine, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 184
+module_eval <<'.,.,', 'mediawikiparser.y', 181
   def _reduce_28( val, _values, result )
  return [:SignatureDate, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 186
+module_eval <<'.,.,', 'mediawikiparser.y', 183
   def _reduce_29( val, _values, result )
  return [:SignatureName, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 188
+module_eval <<'.,.,', 'mediawikiparser.y', 185
   def _reduce_30( val, _values, result )
  return [:SignatureFull, val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 198
+module_eval <<'.,.,', 'mediawikiparser.y', 195
   def _reduce_31( val, _values, result )
             result = FormattedAST.new
             result.formatting = :Bold
@@ -570,7 +575,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 198
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 204
+module_eval <<'.,.,', 'mediawikiparser.y', 201
   def _reduce_32( val, _values, result )
             result = FormattedAST.new
             result.formatting = :Italic
@@ -579,7 +584,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 204
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 211
+module_eval <<'.,.,', 'mediawikiparser.y', 208
   def _reduce_33( val, _values, result )
             p = FormattedAST.new
             p.formatting = :Bold
@@ -589,7 +594,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 211
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 218
+module_eval <<'.,.,', 'mediawikiparser.y', 215
   def _reduce_34( val, _values, result )
             p = FormattedAST.new
             p.formatting = :Italic
@@ -599,7 +604,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 218
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 228
+module_eval <<'.,.,', 'mediawikiparser.y', 225
   def _reduce_35( val, _values, result )
             list = ListAST.new
             list.list_type = :Bulleted
@@ -610,7 +615,7 @@ module_eval <<'.,.,', 'mediawikiparser.y', 228
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 238
+module_eval <<'.,.,', 'mediawikiparser.y', 235
   def _reduce_36( val, _values, result )
             list = ListAST.new
             list.list_type = :Numbered
@@ -621,14 +626,14 @@ module_eval <<'.,.,', 'mediawikiparser.y', 238
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 241
+module_eval <<'.,.,', 'mediawikiparser.y', 238
   def _reduce_37( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 247
+module_eval <<'.,.,', 'mediawikiparser.y', 244
   def _reduce_38( val, _values, result )
             result << val[1]
             result += val[2]
@@ -636,21 +641,21 @@ module_eval <<'.,.,', 'mediawikiparser.y', 247
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 248
+module_eval <<'.,.,', 'mediawikiparser.y', 245
   def _reduce_39( val, _values, result )
  result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 256
+module_eval <<'.,.,', 'mediawikiparser.y', 253
   def _reduce_40( val, _values, result )
             result = ListItemAST.new
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 262
+module_eval <<'.,.,', 'mediawikiparser.y', 259
   def _reduce_41( val, _values, result )
             li = ListItemAST.new
             li.children += val[1]
@@ -659,16 +664,20 @@ module_eval <<'.,.,', 'mediawikiparser.y', 262
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 265
+module_eval <<'.,.,', 'mediawikiparser.y', 262
   def _reduce_42( val, _values, result )
  result = val[0]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'mediawikiparser.y', 269
+module_eval <<'.,.,', 'mediawikiparser.y', 271
   def _reduce_43( val, _values, result )
- result = [val[1], val[0].length]
+ result = [val[1], val[0].length] 
+            s = SectionAST.new
+            s.children = val[1]
+            s.level = val[0].length
+            result = s
    result
   end
 .,.,

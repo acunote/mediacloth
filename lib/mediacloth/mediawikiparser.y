@@ -49,10 +49,7 @@ contents:
         }
     | section
         {
-            s = SectionAST.new
-            s.contents = val[0][0]
-            s.level = val[0][1]
-            result = s
+            result = val[0]
         }
     | PARA_START para_contents PARA_END
         {
@@ -266,8 +263,13 @@ preformatted: PRE
         { result = val[0] }
     ;
 
-section: SECTION_START TEXT SECTION_END
-        { result = [val[1], val[0].length] }
+section: SECTION_START repeated_contents SECTION_END
+        { result = [val[1], val[0].length] 
+            s = SectionAST.new
+            s.children = val[1]
+            s.level = val[0].length
+            result = s
+        }
     ;
 
 end

@@ -19,6 +19,11 @@ We can have headlines:
 ====== Headline6 ======
 ======= Headline7 =======
 
+Headlines may have formatting:
+
+= See [[Internal Link]] for more info =
+== This is an '''important''' heading ==
+
  This is a preformatted ''' ''' << '' '' text
  yes
 

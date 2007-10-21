@@ -68,6 +68,7 @@ protected
 
     #Reimplement this
     def parse_section(ast)
+        parse_wiki_ast(ast)
     end
     
     #Reimplement this

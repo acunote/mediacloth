@@ -99,7 +99,7 @@ protected
     end
 
     def parse_section(ast)
-        "<h#{ast.level}>" + ast.contents.strip + "</h#{ast.level}>"
+        "<h#{ast.level}>" + super(ast) + "</h#{ast.level}>"
     end
     
     def parse_internal_link(ast)

@@ -74,7 +74,7 @@ class MediaWikiLexer
                 #skip empty :TEXT tokens
                 unless empty_text_token?
                     @tokens << @current_token
-                    unless para_breaker?(@next_token[0])
+                    unless para_breaker?(@next_token[0]) or in_block?
                         #if no paragraph was previously started
                         #then we should start it
                         start_para if !@para
@@ -145,6 +145,10 @@ private
     #Returns true if the paragraph can be started after the token
     def para_starter?(token)
         [:SECTION_END, :UL_END, :OL_END, :DL_END, :HLINE, :PRE].include?(token)
+    end
+    
+    def in_block?
+      @pair_stack.select {|token| para_breaker?(token[0])}.size > 0
     end
 
     #-- ================== Match methods ================== ++#
