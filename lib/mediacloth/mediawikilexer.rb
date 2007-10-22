@@ -31,6 +31,7 @@ class MediaWikiLexer
         @position = 0
         @pair_stack = [[false, false]] #stack of tokens for which a pair should be found
         @list_stack = []
+        # Default lexer table
         @lexer_table = Hash.new(method(:match_other))
         @lexer_table["'"] = method(:match_italic_or_bold)
         @lexer_table["="] = method(:match_section)
@@ -47,6 +48,12 @@ class MediaWikiLexer
         @lexer_table["h"] = method(:match_inline_link)
         @lexer_table["\n"] = method(:match_newline)
         @lexer_table["\r"] = method(:match_carriagereturn)
+        @lexer_table["<"] = method(:match_tag_start)
+        # Lexer table used when inside :match_tag_start ... :match_tag_end
+        @tag_lexer_table = Hash.new(method(:match_other))
+        @tag_lexer_table["<"] = method(:match_tag_end)
+        # Begin lexing in default state
+        @current_lexer_table = @lexer_table
     end
 
     #Transforms input stream (string) into the stream of tokens.
@@ -68,7 +75,7 @@ class MediaWikiLexer
             @token_start = @cursor
             @char = @text[@cursor, 1]
 
-            if @lexer_table[@char].call == :TEXT
+            if @current_lexer_table[@char].call == :TEXT
                 @current_token[1] += @text[@token_start, 1]
             else
                 #skip empty :TEXT tokens
@@ -407,6 +414,29 @@ private
         elsif @text[@cursor, 3] == "~~~"
             @next_token[0] = :SIGNATURE_NAME
             @cursor += 3
+        else
+            match_other
+        end
+    end
+    
+    
+    def match_tag_start
+        if @text[@cursor, 8] == '<nowiki>'
+            @cursor += 8
+            @token_start = @cursor
+            @current_lexer_table = @tag_lexer_table
+            @current_lexer_table[@text[@cursor, 1]].call
+        else
+            match_other
+        end
+    end
+    
+    def match_tag_end
+        if @text[@cursor, 9] == '</nowiki>'
+            @cursor += 9
+            @token_start = @cursor
+            @current_lexer_table = @lexer_table
+            @current_lexer_table[@text[@cursor, 1]].call
         else
             match_other
         end
