@@ -292,6 +292,8 @@ private
               linkText = $1
             elsif text =~ /\A([^\s\n]+)[\s\n]/
               linkText = $1
+            else
+              linkText = text
             end
             @sub_tokens = []
             @sub_tokens << [:TEXT, linkText]
