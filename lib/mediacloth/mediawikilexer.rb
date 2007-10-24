@@ -37,7 +37,7 @@ class MediaWikiLexer
         @lexer_table["="] = method(:match_section)
         @lexer_table["["] = method(:match_link_start)
         @lexer_table["]"] = method(:match_link_end)
-        @lexer_table["|"] = method(:match_link_sep)
+        @lexer_table["|"] = method(:match_link_sep_or_table_cell)
         @lexer_table[" "] = method(:match_space)
         @lexer_table["*"] = method(:match_list)
         @lexer_table["#"] = method(:match_list)
@@ -49,6 +49,8 @@ class MediaWikiLexer
         @lexer_table["\n"] = method(:match_newline)
         @lexer_table["\r"] = method(:match_carriagereturn)
         @lexer_table["<"] = method(:match_tag_start)
+        @lexer_table["{"] = method(:match_table)
+        @lexer_table["!"] = method(:match_table_head)
         # Lexer table used when inside :match_tag_start ... :match_tag_end
         @tag_lexer_table = Hash.new(method(:match_other))
         @tag_lexer_table["<"] = method(:match_tag_end)
@@ -145,6 +147,7 @@ private
     #Returns true if the token breaks the paragraph.
     def para_breaker?(token)
         [:SECTION_START, :SECTION_END,
+        :TABLE_START, :TABLE_END, :ROW_START, :ROW_END, :CELL_START, :CELL_END,
         :UL_START, :UL_END, :OL_START, :OL_END,
         :DL_START, :DL_END, :HLINE, :PRE].include?(token)
     end
@@ -421,7 +424,6 @@ private
         end
     end
     
-    
     def match_tag_start
         if @text[@cursor, 8] == '<nowiki>'
             @cursor += 8
@@ -439,6 +441,81 @@ private
             @token_start = @cursor
             @current_lexer_table = @lexer_table
             @current_lexer_table[@text[@cursor, 1]].call
+        else
+            match_other
+        end
+    end
+    
+    def match_table
+        if at_start_of_line? and @text[@cursor + 1, 1] == '|'
+            @next_token = [:TABLE_START, '']
+            @pair_stack.push @next_token
+            @cursor += 2
+        else
+            match_other
+        end
+    end
+    
+    def match_table_head
+        if at_start_of_line? and in_table?
+            @cursor += 1
+            tokens = []
+            if @pair_stack.last[0] == :CELL_START
+                tokens << [:CELL_END, '']
+                @pair_stack.pop
+            elsif @pair_stack.last[0] == :HEAD_START
+                tokens << [:HEAD_END, '']
+                @pair_stack.pop
+            elsif @pair_stack.last[0] != :ROW_START
+                tokens << [:ROW_START, '']
+                @pair_stack.push [:ROW_START, '']
+            end
+            tokens << [:HEAD_START, '']
+            @pair_stack.push [:HEAD_START, '']
+            @next_token = tokens.shift
+            @sub_tokens = tokens
+        else
+            match_other
+        end
+    end
+    
+    def match_link_sep_or_table_cell
+        if at_start_of_line? and in_table?
+            @cursor += 1
+            tokens = []
+            if @pair_stack.last[0] == :CELL_START
+                tokens << [:CELL_END, '']
+                @pair_stack.pop
+            elsif @pair_stack.last[0] == :HEAD_START
+                tokens << [:HEAD_END, '']
+                @pair_stack.pop
+            end
+            if ['-', '}'].include?(@text[@cursor, 1])
+                if @pair_stack.last[0] == :ROW_START
+                    tokens << [:ROW_END, '']
+                    @pair_stack.pop
+                end
+                if @text[@cursor, 1] == '-'
+                    tokens << [:ROW_START, '']
+                    @pair_stack.push [:ROW_START, '']
+                else
+                    tokens << [:TABLE_END, '']
+                    @pair_stack.pop
+                end
+                @cursor += 1
+            else
+                if @pair_stack.last[0] != :ROW_START
+                    tokens << [:ROW_START, '']
+                    @pair_stack.push [:ROW_START, '']
+                end
+                tokens << [:CELL_START, '']
+                @pair_stack.push [:CELL_START, '']
+            end
+            @next_token = tokens.shift
+            @sub_tokens = tokens
+        elsif @tokens[-1][0] == :INTLINKSTART or inside_resource_link
+            @next_token[0] = :INTLINKSEP
+            @cursor += 1
         else
             match_other
         end
@@ -500,6 +577,14 @@ private
             true
         else
             false
+        end
+    end
+    
+    def in_table?
+        if @pair_stack.size > 0
+            [:CELL_START, :HEAD_START, :ROW_START, :TABLE_START].include?(@pair_stack.last[0])
+        else
+          false
         end
     end
 
@@ -582,16 +667,23 @@ private
         restore = []
         while(@pair_stack.size > 1) do
           last = @pair_stack.pop
-          if last[0] == :ITALICSTART
-            tokens << [:ITALICEND, '']
-          elsif last[0] == :BOLDSTART
-            tokens << [:BOLDEND, '']
-          elsif last[0] == :INTLINKSTART
-            tokens << [:INTLINKEND, '']
-          elsif last[0] == :LINKSTART
-            tokens << [:LINKEND, '']
+          case last[0]
+          when :ITALICSTART
+              tokens << [:ITALICEND, '']
+          when :BOLDSTART
+              tokens << [:BOLDEND, '']
+          when :INTLINKSTART
+              tokens << [:INTLINKEND, '']
+          when :LINKSTART
+              tokens << [:LINKEND, '']
+          when :TABLE_START
+              tokens << [:TABLE_END, '']
+          when :ROW_START
+              tokens << [:ROW_END, '']
+          when :CELL_START
+              tokens << [:CELL_END, '']
           else
-            restore << last
+              restore << last
           end
         end
         @pair_stack += restore.reverse

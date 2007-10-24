@@ -58,6 +58,21 @@ end
 class InternalLinkItemAST < AST
 end
 
+#The node to represent a table
+class TableAST < AST
+    attr_accessor :options
+end
+
+#The node to represent a table
+class TableRowAST < AST
+end
+
+#The node to represent a table
+class TableCellAST < AST
+    #the type of cell, :head or :body
+    attr_accessor :type
+end
+
 #The node to represent a list
 class ListAST < AST
     #Currently recognized types: :Bulleted, :Numbered

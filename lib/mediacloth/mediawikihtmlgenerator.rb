@@ -129,6 +129,26 @@ protected
         "<a href=\"#{href}\">#{text}</a>"
     end
 
+    #Reimplement this
+    def parse_table(ast)
+        options = ast.options ? ' ' + ast.options.strip : ''
+        "<table#{options}>" + super(ast) + "</table>\n"
+    end
+
+    #Reimplement this
+    def parse_table_row(ast)
+        "<tr>" + super(ast) + "</tr>\n"
+    end
+
+    #Reimplement this
+    def parse_table_cell(ast)
+        if ast.type == :head
+            "<th>" + super(ast) + "</th>"
+        else
+            "<td>" + super(ast) + "</td>"
+        end
+    end
+
     #returns an array with a tag name and tag attributes
     def formatting_to_tag(ast)
         tag = ["", ""]

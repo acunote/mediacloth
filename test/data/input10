@@ -1,0 +1,80 @@
+Some examples of tables.
+
+{|
+|}
+
+{|
+|-
+|}
+
+{|
+| a
+| b
+|}
+
+{|
+| a
+| b
+|-
+| 1
+| 2
+|}
+
+{|
+! a
+! b
+|-
+| 1
+| 2
+|}
+
+{|
+| a
+|-
+| 1
+| 2
+|}
+
+{|
+| a
+| b
+|-
+| 1
+|}
+
+{|
+| [http:example.com]
+| '''bold'''
+|}
+
+{|
+| a
+| b
+|-
+| A list in a cell:
+* one
+* two
+|}
+
+{|
+| a
+| b
+|-
+| A table in a cell:
+{|
+| 1
+| 2
+|-
+| one
+| two
+|}
+|}
+
+
+{| border="1"
+! a
+! b
+|-
+| 1
+| 2
+|}

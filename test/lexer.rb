@@ -54,6 +54,13 @@ class Lexer_Test < Test::Unit::TestCase
         assert_equal(lex("\n----"), [[:HLINE, "----"], [false, false]])
         assert_equal(lex("\r\n----"), [[:HLINE, "----"], [false, false]])
     end
+    
+    def test_inline_links
+        #assure that links in-line work 
+        assert_equal(lex("http://example.com"), [[:PARA_START, ""], [:LINKSTART, ""], [:TEXT, "http://example.com"], [:LINKEND, "]"], [:PARA_END, ""], [false, false]])
+        assert_equal(lex("http://example.com\n"), [[:PARA_START, ""], [:LINKSTART, ""], [:TEXT, "http://example.com"], [:LINKEND, "]"], [:PARA_END, ""], [false, false]])
+        #assert_equal(lex("http://example.com''italic''"), [[:PARA_START, ""], [:LINKSTART, ""], [:TEXT, "http://example.com"], [:LINKEND, "]"], [:PARA_END, ""], [false, false]])
+     end
 
     def test_ending_text_token
         #check for a problem when the last token is TEXT and it's not included

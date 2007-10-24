@@ -13,6 +13,7 @@ token BOLDSTART BOLDEND ITALICSTART ITALICEND LINKSTART LINKEND LINKSEP
     SECTION_START SECTION_END TEXT PRE
     HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
     UL_START UL_END LI_START LI_END OL_START OL_END
+    TABLE_START TABLE_END ROW_START ROW_END HEAD_START HEAD_END CELL_START CELL_END
     PARA_START PARA_END
 
 
@@ -81,6 +82,7 @@ contents:
             l.children = val[2] unless val[2].nil? or val[2].empty?
             result = l
         }
+    | table
     ;
 
 #TODO: remove empty paragraphs in lexer
@@ -172,6 +174,55 @@ text: element
             result = val[0]
         }
     ;
+
+table:
+      TABLE_START table_contents TABLE_END
+        {
+            table = TableAST.new
+            table.children = val[1] unless val[1].nil? or val[1].empty?
+            result = table
+        }
+    | TABLE_START TEXT table_contents TABLE_END
+        {
+            table = TableAST.new
+            table.options = val[1]
+            table.children = val[2] unless val[2].nil? or val[2].empty?
+            result = table
+        }
+
+table_contents:
+        {
+            result = nil
+        }
+    | ROW_START row_contents ROW_END table_contents
+        {
+            row = TableRowAST.new
+            row.children = val[1] unless val[1].nil? or val[1].empty?
+            result = [row]
+            result += val[3] unless val[3].nil? or val[3].empty?
+        }
+
+row_contents:
+        {
+            result = nil
+        }
+    | HEAD_START repeated_contents HEAD_END row_contents
+        {
+            cell = TableCellAST.new
+            cell.children = val[1] unless val[1].nil? or val[1].empty?
+            cell.type = :head
+            result = [cell]
+            result += val[3] unless val[3].nil? or val[3].empty?
+        }
+    | CELL_START repeated_contents CELL_END row_contents
+        {
+            cell = TableCellAST.new
+            cell.children = val[1] unless val[1].nil? or val[1].empty?
+            cell.type = :body
+            result = [cell]
+            result += val[3] unless val[3].nil? or val[3].empty?
+        }
+    
 
 element:
       TEXT

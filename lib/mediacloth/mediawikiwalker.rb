@@ -32,6 +32,9 @@ protected
             r = parse_internal_link(c) if c.class == InternalLinkAST
             r = parse_resource_link(c) if c.class == ResourceLinkAST
             r = parse_internal_link_item(c) if c.class == InternalLinkItemAST
+            r = parse_table(c) if c.class == TableAST
+            r = parse_table_row(c) if c.class == TableRowAST
+            r = parse_table_cell(c) if c.class == TableCellAST
             r
         end
     end
@@ -92,6 +95,21 @@ protected
 
     #Reimplement this
     def parse_internal_link_item(ast)
+        parse_wiki_ast(ast)
+    end
+
+    #Reimplement this
+    def parse_table(ast)
+        parse_wiki_ast(ast)
+    end
+
+    #Reimplement this
+    def parse_table_row(ast)
+        parse_wiki_ast(ast)
+    end
+
+    #Reimplement this
+    def parse_table_cell(ast)
         parse_wiki_ast(ast)
     end
 
