@@ -65,6 +65,7 @@ end
 
 #The node to represent a table
 class TableRowAST < AST
+    attr_accessor :options
 end
 
 #The node to represent a table

@@ -201,10 +201,25 @@ table_contents:
             result = [row]
             result += val[3] unless val[3].nil? or val[3].empty?
         }
+    | ROW_START TEXT row_contents ROW_END table_contents
+        {
+            row = TableRowAST.new
+            row.children = val[2] unless val[2].nil? or val[2].empty?
+            row.options = val[1]
+            result = [row]
+            result += val[4] unless val[4].nil? or val[4].empty?
+        }
 
 row_contents:
         {
             result = nil
+        }
+    | HEAD_START HEAD_END row_contents
+        {
+            cell = TableCellAST.new
+            cell.type = :head
+            result = [cell]
+            result += val[2] unless val[2].nil? or val[2].empty?
         }
     | HEAD_START repeated_contents HEAD_END row_contents
         {
@@ -213,6 +228,13 @@ row_contents:
             cell.type = :head
             result = [cell]
             result += val[3] unless val[3].nil? or val[3].empty?
+        }
+    | CELL_START CELL_END row_contents
+        {
+            cell = TableCellAST.new
+            cell.type = :body
+            result = [cell]
+            result += val[2] unless val[2].nil? or val[2].empty?
         }
     | CELL_START repeated_contents CELL_END row_contents
         {

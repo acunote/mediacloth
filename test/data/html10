@@ -45,6 +45,14 @@
 </table>
 
 
+<table><tr><td> a
+</td><td> b
+</td></tr>
+<tr><td></td><td> 2
+</td></tr>
+</table>
+
+
 <table><tr><td> [http:example.com]
 </td><td> <b>bold</b></td></tr>
 </table>

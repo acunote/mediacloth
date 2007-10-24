@@ -137,7 +137,8 @@ protected
 
     #Reimplement this
     def parse_table_row(ast)
-        "<tr>" + super(ast) + "</tr>\n"
+        options = ast.options ? ' ' + ast.options.strip : ''
+        "<tr#{options}>" + super(ast) + "</tr>\n"
     end
 
     #Reimplement this
