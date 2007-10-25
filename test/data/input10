@@ -71,6 +71,14 @@ Some examples of tables.
 |}
 
 {|
+| [http://example.com Example
+| '''bold
+|-
+| [[example|Example
+| '''bold ''italic
+|}
+
+{|
 | a
 | b
 |-
@@ -100,4 +108,17 @@ Some examples of tables.
 |- align="left"
 | 1
 | 2
+|}
+
+
+Text before
+{|
+| a
+| b
+|}
+
+Text before with ''italic
+{|
+| a
+| b
 |}

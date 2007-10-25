@@ -147,18 +147,19 @@ private
     #Returns true if the token breaks the paragraph.
     def para_breaker?(token)
         [:SECTION_START, :SECTION_END,
-        :TABLE_START, :TABLE_END, :ROW_START, :ROW_END, :CELL_START, :CELL_END,
+        :TABLE_START, :TABLE_END, :ROW_START, :ROW_END, :HEAD_START, :HEAD_END, :CELL_START, :CELL_END,
         :UL_START, :UL_END, :OL_START, :OL_END,
         :DL_START, :DL_END, :HLINE, :PRE].include?(token)
     end
 
     #Returns true if the paragraph can be started after the token
     def para_starter?(token)
-        [:SECTION_END, :UL_END, :OL_END, :DL_END, :HLINE, :PRE].include?(token)
+        [:SECTION_END, :TABLE_END, :UL_END, :OL_END, :DL_END, :HLINE, :PRE].include?(token)
     end
     
     def in_block?
-      @pair_stack.select {|token| para_breaker?(token[0])}.size > 0
+      @pair_stack.select {|token| para_breaker?(token[0])}.size > 0 or
+        (@sub_tokens and @sub_tokens.select {|token| para_breaker?(token[0])}.size > 0)
     end
 
     #-- ================== Match methods ================== ++#
@@ -311,7 +312,7 @@ private
     #Matches space to find preformatted areas which start with a space after a newline
     # "\n\s[^\n]*"     { return PRE; }
     def match_space
-        if at_start_of_line?
+        if at_start_of_line? and ! in_table?
             match_untill_eol
             @next_token[0] = :PRE
             strip_ws_from_token_start
@@ -448,8 +449,20 @@ private
     
     def match_table
         if at_start_of_line? and @text[@cursor + 1, 1] == '|'
-            @next_token = [:TABLE_START, '']
-            @pair_stack.push @next_token
+            tokens = []
+            if @para
+                tokens = end_tokens_for_open_pairs
+                if @tokens.last and @tokens.last[0] == :PARA_START and empty_text_token?
+                    tokens.pop
+                else
+                    tokens << [:PARA_END, ""]
+                end
+                @para = false
+            end
+            tokens << [:TABLE_START, '']
+            @pair_stack.push [:TABLE_START, '']
+            @next_token = tokens.shift
+            @sub_tokens = tokens
             @cursor += 2
         else
             match_other
@@ -581,11 +594,7 @@ private
     end
     
     def in_table?
-        if @pair_stack.size > 0
-            [:CELL_START, :HEAD_START, :ROW_START, :TABLE_START].include?(@pair_stack.last[0])
-        else
-          false
-        end
+        @pair_stack.include?([:TABLE_START, ''])
     end
 
     #Checks if the text at position contains the start of a link using any of
@@ -682,6 +691,8 @@ private
               tokens << [:ROW_END, '']
           when :CELL_START
               tokens << [:CELL_END, '']
+          when :HEAD_START
+              tokens << [:HEAD_END, '']
           else
               restore << last
           end
@@ -691,12 +702,27 @@ private
     end
     
     def close_table_cell(tokens)
-        if @pair_stack.last[0] == :CELL_START
-            @pair_stack.pop
+        restore = []
+        last = @pair_stack.pop
+        while (last[0] != :CELL_START and last[0] != :HEAD_START and last[0] != :ROW_START and last[0] != :TABLE_START) do
+            case last[0]
+            when :ITALICSTART
+                tokens << [:ITALICEND, '']
+            when :BOLDSTART
+                tokens << [:BOLDEND, '']
+            when :INTLINKSTART
+                tokens << [:INTLINKEND, '']
+            when :LINKSTART
+                tokens << [:LINKEND, '']
+            end
+            last = @pair_stack.pop
+        end
+        if last[0] == :CELL_START
             tokens << [:CELL_END, '']
-        elsif @pair_stack.last[0] == :HEAD_START
-            @pair_stack.pop
+        elsif last[0] == :HEAD_START
             tokens << [:HEAD_END, '']
+        else
+            @pair_stack.push last
         end
     end
     
