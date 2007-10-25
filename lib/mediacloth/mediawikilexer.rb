@@ -480,44 +480,44 @@ private
     end
     
     def match_link_sep_or_table_cell
-        if at_start_of_line? and in_table?
-            @cursor += 1
+        if in_table?
             tokens = []
-            if @pair_stack.last[0] == :CELL_START
-                tokens << [:CELL_END, '']
-                @pair_stack.pop
-            elsif @pair_stack.last[0] == :HEAD_START
-                tokens << [:HEAD_END, '']
-                @pair_stack.pop
-            end
-            if ['-', '}'].include?(@text[@cursor, 1])
-                if @pair_stack.last[0] == :ROW_START
-                    tokens << [:ROW_END, '']
-                    @pair_stack.pop
-                end
-                if @text[@cursor, 1] == '-'
-                    tokens << [:ROW_START, '']
-                    @pair_stack.push [:ROW_START, '']
-                else
-                    tokens << [:TABLE_END, '']
-                    @pair_stack.pop
-                end
+            if at_start_of_line?
                 @cursor += 1
-            else
-                if @pair_stack.last[0] != :ROW_START
-                    tokens << [:ROW_START, '']
-                    @pair_stack.push [:ROW_START, '']
+                close_table_cell(tokens)
+                if ['-', '}'].include?(@text[@cursor, 1])
+                    close_table_row(tokens)
+                    if @text[@cursor, 1] == '-'
+                        tokens << [:ROW_START, '']
+                        @pair_stack.push [:ROW_START, '']
+                    else
+                        tokens << [:TABLE_END, '']
+                        @pair_stack.pop
+                    end
+                    @cursor += 1
+                else
+                    if @pair_stack.last[0] != :ROW_START
+                        tokens << [:ROW_START, '']
+                        @pair_stack.push [:ROW_START, '']
+                    end
+                    tokens << [:CELL_START, '']
+                    @pair_stack.push [:CELL_START, '']
                 end
-                tokens << [:CELL_START, '']
-                @pair_stack.push [:CELL_START, '']
+                @next_token = tokens.shift
+                @sub_tokens = tokens
+            elsif @text[@cursor + 1, 1] == '|'
+                @cursor += 2
+                close_table_cell(tokens)
+                next_token = tokens.last[0] == :HEAD_END ? [:HEAD_START, ''] : [:CELL_START, '']
+                tokens << next_token
+                @pair_stack.push next_token
+                @next_token = tokens.shift
+                @sub_tokens = tokens
+            else
+                match_link_sep
             end
-            @next_token = tokens.shift
-            @sub_tokens = tokens
-        elsif @tokens[-1][0] == :INTLINKSTART or inside_resource_link
-            @next_token[0] = :INTLINKSEP
-            @cursor += 1
         else
-            match_other
+            match_link_sep
         end
     end
 
@@ -688,6 +688,23 @@ private
         end
         @pair_stack += restore.reverse
         tokens
+    end
+    
+    def close_table_cell(tokens)
+        if @pair_stack.last[0] == :CELL_START
+            @pair_stack.pop
+            tokens << [:CELL_END, '']
+        elsif @pair_stack.last[0] == :HEAD_START
+            @pair_stack.pop
+            tokens << [:HEAD_END, '']
+        end
+    end
+    
+    def close_table_row(tokens)
+        if @pair_stack.last[0] == :ROW_START
+            @pair_stack.pop
+            tokens << [:ROW_END, '']
+        end
     end
 
 end
