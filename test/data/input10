@@ -21,11 +21,23 @@ Some examples of tables.
 |}
 
 {|
+| a || b
+|-
+| 1 || 2
+|}
+
+{|
 ! a
 ! b
 |-
 | 1
 | 2
+|}
+
+{|
+! a || b
+|-
+| 1 || 2
 |}
 
 {|
@@ -51,8 +63,11 @@ Some examples of tables.
 |}
 
 {|
-| [http:example.com]
+| [http://example.com Example]
 | '''bold'''
+|-
+| [[example|Example]]
+| [[image:example.jpg|1|2|3]]
 |}
 
 {|
@@ -82,7 +97,7 @@ Some examples of tables.
 {| border="1"
 ! a
 ! b
-|-
+|- align="left"
 | 1
 | 2
 |}

@@ -20,11 +20,25 @@
 </table>
 
 
+<table><tr><td> a </td><td> b
+</td></tr>
+<tr><td> 1 </td><td> 2
+</td></tr>
+</table>
+
+
 <table><tr><th> a
 </th><th> b
 </th></tr>
 <tr><td> 1
 </td><td> 2
+</td></tr>
+</table>
+
+
+<table><tr><th> a </th><th> b
+</th></tr>
+<tr><td> 1 </td><td> 2
 </td></tr>
 </table>
 
@@ -53,8 +67,8 @@
 </table>
 
 
-<table><tr><td> [http:example.com]
-</td><td> <b>bold</b></td></tr>
+<table><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold</b></td></tr>
+<tr><td> <a href="javascript:void(0)">Example</a></td><td> <a href="javascript:void(0)">image:example.jpg(1, 2, 3)</a></td></tr>
 </table>
 
 
@@ -87,7 +101,7 @@
 <table border="1"><tr><th> a
 </th><th> b
 </th></tr>
-<tr><td> 1
+<tr align="left"><td> 1
 </td><td> 2
 </td></tr>
 </table>
