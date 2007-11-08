@@ -1,0 +1,13 @@
+==Examples of XHTML markup and escaping of XML characters==
+
+Here is a <tt>code sample</tt>.
+
+Another <tt class='code'>code sample</tt>.
+
+An example of a <nowiki><tt>code sample</tt></nowiki>.
+
+Some math:
+
+  1 < 2 & 1 > 0
+
+And more text.

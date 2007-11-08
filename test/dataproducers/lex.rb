@@ -11,5 +11,5 @@ def produce(index)
     file.close
 end
 
-#1..5.each { |i| produce(1) }
-produce(5)
+(1..11).each { |i| produce(i) }
+#produce(5)

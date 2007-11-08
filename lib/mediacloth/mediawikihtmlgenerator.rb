@@ -67,15 +67,19 @@ protected
     end
 
     def parse_paragraph(ast)
-        "<p>" + super(ast) + "</p>"
+        if ast.children
+            "<p>" + super(ast) + "</p>"
+        else
+            "<p> </p>"
+        end
     end
 
     def parse_text(ast)
         tag = formatting_to_tag(ast)
         if tag[0].empty?
-            ast.contents
+            escape(ast.contents)
         else
-            "<#{tag[0]}#{tag[1]}>#{ast.contents}</#{tag[0]}>"
+            "<#{tag[0]}#{tag[1]}>#{escape(ast.contents)}</#{tag[0]}>"
         end
     end
 
@@ -95,7 +99,16 @@ protected
         "<li>" + super(ast) + "</li>"
     end
 
+    def parse_list_term(ast)
+        "<dt>" + super(ast) + "</dt>"
+    end
+
+    def parse_list_definition(ast)
+        "<dd>" + super(ast) + "</dd>"
+    end
+
     def parse_preformatted(ast)
+        "<pre>" + super(ast) + "</pre>"
     end
 
     def parse_section(ast)
@@ -106,7 +119,7 @@ protected
         text = parse_wiki_ast(ast)
         text = ast.locator if text.length == 0
         href = link_handler.url_for(ast.locator)
-        "<a href=\"#{href}\">#{text}</a>"
+        "<a href=\"#{href}\">#{escape(text)}</a>"
     end
      
     def parse_resource_link(ast)
@@ -119,14 +132,14 @@ protected
     #Reimplement this
     def parse_internal_link_item(ast)
         text = super(ast)
-        text.strip
+        escape(text.strip)
     end
     
     def parse_link(ast)
         text = super(ast)
         href = ast.url
         text = href if text.length == 0
-        "<a href=\"#{href}\">#{text}</a>"
+        "<a href=\"#{href}\">#{escape(text)}</a>"
     end
 
     #Reimplement this
@@ -148,6 +161,19 @@ protected
         else
             "<td>" + super(ast) + "</td>"
         end
+    end
+
+    def parse_element(ast)
+      attr = ''
+      if ast.attributes
+        attr = ' ' + ast.attributes.collect{ |name, value|
+          name + '="' + escape(value) + '"' }.join(' ')
+      end
+      if ast.children.size == 0
+        "<#{ast.name}#{attr} />"
+      else
+        "<#{ast.name}#{attr}>" + super(ast) + "</#{ast.name}>"
+      end
     end
 
     #returns an array with a tag name and tag attributes
@@ -176,7 +202,23 @@ protected
             return "ul"
         elsif ast.list_type == :Numbered
             return "ol"
+        elsif ast.list_type == :Dictionary
+            return "dl"
         end
+    end
+    
+    #returns the string with '<', '>', '&' and '"' escaped as XHTML character entities
+    def escape(str)
+        r = str.gsub(%r{[<>&"]}) do
+            |match|
+            case match
+            when '<' then '&lt;'
+            when '>' then '&gt;'
+            when '&' then '&amp;'
+            when '"' then '&quot;'
+            end
+        end
+        r
     end
 
 end

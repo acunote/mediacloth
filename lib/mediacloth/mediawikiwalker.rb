@@ -35,6 +35,7 @@ protected
             r = parse_table(c) if c.class == TableAST
             r = parse_table_row(c) if c.class == TableRowAST
             r = parse_table_cell(c) if c.class == TableCellAST
+            r = parse_element(c) if c.class == ElementAST
             r
         end
     end
@@ -56,7 +57,10 @@ protected
     #Reimplement this
     def parse_list(ast)
         ast.children.map do |c|
-            parse_list_item(c) if c.class == ListItemAST
+            r = parse_list_item(c) if c.class == ListItemAST
+            r = parse_list_term(c) if c.class == ListTermAST
+            r = parse_list_definition(c) if c.class == ListDefinitionAST
+            r
         end
     end
 
@@ -66,7 +70,18 @@ protected
     end
 
     #Reimplement this
+    def parse_list_term(ast)
+        parse_wiki_ast(ast)
+    end
+
+    #Reimplement this
+    def parse_list_definition(ast)
+        parse_wiki_ast(ast)
+    end
+
+    #Reimplement this
     def parse_preformatted(ast)
+        parse_wiki_ast(ast)
     end
 
     #Reimplement this
@@ -110,6 +125,11 @@ protected
 
     #Reimplement this
     def parse_table_cell(ast)
+        parse_wiki_ast(ast)
+    end
+
+    #Reimplement this
+    def parse_element(ast)
         parse_wiki_ast(ast)
     end
 

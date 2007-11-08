@@ -4,100 +4,472 @@ require 'testhelper'
 
 class Lexer_Test < Test::Unit::TestCase
 
-    include TestHelper
-
-    def test_standard_formatted_input
-        test_files("lex") { |input,result,resultname|
-            lexer = MediaWikiLexer.new
-            tokens = lexer.tokenize(input)
-            assert_equal(result, tokens.to_s, "Mismatch in #{resultname}")
-        }
-    end
+  include TestHelper
     
-    def test_internet_formatted_input
-        test_files("lex") { |input,result,resultname|
-            lexer = MediaWikiLexer.new
-            tokens = lexer.tokenize(input.gsub("\n", "\r\n"))
-            assert_equal(result.gsub("\n", "\r\n"), tokens.to_s, "Mismatch in #{resultname}")
-        }
-    end
+  def test_standard_formatted_input
+    test_files("lex") { |input,result,resultname|
+      lexer = MediaWikiLexer.new
+      tokens = lexer.tokenize(input)
+      assert_equal(result, tokens.to_s, "Mismatch in #{resultname}")
+    }
+  end
+        
+  def test_internet_formatted_input
+    test_files("lex") { |input,result,resultname|
+      lexer = MediaWikiLexer.new
+      tokens = lexer.tokenize(input.gsub("\n", "\r\n"))
+      assert_equal(result.gsub("\n", "\r\n"), tokens.to_s, "Mismatch in #{resultname}")
+    }
+  end
+  
+  def test_empty
+    assert_equal([[false,false]], lex(""))
+  end
+  
+  def test_paragraphs
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]],
+      lex("text"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\ntext"], [:PARA_END, ""], [false,false]],
+      lex("text\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\r\ntext"], [:PARA_END, ""], [false,false]],
+      lex("text\r\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\n\n"], [:PARA_END, ""], 
+        [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]],
+      lex("text\n\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\r\n\r\n"], [:PARA_END, ""], 
+        [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]],
+      lex("text\r\n\r\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\n\n"], [:PARA_END, ""], 
+        [:PARA_START, ""], [:TEXT, "\ntext"], [:PARA_END, ""], [false,false]],
+      lex("text\n\n\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\n\n"], [:PARA_END, ""], [:PARA_START, ""],
+        [:TEXT, "\n\n"], [:PARA_END, ""], [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""],
+        [false,false]],
+      lex("text\n\n\n\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\n"], [:PARA_END, ""],
+        [:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="], [false,false]],
+      lex("text\n=heading="))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\r\n"], [:PARA_END, ""],
+        [:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="], [false,false]],
+      lex("text\r\n=heading="))
+    assert_equal(
+      [[:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="],
+        [:PARA_START, ""], [:TEXT, "\ntext"], [:PARA_END, ""], [false,false]],
+      lex("=heading=\ntext"))
+    assert_equal(
+      [[:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="],
+        [:PARA_START, ""], [:TEXT, "\r\ntext"], [:PARA_END, ""], [false,false]],
+      lex("=heading=\r\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\n\n"], [:PARA_END, ""],
+        [:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="], [false,false]],
+      lex("text\n\n=heading="))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "text\r\n\r\n"], [:PARA_END, ""],
+        [:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="], [false,false]],
+      lex("text\r\n\r\n=heading="))
+  end
+  
+  def test_formatting
+    assert_equal(
+      [[:PARA_START, ""], [:ITALIC_START, "''"], [:TEXT, "italic"], [:ITALIC_END, "''"],
+        [:PARA_END, ""], [false,false]],
+      lex("''italic''"))
+    assert_equal(
+      [[:PARA_START, ""], [:BOLD_START, "'''"], [:TEXT, "bold"], [:BOLD_END, "'''"],
+        [:PARA_END, ""], [false,false]],
+      lex("'''bold'''"))
+    assert_equal(
+      [[:PARA_START, ""], [:ITALIC_START, "''"], [:TEXT, "italic"], [:BOLD_START, "'''"],
+        [:TEXT, "bold"], [:BOLD_END, "'''"], [:TEXT, "italic"], [:ITALIC_END, "''"],
+        [:PARA_END, ""], [false,false]],
+      lex("''italic'''bold'''italic''"))
+    assert_equal(
+      [[:PARA_START, ""], [:ITALIC_START, "''"], [:BOLD_START, "'''"], 
+        [:TEXT, "bolditalic"], [:BOLD_END, "'''"], [:ITALIC_END, "''"], 
+        [:PARA_END, ""], [false,false]],
+      lex("'''''bolditalic'''''"))
+  end
+  
+  def test_headings
+    assert_equal(
+      [[:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="], [false,false]],
+      lex("=heading="))
+    assert_equal(
+      [[:SECTION_START, "=="], [:TEXT, "heading"], [:SECTION_END, "=="], [false,false]],
+      lex("==heading=="))
+    assert_equal(
+      [[:SECTION_START, "=="], [:TEXT, " 1 <= 2 "], [:SECTION_END, "=="], [false,false]],
+      lex("== 1 <= 2 =="))
+    assert_equal(
+      [[:SECTION_START, "=="], [:TEXT, "heading"], [:SECTION_END, "=="],
+        [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]],
+      lex("==heading==text"))
+    assert_equal(
+      [[:SECTION_START, "="],  [:ITALIC_START, "''"], [:TEXT, "italic"], [:ITALIC_END, "''"],
+        [:SECTION_END, "="], [false,false]],
+      lex("=''italic''="))
+    assert_equal(
+      [[:SECTION_START, "=="], [:TEXT, "heading"], [:SECTION_END, ""], [:PARA_START, ""], 
+        [:TEXT, "\ntext"], [:PARA_END, ''], [false,false]],
+      lex("==heading\ntext"))
+  end
+  
+  def test_inline_links 
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, ""], [:TEXT, "http://example.com"], [:LINK_END, ""],
+        [:PARA_END, ""], [false, false]],
+      lex("http://example.com"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, ""], [:TEXT, "http://example.com"], [:LINK_END, ""],
+        [:PARA_END, ""], [false, false]],
+      lex("http://example.com\n"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, ""], [:TEXT, "http://example.com"], [:LINK_END, ""],
+        [:ITALIC_START, "''"], [:TEXT, "italic"], [:ITALIC_END, "''"], [:PARA_END, ""], [false, false]],
+      lex("http://example.com''italic''"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "http:notaurl"], [:PARA_END, ""], [false,false]],
+      lex("http:notaurl"))
+    assert_equal(
+      [[:SECTION_START, "="], [:TEXT, " "], [:LINK_START, ""], [:TEXT, "http://example.com"],
+        [:LINK_END, ""], [:TEXT, " "], [:SECTION_END, "="], [false, false]],
+      lex("= http://example.com ="))
+  end
+  
+  def test_links
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "[]"], [:PARA_END, ""], [false, false]],
+      lex("[]"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "[ ]"], [:PARA_END, ""], [false, false]],
+      lex("[ ]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINK_END, "]"],
+        [:PARA_END, ""], [false, false]],
+      lex("[http://example.com]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINK_END, "]"],
+        [:PARA_END, ""], [false, false]],
+      lex("[http://example.com ]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINK_END, "]"],
+        [:PARA_END, ""], [false, false]],
+      lex("[   http://example.com]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINKSEP, " "],
+        [:TEXT, "example"], [:LINK_END, "]"], [:PARA_END, ""], [false, false]],
+      lex("[http://example.com example]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINKSEP, " "],
+        [:TEXT, "example"], [:LINK_END, "]"], [:PARA_END, ""], [false, false]],
+      lex("[http://example.com    example]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINKSEP, " "],
+        [:TEXT, "this is an example"], [:LINK_END, "]"], [:PARA_END, ""], [false, false]],
+      lex("[http://example.com this is an example]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINKSEP, " "],
+        [:ITALIC_START, "''"], [:TEXT, "italic"], [:ITALIC_END, "''"], [:LINK_END, "]"],
+        [:PARA_END, ""], [false, false]],
+      lex("[http://example.com ''italic'']"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINKSEP, " "],
+        [:TEXT, "[example"], [:LINK_END, "]"], [:PARA_END, ""], [false, false]],
+      lex("[http://example.com [example]"))
+    assert_equal(
+      [[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINK_END, ""],
+        [:TEXT, "\ntext"], [:PARA_END, ""], [false, false]],
+      lex("[http://example.com\ntext"))
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "[text]"], [:PARA_END, ""], [false,false]],
+      lex("[text]"))
+  end
+  
+  def test_internal_links
+    assert_equal(
+      [[:PARA_START, ""], [:TEXT, "[[]]"], [:PARA_END, ""], [false, false]],
+      lex("[[]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example"], [:INTLINK_END, "]]"],
+        [:PARA_END, ""], [false, false]],
+      lex("[[example]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example page"], [:INTLINK_END, "]]"],
+        [:PARA_END, ""], [false, false]],
+      lex("[[example page]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example"], [:INTLINKSEP, "|"],
+        [:TEXT, "option"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[example|option]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example"], [:INTLINKSEP, "|"],
+        [:TEXT, "option1|option2"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[example|option1|option2]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "resource"], [:RESOURCESEP, ":"], 
+        [:TEXT, "example"], [:INTLINKSEP, "|"], [:TEXT, "option1"], [:INTLINKSEP, "|"],
+        [:TEXT, "option2"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[resource:example|option1|option2]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "resource"], [:RESOURCESEP, ":"], 
+        [:TEXT, "example"], [:INTLINKSEP, "|"], [:TEXT, "this:that"], [:INTLINK_END, "]]"], 
+        [:PARA_END, ""], [false, false]],
+      lex("[[resource:example|this:that]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "resource"], [:RESOURCESEP, ":"], 
+        [:TEXT, "example"], [:INTLINKSEP, "|"],  [:INTLINK_START, "[["], [:TEXT, "link"],
+        [:INTLINK_END, "]]"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[resource:example|[[link]]]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "resource"], [:RESOURCESEP, ":"], 
+        [:TEXT, "example"], [:INTLINKSEP, "|"], [:INTLINKSEP, "|"], [:TEXT, "option"],
+        [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[resource:example||option]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example"], [:INTLINKSEP, "|"],
+        [:TEXT, "option"], [:ITALIC_START, "''"], [:TEXT, "italic"], [:ITALIC_END, "''"],
+        [:TEXT, "option"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[example|option''italic''option]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example"], [:INTLINKSEP, "|"],
+        [:TEXT, "option[http://example.com]option"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[example|option[http://example.com]option]]"))
+  end
+  
+  def test_table
+    assert_equal([[:TABLE_START, "{|"], [:TABLE_END, "|}"], [false, false]],
+      lex("{|\n|}"))
+    assert_equal([[:TABLE_START, "{|"], [:TEXT, " width='100%'\n"], [:TABLE_END, "|}"],
+        [false, false]],
+      lex("{| width='100%'\n|}"))
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"], 
+        [:CELL_END, ""], [:CELL_START, "|"], [:TEXT, "b\n"], [:CELL_END, ""], [:ROW_END, ""],
+        [:TABLE_END, "|}"], [false, false]],
+      lex("{|\n|a\n|b\n|}"))
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a"], 
+        [:CELL_END, ""], [:CELL_START, "||"], [:TEXT, "b\n"], [:CELL_END, ""], [:ROW_END, ""],
+        [:TABLE_END, "|}"], [false, false]],
+      lex("{|\n|a||b\n|}"))
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"], 
+        [:CELL_END, ""], [:ROW_END, ""], [:ROW_START, "|-"], [:CELL_START, "|"], [:TEXT, "b\n"],
+        [:CELL_END, ""], [:ROW_END, ""], [:TABLE_END, "|}"], [false, false]],
+      lex("{|\n|a\n|-\n|b\n|}"))
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"], 
+        [:CELL_END, ""], [:ROW_END, ""], [:ROW_START, "|-"], [:TEXT, " align='left'\n"], 
+        [:CELL_START, "|"], [:TEXT, "b\n"], [:CELL_END, ""], [:ROW_END, ""], [:TABLE_END, "|}"],
+        [false, false]],
+      lex("{|\n|a\n|- align='left'\n|b\n|}"))
+  end
 
-    def test_paragraphs
-        assert_equal(lex("text\n\ntext"),
-            [[:PARA_START, ""], [:TEXT, "text"], [:PARA_END, "\n\n"], 
-              [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]])
-        assert_equal(lex("text\r\n\r\ntext"),
-            [[:PARA_START, ""], [:TEXT, "text"], [:PARA_END, "\r\n\r\n"], 
-              [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]])
-        assert_equal(lex("Before\n\n=Headline="),
-            [[:PARA_START, ""], [:TEXT, "Before"], [:PARA_END, "\n\n"],
-             [:SECTION_START, "="], [:TEXT, "Headline"], [:SECTION_END, "="], [false,false]])
-        assert_equal(lex("Before\r\n\r\n=Headline="),
-            [[:PARA_START, ""], [:TEXT, "Before"], [:PARA_END, "\r\n\r\n"],
-             [:SECTION_START, "="], [:TEXT, "Headline"], [:SECTION_END, "="], [false,false]])
-    end
+  def test_preformatted
+    assert_equal([[:PRE_START, ''], [:TEXT, " text\n"], [:PRE_END, ''], [false, false]],
+      lex(" text\n"))
+    assert_equal([[:PRE_START, ''], [:TEXT, " text\r\n"], [:PRE_END, ''], [false, false]],
+      lex(" text\r\n"))
+    assert_equal([[:PRE_START, ''], [:TEXT, " text\n text\n"], [:PRE_END, ''], [false, false]],
+      lex(" text\n text\n"))
+    assert_equal([[:PARA_START, ''], [:TEXT, "text\n"], [:PARA_END, ''], [:PRE_START, ''],
+        [:TEXT, " text\n"], [:PRE_END, ''], [false, false]], 
+      lex("text\n text\n"))
+    assert_equal([[:PRE_START, ''], [:TEXT, " text\n"], [:PRE_END, ''], [:PARA_START, ''], 
+        [:TEXT, "text\n"], [:PARA_END, ''], [false, false]], 
+      lex(" text\ntext\n"))
+    assert_equal([[:PRE_START, ''], [:TEXT, ' '], [:ITALIC_START, "''"], [:TEXT, "italic"], 
+        [:ITALIC_END, "''"], [:TEXT, "\n"], [:PRE_END, ''], [false, false]],
+      lex(" ''italic''\n"))
+  end
+  
+  def test_hline
+    assert_equal([[:HLINE, "----"], [false, false]], lex("----"))
+    assert_equal([[:HLINE, "----"], [false, false]], lex("\n----"))
+    assert_equal([[:HLINE, "----"], [false, false]], lex("\r\n----"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "text\n"], [:PARA_END, ""], [:HLINE, "----"], [false, false]], 
+      lex("text\n----"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "text\r\n"], [:PARA_END, ""], [:HLINE, "----"], [false, false]], 
+      lex("text\r\n----"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "text\n\n"], [:PARA_END, ""], [:HLINE, "----"], [false, false]], 
+      lex("text\n\n----"))
+    assert_equal([[:HLINE, "----"], [:PARA_START, ""], [:TEXT, "\ntext"], [:PARA_END, ""], [false, false]],
+      lex("----\ntext"))
+    assert_equal([[:HLINE, "----"], [:PARA_START, ""], [:TEXT, "\r\ntext"], [:PARA_END, ""], [false, false]],
+      lex("----\r\ntext"))
+    assert_equal([[:HLINE, "----"], [:PARA_START, ""], [:TEXT, "\n\n"], [:PARA_END, ""], [:PARA_START, ""], 
+        [:TEXT, "text"], [:PARA_END, ""], [false, false]],
+      lex("----\n\ntext"))
+  end
+  
+  def test_nowiki
+    assert_equal([[:PARA_START, ""], [:TEXT, "''italic''"], [:PARA_END, ""], [false, false]],
+      lex("<nowiki>''italic''</nowiki>"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "text''italic''text"], [:PARA_END, ""], [false, false]],
+      lex("text<nowiki>''italic''</nowiki>text"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "<u>uuu</u>"], [:PARA_END, ""], [false, false]],
+      lex("<nowiki><u>uuu</u></nowiki>"))
+  end
+  
+  def test_xhtml_markup
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TEXT, "text"], [:TAG_END, "tt"],
+        [:PARA_END, ""], [false, false]],
+      lex("<tt>text</tt>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
+      lex("<tt/>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
+      lex("<tt />"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "<123>"], [:PARA_END, ""], [false, false]],
+      lex("<123>"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "<xx xx>"], [:PARA_END, ""], [false, false]],
+      lex("<xx xx>"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "</xxx "], [:PARA_END, ""], [false, false]],
+      lex("</xxx "))
+    assert_equal([[:PARA_START, ""], [:TEXT, "<xx a='b' c>"], [:PARA_END, ""], [false, false]],
+      lex("<xx a='b' c>"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "<>"], [:PARA_END, ""], [false, false]],
+      lex("<>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:ATTR_NAME, 'class'], [:ATTR_VALUE, 'tt'],
+        [:TEXT, "text"], [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
+      lex("<tt class='tt'>text</tt>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:ATTR_NAME, 'class'], [:ATTR_VALUE, 'tt'],
+        [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
+      lex("<tt class='tt' />"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TEXT, "<tt/>"], [:TAG_END, "tt"],
+        [:PARA_END, ""], [false, false]],
+      lex("<tt><nowiki><tt/></nowiki></tt>"))
+  end
+  
+  def test_unordered_lists
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a"], [:LI_END, ''], [:UL_END, ''],
+        [false, false]],
+      lex("*a"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a\n"], [:LI_END, ''], [:UL_END, ''],
+        [false, false]],
+      lex("*a\n"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a"], [:LI_END, ''], [:UL_END, ''],
+        [false, false]],
+      lex("\n*a"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "text\n"], [:PARA_END, ""], [:UL_START, ''], 
+        [:LI_START, ''], [:TEXT, "a"], [:LI_END, ''], [:UL_END, ''], [false, false]],
+      lex("text\n*a"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a\n"], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:UL_END, ''], [false, false]],
+      lex("*a\n*b\n"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a\n"],
+        [:UL_START, ''], [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:UL_END, ''], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:UL_END, ''], [false, false]],
+      lex("*a\n**i\n*b\n"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a\n"],
+        [:UL_START, ''], [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:UL_END, ''], [:LI_END, ''],
+        [:UL_END, ''], [false, false]],
+      lex("*a\n**i\n"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:UL_START, ''],
+        [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:UL_END, ''], [:LI_END, ''],
+        [:UL_END, ''], [false, false]],
+      lex("**i\n"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:UL_START, ''],
+        [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:UL_END, ''], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:UL_END, ''], [false, false]],
+      lex("**i\n*b\n"))
+  end
+  
+  def test_ordered_lists
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:TEXT, "a"], [:LI_END, ''], [:OL_END, ''],
+        [false, false]],
+      lex("#a"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:TEXT, "a\n"], [:LI_END, ''], [:OL_END, ''],
+        [false, false]],
+      lex("#a\n"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:TEXT, "a"], [:LI_END, ''], [:OL_END, ''],
+        [false, false]],
+      lex("\n#a"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "text\n"], [:PARA_END, ""], [:OL_START, ''], 
+        [:LI_START, ''], [:TEXT, "a"], [:LI_END, ''], [:OL_END, ''], [false, false]],
+      lex("text\n#a"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:TEXT, "a\n"], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:OL_END, ''], [false, false]],
+      lex("#a\n#b\n"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:TEXT, "a\n"],
+        [:OL_START, ''], [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:OL_END, ''], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:OL_END, ''], [false, false]],
+      lex("#a\n##i\n#b\n"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:TEXT, "a\n"],
+        [:OL_START, ''], [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:OL_END, ''], [:LI_END, ''],
+        [:OL_END, ''], [false, false]],
+      lex("#a\n##i\n"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:OL_START, ''],
+        [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:OL_END, ''], [:LI_END, ''],
+        [:OL_END, ''], [false, false]],
+      lex("##i\n"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:OL_START, ''],
+        [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:OL_END, ''], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:OL_END, ''], [false, false]],
+      lex("##i\n#b\n"))
+  end
+  
+  def test_mixed_lists
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a\n"], [:LI_END, ''], [:UL_END, ''],
+        [:OL_START, ''], [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:OL_END, ''], [false, false]],
+      lex("*a\n#b\n"))
+    assert_equal([[:OL_START, ''], [:LI_START, ''], [:TEXT, "a\n"],
+        [:UL_START, ''], [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:UL_END, ''], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:OL_END, ''], [false, false]],
+      lex("#a\n#*i\n#b\n"))
+    assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a\n"],
+        [:OL_START, ''], [:LI_START, ''], [:TEXT, "i\n"], [:LI_END, ''], [:OL_END, ''], [:LI_END, ''],
+        [:LI_START, ''], [:TEXT, "b\n"], [:LI_END, ''], [:UL_END, ''], [false, false]],
+      lex("*a\n*#i\n*b\n"))
+  end
+  
+  def test_definition_lists
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a"], [:DT_END, ''], [:DL_END, ''],
+        [false, false]],
+      lex(";a"))
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a\n"], [:DT_END, ''], [:DL_END, ''],
+        [false, false]],
+      lex(";a\n"))
+    assert_equal([[:DL_START, ''], [:DD_START, ':'], [:TEXT, "b"], [:DD_END, ''], [:DL_END, ''],
+        [false, false]],
+      lex(":b"))
+    assert_equal([[:DL_START, ''], [:DD_START, ':'], [:TEXT, "b\n"], [:DD_END, ''], [:DL_END, ''],
+        [false, false]],
+      lex(":b\n"))
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a\n"], [:DT_END, ''],
+        [:DD_START, ':'], [:TEXT, "b\n"], [:DD_END, ''], [:DL_END, ''], [false, false]],
+      lex(";a\n:b\n"))
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a"], [:DT_END, ''],
+        [:DD_START, ':'], [:TEXT, "b\n"], [:DD_END, ''], [:DL_END, ''], [false, false]],
+      lex(";a:b\n"))
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a\n"], [:DT_END, ''],
+        [:DD_START, ':'], [:TEXT, "b\n"], [:DD_END, ''], [:DD_START, ':'], [:TEXT, "c\n"],
+        [:DD_END, ''],[:DL_END, ''], [false, false]],
+      lex(";a\n:b\n:c\n"))
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a\n"], [:DT_END, ''], [:DL_END, ''],
+        [:DL_START, ''], [:DT_START, ';'], [:TEXT, "a\n"], [:DT_END, ''], [:DL_END, ''],
+        [false, false]],
+      lex(";a\n;a\n"))
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a\n"], [:DT_END, ''], [:DL_END, ''], 
+        [:PARA_START, ''], [:TEXT, 'text'], [:PARA_END, ''], [false, false]],
+      lex(";a\ntext"))
+    assert_equal([[:DL_START, ''], [:DT_START, ';'], [:TEXT, "a"], [:DT_END, ''],
+        [:DD_START, ':'], [:INTLINK_START, '[['], [:TEXT, "resource"], [:RESOURCESEP, ':'],
+        [:TEXT, 'text'], [:INTLINK_END, ']]'], [:DD_END, ''], [:DL_END, ''], [false, false]],
+      lex(";a:[[resource:text]]\n"))
+  end
 
-    def test_empty
-        assert_equal(lex(""), [[false,false]])
-    end
-
-    def test_preformatted
-        #assure preformatted text works as expected at the start of the text
-        assert_equal(lex(" Foo\n"), [[:PRE, "Foo\n"], [false, false]])
-        assert_equal(lex(" Foo\r\n"), [[:PRE, "Foo\r\n"], [false, false]])
-        assert_equal(lex(" Foo"), [[:PRE, "Foo"], [false, false]])
-    end
-
-    def test_hline
-        #assure that at the start of the text hline still works
-        assert_equal(lex("----"), [[:HLINE, "----"], [false, false]])
-        assert_equal(lex("\n----"), [[:HLINE, "----"], [false, false]])
-        assert_equal(lex("\r\n----"), [[:HLINE, "----"], [false, false]])
-    end
-    
-    def test_inline_links
-        #assure that links in-line work 
-        assert_equal(lex("http://example.com"), [[:PARA_START, ""], [:LINKSTART, ""], [:TEXT, "http://example.com"], [:LINKEND, "]"], [:PARA_END, ""], [false, false]])
-        assert_equal(lex("http://example.com\n"), [[:PARA_START, ""], [:LINKSTART, ""], [:TEXT, "http://example.com"], [:LINKEND, "]"], [:PARA_END, ""], [false, false]])
-        #assert_equal(lex("http://example.com''italic''"), [[:PARA_START, ""], [:LINKSTART, ""], [:TEXT, "http://example.com"], [:LINKEND, "]"], [:PARA_END, ""], [false, false]])
-     end
-
-    def test_ending_text_token
-        #check for a problem when the last token is TEXT and it's not included
-        assert_equal(lex("\n----\nfoo\n"),
-            [[:HLINE, "----"], [:PARA_START, ""],
-                [:TEXT, "\nfoo\n"], [:PARA_END, ""], [false, false]])
-        assert_equal(lex("\r\n----\r\nfoo\r\n"),
-            [[:HLINE, "----"], [:PARA_START, ""],
-                [:TEXT, "\r\nfoo\r\n"], [:PARA_END, ""], [false, false]])
-        assert_equal(lex("\n----\nfoo\n Hehe"),
-            [[:HLINE, "----"], [:PARA_START, ""], [:TEXT, "\nfoo\n"],
-                [:PARA_END, ""], [:PRE, "Hehe"], [false, false]])
-        assert_equal(lex("\r\n----\r\nfoo\r\n Hehe"),
-            [[:HLINE, "----"], [:PARA_START, ""], [:TEXT, "\r\nfoo\r\n"],
-                [:PARA_END, ""], [:PRE, "Hehe"], [false, false]])
-    end
-
-    def test_bullets
-        assert_equal(lex("* Foo"),
-            [[:UL_START, ""], [:LI_START, ""], [:TEXT, "Foo"], [:LI_END, ""], [:UL_END, ""], [false, false]])
-    end
-
-    def test_nested_bullets
-        assert_equal(lex("**Foo"), [[:UL_START, ""], [:LI_START, ""],
-            [:UL_START, ""], [:LI_START, ""], [:TEXT, "Foo"], [:LI_END, ""],
-            [:UL_END, ""], [:LI_END, ""], [:UL_END, ""], [false, false]])
-    end
-
-    def test_bullets_at_eof
-        assert_equal(lex("* Foo\n*"),
-            [[:UL_START, nil], [:LI_START, ""], [:TEXT, "Foo\n"], [:LI_END, ""], [:LI_START, ""], [:LI_END, ""], [:UL_END, ""], [false, false]])
-    end
-
-private
-    def lex(string)
-        lexer = MediaWikiLexer.new
-        lexer.tokenize(string)
-    end
+  
+  private
+  
+  def lex(string)
+    lexer = MediaWikiLexer.new
+    lexer.tokenize(string)
+  end
 
 end

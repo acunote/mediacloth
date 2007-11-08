@@ -26,6 +26,8 @@ http://sun.com
 
 [[image:sun|one||two||three|]]
 
+[[image:sun|one|[[aaa|bbb|ccc]]|[[image:moon|aaa|bbb|ccc]]|two]]
+
 []
 
 [ ]

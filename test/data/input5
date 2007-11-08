@@ -1,3 +1,5 @@
+Unordered lists
+
 *A
 **A
 ***a
@@ -6,6 +8,12 @@
 *B
 **b
 
+*A
+*B
+*
+
+Ordered lists
+
 #a
 ##a
 ###a
@@ -13,10 +21,43 @@
 #a
 ##aa
 
-*A
-*B
-*
-
 #A
 #B
 #
+
+Mixed lists
+
+*a
+*#1
+*#2
+*b
+
+#a
+#*1
+#*2
+#**2
+#b
+
+Dictionary lists
+
+;d
+
+
+:t
+
+
+;d
+:t
+
+
+;d
+:t
+:t
+
+
+;d
+:t
+;d
+:t
+
+;d :t [[image:foo.jpg]]

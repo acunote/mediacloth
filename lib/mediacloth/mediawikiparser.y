@@ -8,13 +8,12 @@
 # parser.parse(input)
 class MediaWikiParser
 
-token BOLDSTART BOLDEND ITALICSTART ITALICEND LINKSTART LINKEND LINKSEP
-    INTLINKSTART INTLINKEND INTLINKSEP RESOURCE_SEP
-    SECTION_START SECTION_END TEXT PRE
-    HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
-    UL_START UL_END LI_START LI_END OL_START OL_END
+token TEXT BOLD_START BOLD_END ITALIC_START ITALIC_END LINK_START LINK_END LINKSEP
+    INTLINK_START INTLINK_END INTLINKSEP RESOURCESEP PRE_START PRE_END
+    SECTION_START SECTION_END HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
+    PARA_START PARA_END UL_START UL_END OL_START OL_END LI_START LI_END
+    DL_START DL_END DT_START DT_END DD_START DD_END TAG_START TAG_END ATTR_NAME ATTR_VALUE
     TABLE_START TABLE_END ROW_START ROW_END HEAD_START HEAD_END CELL_START CELL_END
-    PARA_START PARA_END
 
 
 rule
@@ -42,32 +41,39 @@ contents:
         {
             result = val[0]
         }
+    | dictionary_list
+        {
+            list = ListAST.new
+            list.list_type = :Dictionary
+            list.children = val[0]
+            result = list
+        }
     | preformatted
         {
-            p = PreformattedAST.new
-            p.contents = val[0]
-            result = p
+            result = val[0]
         }
     | section
         {
             result = val[0]
         }
+    | tag
+        {
+            result = val[0]
+        }
     | PARA_START para_contents PARA_END
         {
-            if val[1]
-                p = ParagraphAST.new
-                p.children = val[1]
-                result = p
-            end
+            p = ParagraphAST.new
+            p.children = val[1]
+            result = p
         }
-    | LINKSTART link_contents LINKEND
+    | LINK_START link_contents LINK_END
         {
             l = LinkAST.new
             l.url = val[1][0]
             l.children += val[1][1..-1] if val[1].length > 1
             result = l
         }
-    | INTLINKSTART TEXT RESOURCE_SEP TEXT reslink_repeated_contents INTLINKEND
+    | INTLINK_START TEXT RESOURCESEP TEXT reslink_repeated_contents INTLINK_END
         {
             l = ResourceLinkAST.new
             l.prefix = val[1]
@@ -75,7 +81,7 @@ contents:
             l.children = val[4] unless val[4].nil? or val[4].empty?
             result = l
         }
-    | INTLINKSTART TEXT intlink_repeated_contents INTLINKEND
+    | INTLINK_START TEXT intlink_repeated_contents INTLINK_END
         {
             l = InternalLinkAST.new
             l.locator = val[1]
@@ -85,7 +91,6 @@ contents:
     | table
     ;
 
-#TODO: remove empty paragraphs in lexer
 para_contents: 
         {
             result = nil
@@ -95,6 +100,49 @@ para_contents:
             result = val[0]
         }
     ;
+
+tag:
+      TAG_START tag_attributes TAG_END 
+        {
+            if val[0] != val[2] 
+                raise Racc::ParseError.new("XHTML end tag #{val[2]} does not match start tag #{val[0]}")
+            end
+            elem = ElementAST.new
+            elem.name = val[0]
+            elem.attributes = val[1]
+            result = elem
+        }
+    | TAG_START tag_attributes repeated_contents TAG_END 
+        {
+            if val[0] != val[3] 
+                raise Racc::ParseError.new("XHTML end tag #{val[3]} does not match start tag #{val[0]}")
+            end
+            elem = ElementAST.new
+            elem.name = val[0]
+            elem.attributes = val[1]
+            elem.children += val[2]
+            result = elem
+        }
+    ;
+
+tag_attributes:
+        {
+            result = nil
+        }
+    | ATTR_NAME tag_attributes
+        {
+            attr_map = val[2] ? val[2] : {}
+            attr_map[val[0]] = true
+            result = attr_map 
+        }
+    | ATTR_NAME ATTR_VALUE tag_attributes
+        {
+            attr_map = val[2] ? val[2] : {}
+            attr_map[val[0]] = val[1]
+            result = attr_map 
+        }
+    ;
+      
 
 link_contents:
       TEXT
@@ -260,26 +308,26 @@ element:
     ;
 
 formatted_element: 
-      BOLDSTART BOLDEND
+      BOLD_START BOLD_END
         {
             result = FormattedAST.new
             result.formatting = :Bold
             result
         } 
-    | ITALICSTART ITALICEND
+    | ITALIC_START ITALIC_END
         {
             result = FormattedAST.new
             result.formatting = :Italic
             result
         }
-    | BOLDSTART repeated_contents BOLDEND
+    | BOLD_START repeated_contents BOLD_END
         {
             p = FormattedAST.new
             p.formatting = :Bold
             p.children += val[1]
             result = p
         }
-    | ITALICSTART repeated_contents ITALICEND
+    | ITALIC_START repeated_contents ITALIC_END
         {
             p = FormattedAST.new
             p.formatting = :Italic
@@ -332,8 +380,59 @@ list_item:
         }
     ;
 
-preformatted: PRE
-        { result = val[0] }
+dictionary_list:  
+      DL_START dictionary_term dictionary_contents DL_END
+        {
+            result = [val[1]]
+            result += val[2]
+        }
+    | DL_START dictionary_contents DL_END
+        {
+            result = val[1]
+        }
+    ;
+
+dictionary_term:
+      DT_START DT_END
+        {
+            result = ListTermAST.new
+        }
+    | DT_START repeated_contents DT_END
+        {
+            term = ListTermAST.new
+            term.children += val[1]
+            result = term
+        }
+
+dictionary_contents:
+      dictionary_definition dictionary_contents
+        {
+            result = [val[0]]
+            result += val[1] if val[1]
+        }
+    |
+        {
+            result = []
+        }
+
+dictionary_definition:
+      DD_START DD_END
+        {
+            result = ListDefinitionAST.new
+        }
+    | DD_START repeated_contents DD_END
+        {
+            term = ListDefinitionAST.new
+            term.children += val[1]
+            result = term
+        }
+
+preformatted: PRE_START repeated_contents PRE_END
+        {
+            p = PreformattedAST.new
+            p.children += val[1]
+            result = p
+        }
     ;
 
 section: SECTION_START repeated_contents SECTION_END

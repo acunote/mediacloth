@@ -1,71 +1,97 @@
-<p>Some examples of tables.</p><table></table>
-<table><tr></tr>
+<p>Some examples of tables.
+
+</p><table></table>
+<p>
+
+</p><table><tr></tr>
 </table>
-<table><tr><td> a
+<p>
+
+</p><table><tr><td> a
 </td><td> b
 </td></tr>
 </table>
-<table><tr><td> a
+<p>
+
+</p><table><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> 1
 </td><td> 2
 </td></tr>
 </table>
-<table><tr><td> a </td><td> b
+<p>
+
+</p><table><tr><td> a </td><td> b
 </td></tr>
 <tr><td> 1 </td><td> 2
 </td></tr>
 </table>
-<table><tr><th> a
+<p>
+
+</p><table><tr><th> a
 </th><th> b
 </th></tr>
 <tr><td> 1
 </td><td> 2
 </td></tr>
 </table>
-<table><tr><th> a </th><th> b
+<p>
+
+</p><table><tr><th> a </th><th> b
 </th></tr>
 <tr><td> 1 </td><td> 2
 </td></tr>
 </table>
-<table><tr><td> a
+<p>
+
+</p><table><tr><td> a
 </td></tr>
 <tr><td> 1
 </td><td> 2
 </td></tr>
 </table>
-<table><tr><td> a
+<p>
+
+</p><table><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> 1
 </td></tr>
 </table>
-<table><tr><td> a
+<p>
+
+</p><table><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td></td><td> 2
 </td></tr>
 </table>
-<table><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold</b></td></tr>
+<p>
+
+</p><table><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold</b></td></tr>
 <tr><td> <a href="javascript:void(0)">Example</a></td><td> <a href="javascript:void(0)">image:example.jpg(1, 2, 3)</a></td></tr>
 </table>
-<table><tr><td> <a href="http://example.com">Example
-</a></td><td> <b>bold
+<p>
+
+</p><table><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold
 </b></td></tr>
-<tr><td> <a href="javascript:void(0)">Example
-</a></td><td> <b>bold <i>italic
+<tr><td> <a href="javascript:void(0)">Example</a></td><td> <b>bold <i>italic
 </i></b></td></tr>
 </table>
-<table><tr><td> a
+<p>
+
+</p><table><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> A list in a cell:
-<ul><li>one
-</li><li>two
+<ul><li> one
+</li><li> two
 </li></ul></td></tr>
 </table>
-<table><tr><td> a
+<p>
+
+</p><table><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> A table in a cell:
@@ -78,7 +104,9 @@
 </table>
 </td></tr>
 </table>
-<table border="1"><tr><th> a
+<p>
+
+</p><table border="1"><tr><th> a
 </th><th> b
 </th></tr>
 <tr align="left"><td> 1
@@ -86,12 +114,16 @@
 </td></tr>
 </table>
 <p>
+
+</p><p>
 Text before
 </p><table><tr><td> a
 </td><td> b
 </td></tr>
 </table>
-<p>Text before with <i>italic
+<p>
+
+</p><p>Text before with <i>italic
 </i></p><table><tr><td> a
 </td><td> b
 </td></tr>

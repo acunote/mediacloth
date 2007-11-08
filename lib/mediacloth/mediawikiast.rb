@@ -84,6 +84,14 @@ end
 class ListItemAST < AST
 end
 
+# The node to represent a leading term in a dictionary list
+class ListTermAST < AST
+end
+
+# The node to represent a definition in a dictionary list
+class ListDefinitionAST < AST
+end
+
 #The node to represent a section
 class SectionAST < AST
     #The level of the section (1,2,3...) that would correspond to
@@ -93,4 +101,9 @@ end
 
 #The node to represent a preformatted contents
 class PreformattedAST < AST
+end
+
+#The node to represent an XHTML element and its contents
+class ElementAST < AST
+    attr_accessor :name, :attributes
 end
