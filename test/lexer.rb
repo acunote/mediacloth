@@ -98,6 +98,10 @@ class Lexer_Test < Test::Unit::TestCase
         [:TEXT, "bolditalic"], [:BOLD_END, "'''"], [:ITALIC_END, "''"], 
         [:PARA_END, ""], [false,false]],
       lex("'''''bolditalic'''''"))
+    assert_equal(
+      [[:PARA_START, ""], [:ITALIC_START, "''"], [:TEXT, "italic\n\n"], [:ITALIC_END, ""],
+        [:PARA_END, ""], [false,false]],
+      lex("''italic\n\n"))
   end
   
   def test_headings
@@ -118,6 +122,10 @@ class Lexer_Test < Test::Unit::TestCase
       [[:SECTION_START, "="],  [:ITALIC_START, "''"], [:TEXT, "italic"], [:ITALIC_END, "''"],
         [:SECTION_END, "="], [false,false]],
       lex("=''italic''="))
+    assert_equal(
+      [[:SECTION_START, "=="], [:TEXT, "heading"], [:SECTION_END, ""], [:PARA_START, ""], 
+        [:TEXT, "\n\n"], [:PARA_END, ''], [false,false]],
+      lex("==heading\n\n"))
     assert_equal(
       [[:SECTION_START, "=="], [:TEXT, "heading"], [:SECTION_END, ""], [:PARA_START, ""], 
         [:TEXT, "\ntext"], [:PARA_END, ''], [false,false]],
@@ -244,6 +252,10 @@ class Lexer_Test < Test::Unit::TestCase
       [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example"], [:INTLINKSEP, "|"],
         [:TEXT, "option[http://example.com]option"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
       lex("[[example|option[http://example.com]option]]"))
+    assert_equal(
+      [[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "example"], [:INTLINKSEP, "|"],
+        [:TEXT, "option"], [:INTLINK_END, ""], [:TEXT, "\n\n"],  [:PARA_END, ""], [false, false]],
+      lex("[[example|option\n\n"))
   end
   
   def test_table
