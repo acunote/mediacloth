@@ -358,6 +358,23 @@ class Lexer_Test < Test::Unit::TestCase
       lex("<tt><nowiki><tt/></nowiki></tt>"))
   end
   
+  def test_xhtml_char_entities
+    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:PARA_END, ""], [false, false]],
+      lex("&lt;"))
+    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "amp"], [:TEXT, "amp;"], [:PARA_END, ""], [false, false]],
+      lex("&amp;amp;"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "&"], [:PARA_END, ""], [false, false]],
+      lex("&"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "&amp"], [:PARA_END, ""], [false, false]],
+      lex("&amp"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "&amp ;"], [:PARA_END, ""], [false, false]],
+      lex("&amp ;"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "&amp amp;"], [:PARA_END, ""], [false, false]],
+      lex("&amp amp;"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "&amp"], [:CHAR_ENT, "amp"], [:PARA_END, ""], [false, false]],
+      lex("&amp&amp;"))
+  end
+  
   def test_unordered_lists
     assert_equal([[:UL_START, ''], [:LI_START, ''], [:TEXT, "a"], [:LI_END, ''], [:UL_END, ''],
         [false, false]],

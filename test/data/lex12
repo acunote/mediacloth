@@ -1,0 +1,6 @@
+PARA_STARTTEXTone CHAR_ENTampTEXT two
+1 CHAR_ENTltTEXT 2
+CHAR_ENTltTEXTlt; is the "lt" symbol
+1 < 2 & 3 > 2
+
+PARA_ENDPARA_STARTTEXTthis CHAR_ENTltCHAR_ENTgtTEXT thatPARA_ENDfalsefalse

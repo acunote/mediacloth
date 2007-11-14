@@ -70,21 +70,27 @@ protected
         if ast.children
             "<p>" + super(ast) + "</p>"
         else
-            "<p> </p>"
+            "<p><br /></p>"
         end
     end
 
     def parse_text(ast)
-        tag = formatting_to_tag(ast)
-        if tag[0].empty?
-            escape(ast.contents)
+        if ast.formatting
+            case(ast.formatting)
+            when :None then escape(ast.contents)
+            when :CharacterEntity then "&#{ast.contents};"
+            when :HLine then "<hr></hr>"
+            when :SignatureDate then MediaWikiParams.instance.time.to_s
+            when :SignatureName then MediaWikiParams.instance.author
+            when :SignatureFull then MediaWikiParams.instance.author + " " + MediaWikiParams.instance.time.to_s
+            end
         else
-            "<#{tag[0]}#{tag[1]}>#{escape(ast.contents)}</#{tag[0]}>"
+            escape(ast.contents)
         end
     end
 
     def parse_formatted(ast)
-        tag = formatting_to_tag(ast)
+        tag = ast.formatting == :Bold ? 'b' : 'i'
         "<#{tag}>" + super(ast) + "</#{tag}>"
     end
 
@@ -174,26 +180,6 @@ protected
       else
         "<#{ast.name}#{attr}>" + super(ast) + "</#{ast.name}>"
       end
-    end
-
-    #returns an array with a tag name and tag attributes
-    def formatting_to_tag(ast)
-        tag = ["", ""]
-        if ast.formatting == :Bold
-            tag = ["b", ""]
-        elsif ast.formatting == :Italic
-            tag = ["i", ""]
-        elsif ast.formatting == :HLine
-            ast.contents = ""
-            tag = ["hr", ""]
-        elsif ast.formatting == :SignatureDate
-            ast.contents = MediaWikiParams.instance.time.to_s
-        elsif ast.formatting == :SignatureName
-            ast.contents = MediaWikiParams.instance.author
-        elsif ast.formatting == :SignatureFull
-            ast.contents = MediaWikiParams.instance.author + " " + MediaWikiParams.instance.time.to_s
-        end
-        tag
     end
 
     #returns a tag name of the list in ast node

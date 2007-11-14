@@ -26,6 +26,7 @@ class MediaWikiLexer
     @formatting_lexer_table = {}
     @formatting_lexer_table["'"] = method(:match_quote)
     @formatting_lexer_table["<"] = method(:match_right_angle)
+    @formatting_lexer_table["&"] = method(:match_ampersand)
     
     # Lexer table of methods that handle everything that may occur in-line in
     # addition to formatting, i.e. links and signatures
@@ -175,6 +176,17 @@ class MediaWikiLexer
   def match_text
     @pending += @char
     @cursor += 1
+  end
+  
+  def match_ampersand
+    i = @cursor + 1
+    i += 1 while i < @text.size and NAME_CHAR_TABLE[@text[i]]
+    if @text[i, 1] == ';'
+      append_to_tokens([:CHAR_ENT, @text[(@cursor + 1) ... i]])
+      @cursor = i + 1
+    else
+      match_text
+    end
   end
   
   def match_quote
