@@ -351,6 +351,12 @@ class Lexer_Test < Test::Unit::TestCase
         [:TEXT, "text"], [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
       lex("<tt class='tt'>text</tt>"))
     assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:ATTR_NAME, 'class'], [:ATTR_VALUE, 'tt'],
+        [:TEXT, "text"], [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
+      lex("<tt   class = 'tt' >text</tt >"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:ATTR_NAME, 'class'], [:ATTR_VALUE, 'tt'],
+        [:TEXT, "text"], [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
+      lex("<tt\nclass\n=\n'tt'\n>text</tt\n>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:ATTR_NAME, 'class'], [:ATTR_VALUE, 'tt'],
         [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
       lex("<tt class='tt' />"))
     assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TEXT, "<tt/>"], [:TAG_END, "tt"],

@@ -244,11 +244,11 @@ class MediaWikiLexer
     next_char = @text[@cursor + 1]
     if next_char == 47
       # Might be an XHTML end tag
-      if @text[@cursor .. -1] =~ %r{</([a-zA-Z][a-zA-Z0-9\-_]*)>}
+      if @text[@cursor .. -1] =~ %r{</([a-zA-Z][a-zA-Z0-9\-_]*)(\s*)>}
         # Found an XHTML end tag
         tag_name = $1
-        end_span(:TAG, tag_name)
-        @cursor += tag_name.length + 3
+        end_span(:TAG, $1)
+        @cursor += $1.length + $2.length + 3
       else
         match_text
       end
@@ -259,7 +259,7 @@ class MediaWikiLexer
         # Sequence begins with a valid tag name, so check for attributes
         tag_name = scanner[1]
         attrs = {}
-        while scanner.scan(%r{\s+([a-zA-Z][a-zA-Z0-9\-_]*)=('([^']+)'|"([^"]+)")}) do
+        while scanner.scan(%r{\s+([a-zA-Z][a-zA-Z0-9\-_]*)\s*=\s*('([^']+)'|"([^"]+)")}) do
           attrs[scanner[1]] = scanner[3] ? scanner[3] : scanner[4]
         end
         scanner.scan(%r{\s*})
