@@ -14,6 +14,7 @@ token TEXT BOLD_START BOLD_END ITALIC_START ITALIC_END LINK_START LINK_END LINKS
     PARA_START PARA_END UL_START UL_END OL_START OL_END LI_START LI_END
     DL_START DL_END DT_START DT_END DD_START DD_END TAG_START TAG_END ATTR_NAME ATTR_VALUE
     TABLE_START TABLE_END ROW_START ROW_END HEAD_START HEAD_END CELL_START CELL_END
+    VARIABLE_START VARIABLE_END
 
 
 rule
@@ -57,6 +58,10 @@ contents:
             result = val[0]
         }
     | tag
+        {
+            result = val[0]
+        } 
+    | variable
         {
             result = val[0]
         }
@@ -443,6 +448,14 @@ section: SECTION_START repeated_contents SECTION_END
             s.children = val[1]
             s.level = val[0].length
             result = s
+        }
+    ;
+
+variable: VARIABLE_START TEXT VARIABLE_END
+        {
+            v = VariableAST.new
+            v.text = val[1]
+            result = v
         }
     ;
 

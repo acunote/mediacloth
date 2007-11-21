@@ -107,3 +107,7 @@ end
 class ElementAST < AST
     attr_accessor :name, :attributes
 end
+
+class VariableAST < AST
+    attr_accessor :text
+end

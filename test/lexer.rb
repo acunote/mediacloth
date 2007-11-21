@@ -329,6 +329,20 @@ class Lexer_Test < Test::Unit::TestCase
       lex("<nowiki><u>uuu</u></nowiki>"))
   end
   
+  def test_variable
+    assert_equal([[:PARA_START, ""], [:VARIABLE_START, "{{"], [:TEXT, "ref"], [:VARIABLE_END, "}}"],
+        [:PARA_END, ""], [false, false]],
+      lex("{{ref}}"))
+    assert_equal([[:PARA_START, ""], [:VARIABLE_START, "{{"], [:TEXT, "ref1}ref2"], [:VARIABLE_END, "}}"],
+        [:PARA_END, ""], [false, false]],
+      lex("{{ref1}ref2}}"))
+    assert_equal([[:PARA_START, ""], [:VARIABLE_START, "{{"], [:TEXT, "ref1\n{|\n|not a table!\n|} "],
+        [:VARIABLE_END, "}}"], [:PARA_END, ""], [false, false]],
+      lex("{{ref1\n{|\n|not a table!\n|} }}"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "{{}}"], [:PARA_END, ""], [false, false]],
+      lex("{{}}"))
+  end
+  
   def test_xhtml_markup
     assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TEXT, "text"], [:TAG_END, "tt"],
         [:PARA_END, ""], [false, false]],

@@ -36,6 +36,7 @@ protected
             r = parse_table_row(c) if c.class == TableRowAST
             r = parse_table_cell(c) if c.class == TableCellAST
             r = parse_element(c) if c.class == ElementAST
+            r = parse_variable(c) if c.class == VariableAST
             r
         end
     end
@@ -131,6 +132,10 @@ protected
     #Reimplement this
     def parse_element(ast)
         parse_wiki_ast(ast)
+    end
+
+    #Reimplement this
+    def parse_variable(ast)
     end
 
 end

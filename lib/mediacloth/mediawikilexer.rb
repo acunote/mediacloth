@@ -27,6 +27,7 @@ class MediaWikiLexer
     @formatting_lexer_table["'"] = method(:match_quote)
     @formatting_lexer_table["<"] = method(:match_right_angle)
     @formatting_lexer_table["&"] = method(:match_ampersand)
+    @formatting_lexer_table["{"] = method(:match_left_curly)
     
     # Lexer table of methods that handle everything that may occur in-line in
     # addition to formatting, i.e. links and signatures
@@ -47,7 +48,6 @@ class MediaWikiLexer
     @default_lexer_table["-"] = method(:match_dash)
     @default_lexer_table["\n"] = method(:match_newline)
     @default_lexer_table["\r"] = method(:match_newline)
-    @default_lexer_table["{"] = method(:match_left_curly)
     
     # Lexer table used inside of headings
     @heading_lexer_table = @inline_lexer_table.dup
@@ -114,6 +114,10 @@ class MediaWikiLexer
     # Lexer table used when inside spans of wiki-escaped text
     @escape_lexer_table = {}
     @escape_lexer_table["<"] = method(:match_right_angle_in_tag)
+        
+    # Lexer table used when inside a wiki variable reference
+    @variable_lexer_table = {}
+    @variable_lexer_table["}"] = method(:match_right_curly_in_variable)
         
     # Begin lexing in table state
     @lexer_table = LexerTable.new
@@ -498,6 +502,20 @@ class MediaWikiLexer
       start_span(:TABLE, "{|")
       @cursor += 2
       @lexer_table.push(@table_lexer_table)
+    elsif @text[@cursor + 1, 1] == '{' and @text[@cursor + 2, 2] != "}}"
+      start_span(:VARIABLE, "{{")
+      @cursor += 2
+      @lexer_table.push(@variable_lexer_table)
+    else
+      match_text
+    end
+  end
+  
+  def match_right_curly_in_variable
+    if @text[@cursor + 1, 1] == '}'
+      end_span(:VARIABLE, "}}")
+      @cursor += 2
+      @lexer_table.pop
     else
       match_text
     end
