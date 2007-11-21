@@ -49,6 +49,12 @@ class MediaWikiLexer
     @default_lexer_table["\n"] = method(:match_newline)
     @default_lexer_table["\r"] = method(:match_newline)
     
+    # Lexer table used inside spans of markup, wherein spans of newlines are not
+    # automatically treated as paragraphs.
+    @markup_lexer_table = @default_lexer_table.dup
+    @markup_lexer_table["\n"] = nil
+    @markup_lexer_table["\r"] = nil
+    
     # Lexer table used inside of headings
     @heading_lexer_table = @inline_lexer_table.dup
     @heading_lexer_table["="] = method(:match_equal_in_heading)
@@ -252,6 +258,7 @@ class MediaWikiLexer
         # Found an XHTML end tag
         tag_name = $1
         end_span(:TAG, $1)
+        @lexer_table.pop
         @cursor += $1.length + $2.length + 3
       else
         match_text
@@ -278,7 +285,11 @@ class MediaWikiLexer
               append_to_tokens([:ATTR_NAME, name])
               append_to_tokens([:ATTR_VALUE, value]) if value
             end
-            end_span(:TAG, tag_name) if c == '/'
+            if c == '/'
+              end_span(:TAG, tag_name)
+            else
+              @lexer_table.push(@markup_lexer_table)
+            end
           end
           @cursor += scanner.pos
         else

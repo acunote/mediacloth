@@ -11,3 +11,7 @@ Some math:
   1 < 2 & 1 > 0
 
 And more text.
+
+* one
+* two <span>a b
+c d e f</span>
