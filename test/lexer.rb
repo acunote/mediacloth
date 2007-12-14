@@ -382,6 +382,12 @@ class Lexer_Test < Test::Unit::TestCase
     assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TEXT, "<tt/>"], [:TAG_END, "tt"],
         [:PARA_END, ""], [false, false]],
       lex("<tt><nowiki><tt/></nowiki></tt>"))
+    assert_equal([[:PARA_START, ""], [:LINK_START, "["], [:TEXT, "http://example.com"], [:LINKSEP, " "],
+        [:TAG_START, "tt"], [:TEXT, "text"], [:TAG_END, "tt"], [:LINK_END, "]"], [:PARA_END, ""], [false, false]],
+      lex("[http://example.com <tt>text</tt>]"))
+    assert_equal([[:PARA_START, ""], [:INTLINK_START, "[["], [:TEXT, "page"], [:INTLINKSEP, "|"],
+        [:TAG_START, "tt"], [:TEXT, "text"], [:TAG_END, "tt"], [:INTLINK_END, "]]"], [:PARA_END, ""], [false, false]],
+      lex("[[page|<tt>text</tt>]]"))
   end
   
   def test_xhtml_char_entities
