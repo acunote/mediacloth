@@ -123,9 +123,9 @@ protected
     
     def parse_internal_link(ast)
         text = parse_wiki_ast(ast)
-        text = ast.locator if text.length == 0
+        text = escape(ast.locator) if text.length == 0
         href = link_handler.url_for(ast.locator)
-        "<a href=\"#{href}\">#{escape(text)}</a>"
+        "<a href=\"#{href}\">#{text}</a>"
     end
      
     def parse_resource_link(ast)
@@ -135,17 +135,16 @@ protected
         link_handler.link_for(ast.prefix, ast.locator, options)
     end
 
-    #Reimplement this
     def parse_internal_link_item(ast)
         text = super(ast)
-        escape(text.strip)
+        text.strip
     end
     
     def parse_link(ast)
         text = super(ast)
         href = ast.url
-        text = href if text.length == 0
-        "<a href=\"#{href}\">#{escape(text)}</a>"
+        text = escape(href) if text.length == 0
+        "<a href=\"#{href}\">#{text}</a>"
     end
 
     #Reimplement this

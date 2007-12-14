@@ -10,6 +10,10 @@ http://sun.com
 
 [http://sun.com stars and ''moon'' and '''trees''' and birds]
 
+[http://sun.com <tt>sun</tt> and <tt>moon</tt>]
+
+[http://sun.com sun > moon]
+
 [[sun]]
 
 [[sun|All about Sun]]
@@ -17,6 +21,10 @@ http://sun.com
 [[image:sun|All about Sun]]
 
 [[sun|nofollow|All about Sun]]
+
+[[sun|nofollow|Sun > Moon]]
+
+[[sun|nofollow|<tt>sun</tt> and <tt>moon</tt>]]
 
 [[image:sun|nofollow|All about Sun]]
 

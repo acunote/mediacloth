@@ -8,7 +8,11 @@
 
 </p><p><a href="http://sun.com">stars and moon</a>
 
-</p><p><a href="http://sun.com">stars and &lt;i&gt;moon&lt;/i&gt; and &lt;b&gt;trees&lt;/b&gt; and birds</a>
+</p><p><a href="http://sun.com">stars and <i>moon</i> and <b>trees</b> and birds</a>
+
+</p><p><a href="http://sun.com"><tt>sun</tt> and <tt>moon</tt></a>
+
+</p><p><a href="http://sun.com">sun &gt; moon</a>
 
 </p><p><a href="javascript:void(0)">sun</a>
 
@@ -18,15 +22,19 @@
 
 </p><p><a href="javascript:void(0)">nofollow|All about Sun</a>
 
+</p><p><a href="javascript:void(0)">nofollow|Sun &gt; Moon</a>
+
+</p><p><a href="javascript:void(0)">nofollow|<tt>sun</tt> and <tt>moon</tt></a>
+
 </p><p><a href="javascript:void(0)">image:sun(nofollow, All about Sun)</a>
 
-</p><p><a href="javascript:void(0)">image:sun(All about &lt;a href=&quot;javascript:void(0)&quot;&gt;Sun&lt;/a&gt;)</a>
+</p><p><a href="javascript:void(0)">image:sun(All about <a href="javascript:void(0)">Sun</a>)</a>
 
-</p><p><a href="javascript:void(0)">image:sun(All about &lt;a href=&quot;javascript:void(0)&quot;&gt;More about&lt;/a&gt;)</a>
+</p><p><a href="javascript:void(0)">image:sun(All about <a href="javascript:void(0)">More about</a>)</a>
 
 </p><p><a href="javascript:void(0)">image:sun(one, two, three)</a>
 
-</p><p><a href="javascript:void(0)">image:sun(one, &lt;a href=&quot;javascript:void(0)&quot;&gt;bbb|ccc&lt;/a&gt;, &lt;a href=&quot;javascript:void(0)&quot;&gt;image:moon(aaa, bbb, ccc)&lt;/a&gt;, two)</a>
+</p><p><a href="javascript:void(0)">image:sun(one, <a href="javascript:void(0)">bbb|ccc</a>, <a href="javascript:void(0)">image:moon(aaa, bbb, ccc)</a>, two)</a>
 
 </p><p>[]
 
