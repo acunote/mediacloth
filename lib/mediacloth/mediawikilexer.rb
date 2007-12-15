@@ -46,6 +46,7 @@ class MediaWikiLexer
     @default_lexer_table[":"] = method(:match_colon)
     @default_lexer_table[";"] = method(:match_semicolon)
     @default_lexer_table["-"] = method(:match_dash)
+    @default_lexer_table["_"] = method(:match_underscore)
     @default_lexer_table["\n"] = method(:match_newline)
     @default_lexer_table["\r"] = method(:match_newline)
     
@@ -89,7 +90,7 @@ class MediaWikiLexer
     @intlink_opt_lexer_table["\n"] = method(:match_newline_in_intlink)
     @intlink_opt_lexer_table["\r"] = method(:match_newline_in_intlink)
     
-    # Lexer table used inside the right have of an internal resource link
+    # Lexer table used inside the right half of an internal resource link
     @resourcelink_opt_lexer_table = @inline_lexer_table.dup
     @resourcelink_opt_lexer_table["]"] = method(:match_right_square_in_intlink)
     @resourcelink_opt_lexer_table["\n"] = method(:match_newline_in_intlink)
@@ -125,7 +126,7 @@ class MediaWikiLexer
     @variable_lexer_table = {}
     @variable_lexer_table["}"] = method(:match_right_curly_in_variable)
         
-    # Begin lexing in table state
+    # Begin lexing in default state
     @lexer_table = LexerTable.new
     @lexer_table.push(@default_lexer_table)
   end
@@ -447,6 +448,15 @@ class MediaWikiLexer
       @list = extract_char_sequence('#*')
       open_list(@list)
       @lexer_table.push(@items_lexer_table)
+    else
+      match_text
+    end
+  end
+  
+  def match_underscore
+    if @text[@cursor, 7] == '__TOC__'
+      empty_span(:KEYWORD, 'TOC')
+      @cursor += 7
     else
       match_text
     end

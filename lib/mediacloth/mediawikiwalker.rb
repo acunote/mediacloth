@@ -37,6 +37,7 @@ protected
             r = parse_table_cell(c) if c.class == TableCellAST
             r = parse_element(c) if c.class == ElementAST
             r = parse_variable(c) if c.class == VariableAST
+            r = parse_keyword(c) if c.class == KeywordAST
             r
         end
     end
@@ -136,6 +137,10 @@ protected
 
     #Reimplement this
     def parse_variable(ast)
+    end
+
+    #Reimplement this
+    def parse_keyword(ast)
     end
 
 end

@@ -108,6 +108,15 @@ class ElementAST < AST
     attr_accessor :name, :attributes
 end
 
+# The node to represent special Mediawiki keywords, such as __TOC__. The text
+# attribute contains the entire string inbetween '__' and '__'.
+class KeywordAST < AST
+    attr_accessor :text
+end
+
+# The node to represent pre-defined (or user-defined) variables, such as
+# {{Date}}. The text attributes contains the entire string inbetween '{{'
+# and '}}'.
 class VariableAST < AST
     attr_accessor :text
 end
