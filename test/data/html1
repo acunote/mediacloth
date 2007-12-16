@@ -10,11 +10,11 @@ Another one.
 
 </p><p>We can have headlines:
 
-</p><h1> Headline1 </h1><h2> Headline2 </h2><h3> Headline3 </h3><h4> Headline4 </h4><h5> Headline5 </h5><h6> Headline6 </h6><h7> Headline7 </h7><p>
+</p><h1><a name='Headline1'/> Headline1 </h1><h2><a name='Headline2'/> Headline2 </h2><h3><a name='Headline3'/> Headline3 </h3><h4><a name='Headline4'/> Headline4 </h4><h5><a name='Headline5'/> Headline5 </h5><h6><a name='Headline6'/> Headline6 </h6><h7><a name='Headline7'/> Headline7 </h7><p>
 
 </p><p>Headlines may have formatting:
 
-</p><h1> See <a href="javascript:void(0)">Internal Link</a> for more info </h1><h2> This is an <b>important</b> heading </h2><p>
+</p><h1><a name='See_for_more_info'/> See <a href="javascript:void(0)">Internal Link</a> for more info </h1><h2><a name='This_is_an_important_heading'/> This is an <b>important</b> heading </h2><p>
 
 </p><pre> This is a preformatted <b> </b> &lt;&lt; <i> </i> text
  yes

@@ -25,16 +25,16 @@ Test bold and italic wrapped around inline links:
 Test unclosed bold and italic formatting:
 
 </p><p><i>Some italic and now </i>bold
-</p><h2>Heading</h2><p>
+</p><h2><a name='Heading'/>Heading</h2><p>
 Text
 
 </p><p><i>Some italic and now <b>bold
-</b></i></p><h2>Heading</h2><p>
+</b></i></p><h2><a name='Heading'/>Heading</h2><p>
 Text
 
 </p><p><i>Some italic and now <b>bold
 
-</b></i></p><h2>Heading</h2><p>
+</b></i></p><h2><a name='Heading'/>Heading</h2><p>
 Text
 
 </p><p><i>Some italic and now <b>bold
