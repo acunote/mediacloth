@@ -11,7 +11,7 @@ class MediaWikiLexer
   
   INLINE_ELEMENTS = [:LINK, :INTLINK, :BOLD, :ITALIC]
   BLOCK_ELEMENTS = [:PARA, :PRE, :UL, :OL, :DL, :LI, :SECTION, :TABLE, :ROW, :CELL, :HEAD]
-  PARA_BREAK_ELEMENTS = [:UL, :OL, :DL, :PRE, :SECTION, :TABLE, :HLINE]
+  PARA_BREAK_ELEMENTS = [:UL, :OL, :DL, :PRE, :SECTION, :TABLE, :HLINE, :KEYWORD]
   
   NAME_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-]/ ? true : false}
   TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;?&~=#\/]/ ? true : false}
