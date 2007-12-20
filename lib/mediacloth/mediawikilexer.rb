@@ -255,7 +255,7 @@ class MediaWikiLexer
     next_char = @text[@cursor + 1]
     if next_char == 47
       # Might be an XHTML end tag
-      if @text[@cursor .. -1] =~ %r{</([a-zA-Z][a-zA-Z0-9\-_]*)(\s*)>}
+      if @text[@cursor .. -1] =~ %r{</([a-zA-Z][a-zA-Z0-9\-_]*)(\s*)>} and @context.include?(:TAG)
         # Found an XHTML end tag
         tag_name = $1
         end_span(:TAG, $1)
@@ -742,8 +742,8 @@ class MediaWikiLexer
     append_to_tokens [(symbol.to_s + '_START').to_sym, text]
   end
     
-  # Close a token span for the symbol specified. This will append a token end
-  # to the list of output tokens, and pop the symol from the context stack. Any
+  # Close a token span for the symbol specified. This will append an end token
+  # to the list of output tokens, and pop the symbol from the context stack. Any
   # unclosed contexts on top of this symbol's context will also be close (this
   # generally happens when in-line markup is not terminated before a new block
   # begins). If the context is empty as a result, a new paragraph will be opened.
