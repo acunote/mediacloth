@@ -15,7 +15,7 @@ task :parser => "lib/mediacloth/mediawikiparser.rb"
 
 
 desc 'Test'
-Rake::TestTask.new(:test) do |t|
+Rake::TestTask.new(:test => [:parser]) do |t|
     t.libs << 'lib'
     t.libs << 'test'
     t.pattern = 'test/*.rb'
