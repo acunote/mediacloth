@@ -8,10 +8,14 @@ SPEC = Gem::Specification.new do |s|
     s.homepage  = "http://mediacloth.rubyforge.org/"
     s.platform  = Gem::Platform::RUBY
     s.summary   = "A MediaWiki syntax parser and HTML generator."
+
+    s.add_dependency('builder',    '>= 2.1.2')
+
     candidates  = Dir.glob("{bin,docs,lib,test}/**/*")
     s.files     = candidates.delete_if do |item|
                     item.include?(".svn") || item.include?("rdoc")
                   end
+
     s.require_path      = "lib"
     s.autorequire       = "mediacloth"
     s.has_rdoc          = true

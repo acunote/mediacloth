@@ -12,7 +12,7 @@ require 'mediacloth/mediawikiast'
 
 class MediaWikiParser < Racc::Parser
 
-module_eval <<'..end mediawikiparser.y modeval..id0796510651', 'mediawikiparser.y', 474
+module_eval <<'..end mediawikiparser.y modeval..id6b37ece63a', 'mediawikiparser.y', 474
 
 attr_accessor :lexer
 
@@ -33,7 +33,7 @@ end
 def next_token
     return @lexer.lex
 end
-..end mediawikiparser.y modeval..id0796510651
+..end mediawikiparser.y modeval..id6b37ece63a
 
 ##### racc 1.4.5 generates ###
 
