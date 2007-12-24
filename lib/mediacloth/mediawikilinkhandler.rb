@@ -34,6 +34,11 @@ class MediaWikiLinkHandler
   #return an 'a' tag, but any string can be used here like span, or bold
   #tags. This method overwrites anything provided by the <tt>url_for</tt>,
   #<tt>options_for</tt> or <tt>link_attributes_for</tt> methods.
+  #
+  #The <tt>elem</tt> method may be used by subclasses for easier and safer text
+  #handling. For example: <tt>elem.a(:href => 'http://www.example.com')
+  #{ |x| x << text }</tt> will emit a link for example.com with the given link
+  #text
   def link_for(page, text)
     elem.a(link_attributes_for(page)) { |x| x << text }
   end
@@ -53,6 +58,8 @@ class MediaWikiLinkHandler
 
 protected
 
+  #A Builder object for rendering XHTML code without having to deal directly
+  #with text. See http://builder.rubyforge.org for usage details.
   def elem
     Builder::XmlMarkup.new
   end
