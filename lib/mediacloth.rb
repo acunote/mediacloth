@@ -4,6 +4,7 @@ require 'mediacloth/mediawikiast'
 require 'mediacloth/mediawikiparams'
 require 'mediacloth/mediawikiwalker'
 require 'mediacloth/mediawikihtmlgenerator'
+require 'mediacloth/mediawikilinkhandler'
 
 #Helper module to facilitate MediaCloth usage.
 module MediaCloth
