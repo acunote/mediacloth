@@ -1,7 +1,4 @@
-require 'mediacloth/mediawikilexer'
-require 'mediacloth/mediawikiparser'
-require 'mediacloth/mediawikiparams'
-require 'mediacloth/mediawikihtmlgenerator'
+require 'mediacloth'
 
 def produce(index)
     file = File.new("../test/data/html#{index}", "w")
