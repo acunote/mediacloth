@@ -18,7 +18,7 @@ class HTMLGenerator_Test < Test::Unit::TestCase
     end
 
     def test_uses_element_attributes_from_link_handler
-      assert_generates '<p><a href="http://www.example.com/wiki/InternalLink" class="empty">This is just an internal link</a></p>',
+      assert_generates '<p><a class="empty" href="http://www.example.com/wiki/InternalLink">This is just an internal link</a></p>',
                        '[[InternalLink|This is just an internal link]]',
                         ClassEmptyLinkHandler.new
     end
