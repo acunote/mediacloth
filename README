@@ -11,16 +11,11 @@ The quickest way to parse your input and produce html formatted text is:
  require 'mediacloth'
  puts MediaCloth::wiki_to_html("'''Hello'''''World''!")
 
-Alternatively, it's possible to create and use each component of MediaCloth manually:
+You can also provide a hash with custom options if you want to use another
+generator or link handler:
  require 'mediacloth'
-
- parser = MediaWikiParser.new
- parser.lexer = MediaWikiLexer.new
- ast = parser.parse("'''Hello'''''World''!")
- walker = MediaWikiHTMLGenerator.new
- walker.parse(ast)
- puts walker.html
-This is useful if you want to use another generator.
+ puts MediaCloth::wiki_to_html("'''Hello'''''World''!",
+                               :link_handler => MyLinkHandler.new)
 
 Both examples should produce
  <b>Hello</b><i>World</i>!
