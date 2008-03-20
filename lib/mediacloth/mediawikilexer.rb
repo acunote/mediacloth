@@ -398,7 +398,7 @@ class MediaWikiLexer
   end
 
   def match_h_char
-    if @text[@cursor, 7] == 'http://'
+    if @text[@cursor, 7] == 'http://' || @text[@cursor, 8] == 'https://'
       text = @text[@cursor, 7]
       @cursor += 7
       while @cursor < @text.size and TOKEN_CHAR_TABLE[@text[@cursor]] do

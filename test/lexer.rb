@@ -138,6 +138,10 @@ class Lexer_Test < Test::Unit::TestCase
         [:PARA_END, ""], [false, false]],
       lex("http://example.com"))
     assert_equal(
+      [[:PARA_START, ""], [:LINK_START, ""], [:TEXT, "https://example.com"], [:LINK_END, ""],
+        [:PARA_END, ""], [false, false]],
+      lex("https://example.com"))
+    assert_equal(
       [[:PARA_START, ""], [:LINK_START, ""], [:TEXT, "http://example.com"], [:LINK_END, ""],
         [:PARA_END, ""], [false, false]],
       lex("http://example.com\n"))
