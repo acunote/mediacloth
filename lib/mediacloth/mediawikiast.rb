@@ -45,6 +45,13 @@ class InternalLinkAST < AST
     attr_accessor :locator
 end
 
+#The node to represent a Mediawiki category link
+class CategoryLinkAST < AST
+    #Holds the category locator, which is composed of a category name only
+    #(e.g. the name of the category)
+    attr_accessor :locator
+end
+
 #The node to represent a MediaWiki resource reference (embedded images, videos,
 #etc.)
 class ResourceLinkAST < AST
@@ -119,4 +126,12 @@ end
 # and '}}'.
 class VariableAST < AST
     attr_accessor :text
+end
+
+#The node to represent categories to which this page belongs
+class CategoryAST < AST
+    #Holds the name of the category
+    attr_accessor :locator
+    #Holds the string the page is to be sorted as
+    attr_accessor :sort_as
 end

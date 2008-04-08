@@ -129,6 +129,17 @@ protected
         link_handler.link_for_resource(ast.prefix, ast.locator, options)
     end
 
+    def parse_category_link(ast)
+        text = parse_wiki_ast(ast)
+        text = MediaWikiHTMLGenerator.escape(ast.locator) if text.length == 0
+        link_handler.link_for_category(ast.locator, text)
+    end
+
+    def parse_category(ast)
+      text = parse_wiki_ast(ast)
+      link_handler.category_add(ast.locator, ast.sort_as)
+    end
+
     def parse_internal_link_item(ast)
         text = super(ast)
         text.strip

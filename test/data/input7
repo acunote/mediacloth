@@ -43,3 +43,15 @@ http://sun.com
 [[]]
 
 [[ ]]
+
+[[Category:Category]]
+
+[[Category:Category name]]
+
+[[Category:Category name|Sort as]]
+
+[[:Category:Category]]
+
+[[:Category:Category name]]
+
+[[:Category:Category name|Foo]]

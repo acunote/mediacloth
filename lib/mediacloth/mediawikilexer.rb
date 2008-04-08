@@ -83,6 +83,15 @@ class MediaWikiLexer
     @intlink_lexer_table["\n"] = method(:match_newline_in_intlink)
     @intlink_lexer_table[":"] = method(:match_colon_in_intlink)
     @intlink_lexer_table["|"] = method(:match_pipe_in_intlink)
+    @intlink_lexer_table["C"] = method(:match_c_char_in_intlink)
+    
+    # Lexer table used inside the category name of the left half of an 
+    # internal link
+    @intlink_cat_lexer_table = {}
+    @intlink_cat_lexer_table["]"] = method(:match_right_square_in_intlink)
+    @intlink_cat_lexer_table["\r"] = method(:match_newline_in_intlink)
+    @intlink_cat_lexer_table["\n"] = method(:match_newline_in_intlink)
+    @intlink_cat_lexer_table["|"] = method(:match_pipe_in_intlink)    
     
     # Lexer table used inside the right half of an internal link
     @intlink_opt_lexer_table = @formatting_lexer_table.dup
@@ -381,10 +390,23 @@ class MediaWikiLexer
   end
   
   def match_colon_in_intlink
+    if not @pending.is_empty_token?
+      @lexer_table.pop
+      @lexer_table.push(@resourcelink_opt_lexer_table)  
+    end
     append_to_tokens([:RESOURCESEP, ":"])
-    @lexer_table.pop
-    @lexer_table.push(@resourcelink_opt_lexer_table)
     @cursor += 1
+  end
+  
+  def match_c_char_in_intlink
+    if @text[@cursor, 9] == 'Category:'
+      append_to_tokens([:CATEGORY, 'Category:'])
+      @lexer_table.pop
+      @lexer_table.push(@intlink_cat_lexer_table)
+      @cursor += 9
+    else
+      match_text
+    end
   end
   
   def match_newline_in_link

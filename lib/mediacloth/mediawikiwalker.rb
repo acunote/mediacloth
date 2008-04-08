@@ -31,12 +31,14 @@ protected
             r = parse_link(c) if c.class == LinkAST
             r = parse_internal_link(c) if c.class == InternalLinkAST
             r = parse_resource_link(c) if c.class == ResourceLinkAST
+            r = parse_category_link(c) if c.class == CategoryLinkAST
             r = parse_internal_link_item(c) if c.class == InternalLinkItemAST
             r = parse_table(c) if c.class == TableAST
             r = parse_table_row(c) if c.class == TableRowAST
             r = parse_table_cell(c) if c.class == TableCellAST
             r = parse_element(c) if c.class == ElementAST
             r = parse_variable(c) if c.class == VariableAST
+            r = parse_category(c) if c.class == CategoryAST
             r = parse_keyword(c) if c.class == KeywordAST
             r
         end
@@ -111,6 +113,13 @@ protected
     end
 
     #Reimplement this
+    def parse_category_link(ast)
+        ast.children.map do |c|
+            parse_internal_link_item(c) if c.class == InternalLinkItemAST
+        end
+    end
+
+    #Reimplement this
     def parse_internal_link_item(ast)
         parse_wiki_ast(ast)
     end
@@ -137,6 +146,10 @@ protected
 
     #Reimplement this
     def parse_variable(ast)
+    end
+
+    #Reimplement this
+    def parse_category(ast)
     end
 
     #Reimplement this

@@ -56,6 +56,13 @@ class MediaWikiLinkHandler
     "<a href=\"javascript:void(0)\">#{prefix}:#{resource}(#{options.join(', ')})</a>"
   end
 
+  def category_add(name, sort)
+  end
+
+  def link_for_category(category, text)
+    "<a href=\"javascript:void(0)\">#{text}</a>"
+  end
+
 protected
 
   #A Builder object for rendering XHTML code without having to deal directly

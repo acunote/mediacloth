@@ -14,7 +14,7 @@ token TEXT BOLD_START BOLD_END ITALIC_START ITALIC_END LINK_START LINK_END LINKS
     PARA_START PARA_END UL_START UL_END OL_START OL_END LI_START LI_END
     DL_START DL_END DT_START DT_END DD_START DD_END TAG_START TAG_END ATTR_NAME ATTR_VALUE
     TABLE_START TABLE_END ROW_START ROW_END HEAD_START HEAD_END CELL_START CELL_END
-    KEYWORD VARIABLE_START VARIABLE_END
+    KEYWORD VARIABLE_START VARIABLE_END CATEGORY
 
 
 rule
@@ -97,6 +97,20 @@ contents:
             l = InternalLinkAST.new
             l.locator = val[1]
             l.children = val[2] unless val[2].nil? or val[2].empty?
+            result = l
+        }
+    | INTLINK_START CATEGORY TEXT cat_sort_contents INTLINK_END
+        {
+            l = CategoryAST.new
+            l.locator = val[2]
+            l.sort_as = val[3]
+            result = l
+        }
+    | INTLINK_START RESOURCESEP CATEGORY TEXT intlink_repeated_contents INTLINK_END
+        {
+            l = CategoryLinkAST.new
+            l.locator = val[3]
+            l.children = val[4] unless val[4].nil? or val[4].empty?
             result = l
         }
     | table
@@ -186,6 +200,16 @@ intlink_repeated_contents:
             result = nil
         }
     | INTLINKSEP repeated_contents
+        {
+            result = val[1]
+        }
+    ;
+
+cat_sort_contents:
+        {
+            result = nil
+        }
+    | INTLINKSEP TEXT
         {
             result = val[1]
         }

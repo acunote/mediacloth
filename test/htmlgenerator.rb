@@ -47,6 +47,18 @@ class HTMLGenerator_Test < Test::Unit::TestCase
                         FullLinkHandler.new
     end
 
+    def test_handles_category_links
+      assert_generates '<p><a class="category" href="http://www.mywiki.net/wiki/Category:Foo">More articles on Foo</a></p>',
+                       "[[:Category:Foo|More articles on Foo]]",
+                        CategoryLinkHandler.new
+    end
+
+    def test_handles_category_directives
+      assert_generates '<p><div id="catlinks">This page belongs to the <a class="category" href="http://www.mywiki.net/wiki/Category:Foo">Foo category</a></div></p>',
+                       "[[Category:Foo]]",
+                        CategoryDirectiveHandler.new
+    end
+
 private
 
   def assert_generates(result, input, link_handler=nil, message=nil)
@@ -94,4 +106,17 @@ class FullLinkHandler < MediaWikiLinkHandler
     "<span class=\"link\">#{text}</span>"
   end
 end
+
+class CategoryLinkHandler 
+  def link_for_category(locator, text)
+    %(<a class="category" href="http://www.mywiki.net/wiki/Category:#{locator}">#{text}</a>)
+  end
+end
+
+class CategoryDirectiveHandler
+  def category_add(name, sort)
+    %(<div id="catlinks">This page belongs to the <a class="category" href="http://www.mywiki.net/wiki/Category:#{name}">#{name} category</a></div>)
+  end
+end
+
 
