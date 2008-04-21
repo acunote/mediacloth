@@ -60,8 +60,12 @@ protected
     end
 
     def parse_paragraph(ast)
-        if ast.children
-            "<p>" + super(ast) + "</p>"
+        if (children = ast.children)
+          if children.size == 1 and ((text = children.first.contents) == "\n\n" || text == "\r\n\r\n")
+            "<p><br />#{text}</p>"
+          else
+            "<p>#{super(ast)}</p>"
+          end
         else
             "<p><br /></p>"
         end
