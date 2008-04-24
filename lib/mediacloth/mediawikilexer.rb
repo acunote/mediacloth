@@ -25,7 +25,7 @@ class MediaWikiLexer
     # text; or spans of XHTML, or wiki-escape, markup
     @formatting_lexer_table = {}
     @formatting_lexer_table["'"] = method(:match_quote)
-    @formatting_lexer_table["<"] = method(:match_right_angle)
+    @formatting_lexer_table["<"] = method(:match_left_angle)
     @formatting_lexer_table["&"] = method(:match_ampersand)
     @formatting_lexer_table["{"] = method(:match_left_curly)
     
@@ -128,8 +128,12 @@ class MediaWikiLexer
     @pre_lexer_table["\n"] = method(:match_newline_in_pre)
         
     # Lexer table used when inside spans of wiki-escaped text
-    @escape_lexer_table = {}
-    @escape_lexer_table["<"] = method(:match_right_angle_in_tag)
+    @nowiki_lexer_table = {}
+    @nowiki_lexer_table["<"] = method(:match_left_angle_in_nowiki)
+        
+    # Lexer table used when inside spans of math
+    @math_lexer_table = {}
+    @math_lexer_table["<"] = method(:match_left_angle_in_math)
         
     # Lexer table used when inside a wiki variable reference
     @variable_lexer_table = {}
@@ -260,7 +264,7 @@ class MediaWikiLexer
     end
   end
     
-  def match_right_angle
+  def match_left_angle
     next_char = @text[@cursor + 1]
     if next_char == 47
       # Might be an XHTML end tag
@@ -287,7 +291,10 @@ class MediaWikiLexer
         if ((c = scanner.get_byte) == '>' or (c == '/' and scanner.get_byte == '>'))
           # Found an XHTML start or empty tag
           if tag_name == 'nowiki'
-            @lexer_table.push(@escape_lexer_table)
+            @lexer_table.push(@nowiki_lexer_table)
+          elsif tag_name == 'math'
+            @lexer_table.push(@math_lexer_table)
+            start_span(:TAG, tag_name)
           else
             start_span(:TAG, tag_name)
             attrs.collect do
@@ -531,9 +538,19 @@ class MediaWikiLexer
     end
   end
     
-  def match_right_angle_in_tag
+  def match_left_angle_in_nowiki
     if @text[@cursor, 9] == '</nowiki>'
       @cursor += 9
+      @lexer_table.pop
+    else
+      match_text
+    end
+  end
+    
+  def match_left_angle_in_math
+    if @text[@cursor, 7] == '</math>'
+      end_span(:TAG, 'math')
+      @cursor += 7
       @lexer_table.pop
     else
       match_text

@@ -337,6 +337,12 @@ class Lexer_Test < Test::Unit::TestCase
       lex("<nowiki><u>uuu</u></nowiki>"))
   end
   
+  def test_math
+    assert_equal([[:PARA_START, ""], [:TAG_START, "math"], [:TEXT, "1 == 1 == 1"], [:TAG_END, "math"],
+        [:PARA_END, ""], [false, false]],
+      lex("<math>1 == 1 == 1</math>"))
+  end
+  
   def test_variable
     assert_equal([[:PARA_START, ""], [:VARIABLE_START, "{{"], [:TEXT, "ref"], [:VARIABLE_END, "}}"],
         [:PARA_END, ""], [false, false]],
