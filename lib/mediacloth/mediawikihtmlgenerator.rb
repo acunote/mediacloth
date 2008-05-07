@@ -49,7 +49,7 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
     # Utility method that converts the string specified into a specially formatted text
     # string which can be used as an XHTML link anchor name.
     def MediaWikiHTMLGenerator.anchor_for(str)
-      str.strip.squeeze(' ').gsub(' ', '_')
+      str.strip.squeeze(' ').gsub(' ', '_').gsub('\'', '_')
     end
 
     

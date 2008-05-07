@@ -32,3 +32,5 @@ This is a text after the line.
 
 *foo
 * foo2
+
+== There aren't any closing quotes inside this headline's name ==
