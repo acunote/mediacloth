@@ -335,11 +335,7 @@ class MediaWikiLexer
     if @heading.length <= heading.length 
       end_span(:SECTION, heading)
       @lexer_table.pop
-      if @text[@cursor, 2] == "\r\n"
-        @cursor += 2
-      elsif @text[@cursor, 1] == "\n"
-        @cursor += 1
-      end
+      skip_newline
     else
       @pending << heading
     end
@@ -614,6 +610,7 @@ class MediaWikiLexer
         end_span(:TABLE, "|}")
         @cursor += 1
         @lexer_table.pop
+        skip_newline
       else
         if context.include? :CELL
           end_span(:CELL)
@@ -727,6 +724,18 @@ class MediaWikiLexer
   # any of the blank characters to the pending text buffer
   def skip_whitespace 
     @cursor += 1 while @text[@cursor, 1] == ' '
+  end
+  
+  # Advances the text cursor beyond the next newline sequence, if any. This is 
+  # used to strip newlines after certain block-level elements, like section
+  # headings and tables, to prevent an empty paragraph when the block is followed
+  # by an extra newline sequence.
+  def skip_newline
+    if @text[@cursor, 2] == "\r\n"
+      @cursor += 2
+    elsif @text[@cursor, 1] == "\n"
+      @cursor += 1
+    end
   end
   
   # Extracts from the input text the sequence of characters consisting of the
