@@ -63,11 +63,11 @@ class Lexer_Test < Test::Unit::TestCase
       lex("text\r\n=heading="))
     assert_equal(
       [[:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="],
-        [:PARA_START, ""], [:TEXT, "\ntext"], [:PARA_END, ""], [false,false]],
+        [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]],
       lex("=heading=\ntext"))
     assert_equal(
       [[:SECTION_START, "="], [:TEXT, "heading"], [:SECTION_END, "="],
-        [:PARA_START, ""], [:TEXT, "\r\ntext"], [:PARA_END, ""], [false,false]],
+        [:PARA_START, ""], [:TEXT, "text"], [:PARA_END, ""], [false,false]],
       lex("=heading=\r\ntext"))
     assert_equal(
       [[:PARA_START, ""], [:TEXT, "text\n\n"], [:PARA_END, ""],

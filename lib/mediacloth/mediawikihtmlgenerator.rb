@@ -117,7 +117,7 @@ protected
     def parse_section(ast)
         generator = TextGenerator.new
         anchor = MediaWikiHTMLGenerator.anchor_for(generator.parse(ast).join(' '))
-        "<h#{ast.level}><a name='#{anchor}'></a>" + super(ast) + "</h#{ast.level}>"
+        "<h#{ast.level}><a name='#{anchor}'></a>" + super(ast) + "</h#{ast.level}>\n"
     end
     
     def parse_internal_link(ast)

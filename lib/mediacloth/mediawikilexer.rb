@@ -335,6 +335,11 @@ class MediaWikiLexer
     if @heading.length <= heading.length 
       end_span(:SECTION, heading)
       @lexer_table.pop
+      if @text[@cursor, 2] == "\r\n"
+        @cursor += 2
+      elsif @text[@cursor, 1] == "\n"
+        @cursor += 1
+      end
     else
       @pending << heading
     end
