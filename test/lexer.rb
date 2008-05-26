@@ -355,6 +355,10 @@ class Lexer_Test < Test::Unit::TestCase
       lex("{{ref1\n{|\n|not a table!\n|} }}"))
     assert_equal([[:PARA_START, ""], [:TEXT, "{{}}"], [:PARA_END, ""], [false, false]],
       lex("{{}}"))
+    assert_equal([[:PARA_START, ""], [:VARIABLE_START, "{{"], [:TEXT, "xxx"], [:VARIABLE_START, "{{"], 
+        [:TEXT, "iii"], [:VARIABLE_END, "}}"], [:TEXT, "xxx"], [:VARIABLE_END, "}}"],
+        [:PARA_END, ""], [false, false]],
+      lex("{{xxx{{iii}}xxx}}"))
   end
   
   def test_xhtml_markup

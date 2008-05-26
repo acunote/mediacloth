@@ -481,11 +481,30 @@ section: SECTION_START repeated_contents SECTION_END
         }
     ;
 
-variable: VARIABLE_START TEXT VARIABLE_END
+variable: VARIABLE_START variable_contents VARIABLE_END
         {
             v = VariableAST.new
-            v.text = val[1]
+            v.children = val[1]
             result = v
+        }
+    ;
+
+variable_contents: 
+        TEXT
+        {
+            result = [val[0]]
+        }
+      | variable TEXT
+        {
+            result = [val[0], val[1]]
+        }
+      | TEXT variable
+        {
+            result = [val[0], val[1]]
+        }
+      | TEXT variable TEXT
+        {
+            result = [val[0], val[1], val[2]]
         }
     ;
 

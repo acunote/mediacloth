@@ -122,10 +122,8 @@ class KeywordAST < AST
 end
 
 # The node to represent pre-defined (or user-defined) variables, such as
-# {{Date}}. The text attributes contains the entire string inbetween '{{'
-# and '}}'.
+# {{Date}}.
 class VariableAST < AST
-    attr_accessor :text
 end
 
 #The node to represent categories to which this page belongs

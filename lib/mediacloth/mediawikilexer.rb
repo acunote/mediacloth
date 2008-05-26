@@ -137,6 +137,7 @@ class MediaWikiLexer
         
     # Lexer table used when inside a wiki variable reference
     @variable_lexer_table = {}
+    @variable_lexer_table["{"] = method(:match_left_curly_in_variable)
     @variable_lexer_table["}"] = method(:match_right_curly_in_variable)
         
     # Begin lexing in default state
@@ -564,6 +565,16 @@ class MediaWikiLexer
       @cursor += 2
       @lexer_table.push(@table_lexer_table)
     elsif @text[@cursor + 1, 1] == '{' and @text[@cursor + 2, 2] != "}}"
+      start_span(:VARIABLE, "{{")
+      @cursor += 2
+      @lexer_table.push(@variable_lexer_table)
+    else
+      match_text
+    end
+  end
+  
+  def match_left_curly_in_variable
+    if @text[@cursor + 1, 1] == '{' and @text[@cursor + 2, 2] != "}}"
       start_span(:VARIABLE, "{{")
       @cursor += 2
       @lexer_table.push(@variable_lexer_table)
