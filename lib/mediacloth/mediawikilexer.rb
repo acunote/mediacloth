@@ -296,24 +296,24 @@ class MediaWikiLexer
         if ((c = scanner.get_byte) == '>' or (c == '/' and scanner.get_byte == '>'))
           # Found an XHTML start or empty tag
           if tag_name == 'nowiki'
-            @lexer_table.push(@nowiki_lexer_table)
-          elsif tag_name == 'math'
-            @lexer_table.push(@math_lexer_table)
-            start_span(:TAG, tag_name)
-          elsif tag_name == 'pre'
-            @lexer_table.push(@pre_lexer_table)
-            start_span(:TAG, tag_name)
+            @lexer_table.push(@nowiki_lexer_table) unless c == '/'
           else
+            if tag_name == 'pre'
+              table = @pre_lexer_table
+            elsif tag_name == 'math'
+              table = @math_lexer_table
+            else
+              table = @markup_lexer_table
+            end
             start_span(:TAG, tag_name)
-            attrs.collect do
-              |(name, value)| 
+            attrs.collect do |(name, value)| 
               append_to_tokens([:ATTR_NAME, name])
               append_to_tokens([:ATTR_VALUE, value]) if value
             end
             if c == '/'
               end_span(:TAG, tag_name)
             else
-              @lexer_table.push(@markup_lexer_table)
+              @lexer_table.push(table)
             end
           end
           @cursor += scanner.pos

@@ -335,18 +335,24 @@ class Lexer_Test < Test::Unit::TestCase
       lex("text<nowiki>''italic''</nowiki>text"))
     assert_equal([[:PARA_START, ""], [:TEXT, "<u>uuu</u>"], [:PARA_END, ""], [false, false]],
       lex("<nowiki><u>uuu</u></nowiki>"))
+    assert_equal([[:PARA_START, ""], [:TEXT, "texttext"], [:PARA_END, ""], [false, false]],
+      lex("text<nowiki/>text"))
   end
   
   def test_math
     assert_equal([[:PARA_START, ""], [:TAG_START, "math"], [:TEXT, "1 == 1 == 1"], [:TAG_END, "math"],
         [:PARA_END, ""], [false, false]],
       lex("<math>1 == 1 == 1</math>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "math"], [:TAG_END, "math"], [:PARA_END, ""], [false, false]],
+      lex("<math/>"))
   end
   
   def test_pre
-    assert_equal([[:PARA_START, ""], [:TAG_START, "pre"], [:TEXT, "1 == 1 == 1"], [:TAG_END, "pre"],
-        [:PARA_END, ""], [false, false]],
-      lex("<pre>1 == 1 == 1</pre>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "pre"], [:ATTR_NAME, "name"], [:ATTR_VALUE, "code"],
+        [:TEXT, "1 == 1 == 1"], [:TAG_END, "pre"], [:PARA_END, ""], [false, false]],
+      lex("<pre name='code'>1 == 1 == 1</pre>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "pre"], [:TAG_END, "pre"], [:PARA_END, ""], [false, false]],
+      lex("<pre/>"))
   end
   
   def test_variable
