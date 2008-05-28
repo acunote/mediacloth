@@ -123,9 +123,13 @@ class MediaWikiLexer
     @entries_lexer_table["\n"] = method(:match_newline_in_entries)
     @entries_lexer_table[":"] = method(:match_colon_in_entries)
     
+    # Lexer table used inside spans of indented text
+    @indent_lexer_table = @inline_lexer_table.dup
+    @indent_lexer_table["\n"] = method(:match_newline_in_indent)
+    
     # Lexer table used inside spans of pre-formatted text
     @pre_lexer_table = @inline_lexer_table.dup
-    @pre_lexer_table["\n"] = method(:match_newline_in_pre)
+    @pre_lexer_table["<"] = method(:match_left_angle_in_pre)
         
     # Lexer table used when inside spans of wiki-escaped text
     @nowiki_lexer_table = {}
@@ -296,6 +300,9 @@ class MediaWikiLexer
           elsif tag_name == 'math'
             @lexer_table.push(@math_lexer_table)
             start_span(:TAG, tag_name)
+          elsif tag_name == 'pre'
+            @lexer_table.push(@pre_lexer_table)
+            start_span(:TAG, tag_name)
           else
             start_span(:TAG, tag_name)
             attrs.collect do
@@ -447,14 +454,14 @@ class MediaWikiLexer
   def match_space
     if at_start_of_line?
       start_span(:PRE)
-      @lexer_table.push(@pre_lexer_table)
+      @lexer_table.push(@indent_lexer_table)
       match_text
     else
       match_text
     end
   end
   
-  def match_newline_in_pre
+  def match_newline_in_indent
     match_text
     unless @text[@cursor, 1] == " "
       @tokens << [:TEXT, @pending]
@@ -552,6 +559,16 @@ class MediaWikiLexer
   def match_left_angle_in_math
     if @text[@cursor, 7] == '</math>'
       end_span(:TAG, 'math')
+      @cursor += 7
+      @lexer_table.pop
+    else
+      match_text
+    end
+  end
+    
+  def match_left_angle_in_pre
+    if @text[@cursor, 7] == '</pre>'
+      end_span(:TAG, 'pre')
       @cursor += 7
       @lexer_table.pop
     else
