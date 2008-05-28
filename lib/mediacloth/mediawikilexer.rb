@@ -128,7 +128,7 @@ class MediaWikiLexer
     @indent_lexer_table["\n"] = method(:match_newline_in_indent)
     
     # Lexer table used inside spans of pre-formatted text
-    @pre_lexer_table = @inline_lexer_table.dup
+    @pre_lexer_table = {}
     @pre_lexer_table["<"] = method(:match_left_angle_in_pre)
         
     # Lexer table used when inside spans of wiki-escaped text
