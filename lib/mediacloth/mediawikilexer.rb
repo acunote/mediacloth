@@ -567,9 +567,9 @@ class MediaWikiLexer
   end
     
   def match_left_angle_in_pre
-    if @text[@cursor, 7] == '</pre>'
+    if @text[@cursor, 6] == '</pre>'
       end_span(:TAG, 'pre')
-      @cursor += 7
+      @cursor += 6
       @lexer_table.pop
     else
       match_text

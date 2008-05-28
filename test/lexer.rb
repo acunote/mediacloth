@@ -343,6 +343,10 @@ class Lexer_Test < Test::Unit::TestCase
     assert_equal([[:PARA_START, ""], [:TAG_START, "math"], [:TEXT, "1 == 1 == 1"], [:TAG_END, "math"],
         [:PARA_END, ""], [false, false]],
       lex("<math>1 == 1 == 1</math>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "math"], [:TEXT, "1 == 1"], [:TAG_END, "math"],
+        [:TEXT, "xxx"], [:TAG_START, "math"], [:TEXT, "1 == 1"], [:TAG_END, "math"],
+        [:PARA_END, ""], [false, false]],
+      lex("<math>1 == 1</math>xxx<math>1 == 1</math>"))
     assert_equal([[:PARA_START, ""], [:TAG_START, "math"], [:TAG_END, "math"], [:PARA_END, ""], [false, false]],
       lex("<math/>"))
   end
@@ -353,6 +357,9 @@ class Lexer_Test < Test::Unit::TestCase
       lex("<pre name='code'>1 == 1 == 1</pre>"))
     assert_equal([[:PARA_START, ""], [:TAG_START, "pre"], [:TAG_END, "pre"], [:PARA_END, ""], [false, false]],
       lex("<pre/>"))
+    assert_equal([[:PARA_START, ""], [:TAG_START, "pre"], [:TEXT, "1 == 1"], [:TAG_END, "pre"], [:TEXT, "\nxxx\n"],
+        [:TAG_START, "pre"], [:TEXT, "1 == 1"], [:TAG_END, "pre"], [:PARA_END, ""], [false, false]],
+      lex("<pre>1 == 1</pre>\nxxx\n<pre>1 == 1</pre>"))
   end
   
   def test_variable
