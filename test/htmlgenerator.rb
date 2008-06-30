@@ -6,6 +6,8 @@ require 'mediacloth/mediawikilinkhandler'
 require 'test/unit'
 require 'testhelper'
 
+require 'hpricot'
+
 class HTMLGenerator_Test < Test::Unit::TestCase
 
     include TestHelper
@@ -69,8 +71,12 @@ private
       generator = MediaWikiHTMLGenerator.new
       generator.link_handler = link_handler if link_handler
       generator.parse(ast)
-      assert_equal(result, generator.html, message)
-   end
+      assert_same_html(result, generator.html, message)
+  end
+
+  def assert_same_html(expected, result, message)
+    assert_equal(Hpricot(expected).to_s, Hpricot(result).to_s, message)
+  end
 end
 
 class LinkAttributeHandler < MediaWikiLinkHandler
