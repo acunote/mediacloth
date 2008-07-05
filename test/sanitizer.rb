@@ -66,6 +66,78 @@ class SanitizerTest < Test::Unit::TestCase
                              different colours}
   end
 
+  def test_keeps_headings
+    assert_no_sanitization "<h1>Heading 1</h1>
+                            <h2>Heading 2</h2>
+                            <h3>Heading 3</h3>
+                            <h4>Heading 4</h4>
+                            <h5>Heading 5</h5>
+                            <h6>Heading 6</h6>"
+  end
+
+  def test_keeps_divs
+    assert_no_sanitization "<div>Division</div>"
+  end
+
+  def test_keeps_center_tags
+    assert_no_sanitization "<center>Center</center>"
+  end
+
+  def test_keeps_blockquote_tags
+    assert_no_sanitization "<blockquote>Blockquote</blockquote>"
+  end
+
+  def test_keeps_ordered_and_unordered_lists
+    assert_no_sanitization "<ol>
+                              <li>Ordered</li>
+                              <li>List</li>
+                              <li>(And list items)</li>
+                            </ol>
+
+                            <ul>
+                              <li>Unordered</li>
+                              <li>List</li>
+                              <li>(And list items)</li>
+                            </ul>"
+  end
+
+  def test_keeps_table_and_main_components
+    assert_no_sanitization "<table>
+                              <tr><th>Table</th>    <th>tag</th>   <th /></tr>
+                              <tr><td>and</td>      <td>its</td>   <td>components</td></tr>
+                              <tr><td>including</td><td>header</td><td>tags</td></tr>
+                            </table>"
+  end
+
+  def test_keeps_ruby_tag_and_components
+    assert_no_sanitization "<ruby>
+                              <rb>Ruby base</rb>
+                              <rp>(</rp>
+                              <rt>Ruby text</rt>
+                              <rp>)</rp>
+                            </ruby>"
+  end
+
+  def test_keeps_paragraph_tags
+    assert_no_sanitization "We can also break <p>paragraphs</p> with HTML."
+  end
+
+  def test_keeps_linebreaks
+    assert_no_sanitization "Break lines with an empty element <br />
+                            Or using the opening tag only <br>"
+  end
+
+  def test_keeps_horizontal_rules
+    assert_no_sanitization "<hr />Display an horizontal rule"
+  end
+
+  def test_keeps_definition_lists
+    assert_no_sanitization "<dl>
+                              <dt>Definition terms</dt>
+                              <dd>And descriptions</dt>
+                            </dl>"
+  end
+
 private
 
   def assert_sanitizes_to(expected, actual)
