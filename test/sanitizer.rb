@@ -138,6 +138,25 @@ class SanitizerTest < Test::Unit::TestCase
                             </dl>"
   end
 
+  def test_sanitizes_thead_and_tbody_tags
+    assert_sanitizes_to "&lt;thead&gt;Table header&lt;/thead&gt;&lt;tbody&gt;Table body&lt;/tbody&gt;",
+                        "<thead>Table header</thead><tbody>Table body</tbody>"
+  end
+
+  def test_sanitizes_form_label_and_input_tags
+    assert_sanitizes_to %{&lt;form action="/send" method="post"&gt;
+                            &lt;label for="username"&gt;Username&lt;/label&gt;
+                            &lt;input name="login" id="username" /&gt;
+                          &lt;/form&gt;},
+                        %{<form action="/send" method="post">
+                            <label for="username">Username</label>
+                            <input name="login" id="username" />
+                          </form>}
+  end
+
+  # TODO sanitize tags with closing spaces
+  # TODO removes "on" attributes even in legal tags
+
 private
 
   def assert_sanitizes_to(expected, actual)
