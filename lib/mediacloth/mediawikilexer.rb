@@ -149,9 +149,22 @@ class MediaWikiLexer
     @lexer_table.push(@default_lexer_table)
   end
 
+  WHITELIST = %w{del  ins  b    i    em   u    s    strike    font
+                 big  small     sub  sup  cite code tt   var  strong
+                 span h1   h2   h3   h4   h5   h6   div  center
+                 blockquote     ol   li   ul   table     tr   th   td
+                 ruby rb   rp   rt   p    br   hr   dl   dt   dd
+                 pre  nowiki    math}
+
+  # Sanitizes thw raw wiki input for dangerous HTML tags
+  def sanitize(input)
+    input.gsub(/<(\/?)([^\s>\/]+)([^>]*)>/) do
+      WHITELIST.include?($2) ? $& : "&lt;#{$1}#{$2}#{$3}&gt;"
+    end
+  end
   
   def tokenize(input)
-    @text = input
+    @text = sanitize(input)
     # Current position in the input text
     @cursor = 0
     # Tokens to be returned

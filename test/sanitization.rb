@@ -1,13 +1,12 @@
-require 'mediacloth/mediawikisanitizer'
-
+require 'mediacloth/mediawikilexer'
 
 require 'test/unit'
 require 'testhelper'
 
-class SanitizerTest < Test::Unit::TestCase
+class SanitizationTest < Test::Unit::TestCase
 
   def setup
-    @@sanitizer ||= MediaWikiSanitizer.new
+    @@lexer ||= MediaWikiLexer.new
   end
 
   def test_sanitizes_script_tags
@@ -123,7 +122,7 @@ class SanitizerTest < Test::Unit::TestCase
   end
 
   def test_keeps_linebreaks
-    assert_no_sanitization "Break lines with an empty element <br />
+    assert_no_sanitization "Break lines with an empty element<br /><br/>
                             Or using the opening tag only <br>"
   end
 
@@ -136,6 +135,18 @@ class SanitizerTest < Test::Unit::TestCase
                               <dt>Definition terms</dt>
                               <dd>And descriptions</dt>
                             </dl>"
+  end
+
+  def test_keeps_preformatted_text
+    assert_no_sanitization "<pre>Preformatted\ntext</pre>"
+  end
+
+  def test_keeps_nowiki_tags
+    assert_no_sanitization "<nowiki>No wiki tag</nowiki>"
+  end
+
+  def test_keeps_math_tags
+    assert_no_sanitization "<math>1 == 1</math>"
   end
 
   def test_sanitizes_thead_and_tbody_tags
@@ -160,7 +171,7 @@ class SanitizerTest < Test::Unit::TestCase
 private
 
   def assert_sanitizes_to(expected, actual)
-    assert_equal expected, @@sanitizer.transform(actual)
+    assert_equal expected, @@lexer.sanitize(actual)
   end
 
   def assert_no_sanitization(expected)
