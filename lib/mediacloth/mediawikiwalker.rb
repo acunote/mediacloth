@@ -37,7 +37,7 @@ protected
             r = parse_table_row(c) if c.class == TableRowAST
             r = parse_table_cell(c) if c.class == TableCellAST
             r = parse_element(c) if c.class == ElementAST
-            r = parse_variable(c) if c.class == VariableAST
+            r = parse_template(c) if c.class == TemplateAST
             r = parse_category(c) if c.class == CategoryAST
             r = parse_keyword(c) if c.class == KeywordAST
             r
@@ -145,7 +145,7 @@ protected
     end
 
     #Reimplement this
-    def parse_variable(ast)
+    def parse_template(ast)
     end
 
     #Reimplement this

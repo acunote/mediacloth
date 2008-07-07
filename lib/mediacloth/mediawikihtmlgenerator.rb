@@ -30,6 +30,11 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
     def link_handler
       @link_handler ||= MediaWikiLinkHandler.new
     end
+
+    attr_writer :template_handler
+    def template_handler
+      @template_handler ||= MediaWikiTemplateHandler.new
+    end
     
     # Utility method that returns the string with '<', '>', '&' and '"' escaped as 
     # XHTML character entities
@@ -125,12 +130,19 @@ protected
         text = MediaWikiHTMLGenerator.escape(ast.locator) if text.length == 0
         link_handler.link_for(ast.locator, text)
     end
-     
+
     def parse_resource_link(ast)
         options = ast.children.map do |node|
             parse_internal_link_item(node)
         end
         link_handler.link_for_resource(ast.prefix, ast.locator, options)
+    end
+
+    def parse_template(ast)
+        parameters = ast.children.map do |node|
+            node.parameter_value
+        end
+        template_handler.included_template(ast.template_name, parameters)
     end
 
     def parse_category_link(ast)

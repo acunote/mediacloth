@@ -1342,7 +1342,7 @@ module_eval(<<'.,.,', 'mediawikiparser.y', 494)
 module_eval(<<'.,.,', 'mediawikiparser.y', 498)
   def _reduce_79(val, _values, result)
                 p = TemplateParameterAST.new
-            p.parameter_value = val[1]
+            p.children = val[1]
             result = [p]
             result += val[2] if val[2]
         

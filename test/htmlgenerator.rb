@@ -2,6 +2,7 @@ require 'mediacloth/mediawikilexer'
 require 'mediacloth/mediawikiparser'
 require 'mediacloth/mediawikihtmlgenerator'
 require 'mediacloth/mediawikilinkhandler'
+require 'mediacloth/mediawikitemplatehandler'
 
 require 'test/unit'
 require 'testhelper'

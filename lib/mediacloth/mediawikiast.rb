@@ -121,9 +121,16 @@ class KeywordAST < AST
     attr_accessor :text
 end
 
-# The node to represent pre-defined (or user-defined) variables, such as
+# The node to represent templates and pre-defined (or user-defined) variables, such as
 # {{Date}}.
-class VariableAST < AST
+class TemplateAST < AST
+    attr_accessor :template_name
+end
+
+# The node to represent template parameter
+class TemplateParameterAST < AST
+    attr_accessor :parameter_name   #not used atm
+    attr_accessor :parameter_value
 end
 
 #The node to represent categories to which this page belongs

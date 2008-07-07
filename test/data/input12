@@ -7,13 +7,20 @@ this &lt;&gt; that
 
 {{ref}}
 
-{{
-   one
-   two
-}}
-
 {{}}
 
-{{outer {{inner}}}}
-{{{{inner}} outer}}
-{{outer {{inner}} outer}}
+{{ }}
+
+{{ref|attr1}}
+
+{{ref|attr1|attr2|attr3}}
+
+{{ref with spaces|attr1 with spaces}}
+
+{{NS:ref}}
+
+{{NS:ref|attr}}
+
+{{NS: ref}}
+
+{{NS: ref|attr}}

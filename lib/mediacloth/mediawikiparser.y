@@ -14,7 +14,7 @@ token TEXT BOLD_START BOLD_END ITALIC_START ITALIC_END LINK_START LINK_END LINKS
     PARA_START PARA_END UL_START UL_END OL_START OL_END LI_START LI_END
     DL_START DL_END DT_START DT_END DD_START DD_END TAG_START TAG_END ATTR_NAME ATTR_VALUE
     TABLE_START TABLE_END ROW_START ROW_END HEAD_START HEAD_END CELL_START CELL_END
-    KEYWORD VARIABLE_START VARIABLE_END CATEGORY
+    KEYWORD TEMPLATE_START TEMPLATE_END CATEGORY
 
 
 rule
@@ -61,7 +61,7 @@ contents:
         {
             result = val[0]
         } 
-    | variable
+    | template
         {
             result = val[0]
         }
@@ -481,30 +481,25 @@ section: SECTION_START repeated_contents SECTION_END
         }
     ;
 
-variable: VARIABLE_START variable_contents VARIABLE_END
+template: TEMPLATE_START TEXT template_parameters TEMPLATE_END
         {
-            v = VariableAST.new
-            v.children = val[1]
-            result = v
+            t = TemplateAST.new
+            t.template_name = val[1]
+            t.children = val[2] unless val[2].nil? or val[2].empty?
+            result = t
         }
     ;
 
-variable_contents: 
-        TEXT
+template_parameters:
         {
-            result = [val[0]]
+            result = nil
         }
-      | variable TEXT
+        | INTLINKSEP TEXT template_parameters
         {
-            result = [val[0], val[1]]
-        }
-      | TEXT variable
-        {
-            result = [val[0], val[1]]
-        }
-      | TEXT variable TEXT
-        {
-            result = [val[0], val[1], val[2]]
+            p = TemplateParameterAST.new
+            p.parameter_value = val[1]
+            result = [p]
+            result += val[2] if val[2]
         }
     ;
 

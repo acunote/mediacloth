@@ -139,10 +139,15 @@ class MediaWikiLexer
     @math_lexer_table = {}
     @math_lexer_table["<"] = method(:match_left_angle_in_math)
         
-    # Lexer table used when inside a wiki variable reference
-    @variable_lexer_table = {}
-    @variable_lexer_table["{"] = method(:match_left_curly_in_variable)
-    @variable_lexer_table["}"] = method(:match_right_curly_in_variable)
+    # Lexer table used when inside a wiki template inclusion
+    @template_lexer_table = {}
+    @template_lexer_table["{"] = method(:match_left_curly_in_template)
+    @template_lexer_table["|"] = method(:match_pipe_in_template)
+    @template_lexer_table["}"] = method(:match_right_curly_in_template)
+        
+    @template_param_lexer_table = {}
+    @template_param_lexer_table["}"] = method(:match_right_curly_in_template)
+    @template_param_lexer_table["|"] = method(:match_pipe_in_template)
         
     # Begin lexing in default state
     @lexer_table = LexerTable.new
@@ -582,32 +587,41 @@ class MediaWikiLexer
       @cursor += 2
       @lexer_table.push(@table_lexer_table)
     elsif @text[@cursor + 1, 1] == '{' and @text[@cursor + 2, 2] != "}}"
-      start_span(:VARIABLE, "{{")
+      start_span(:TEMPLATE, "{{")
       @cursor += 2
-      @lexer_table.push(@variable_lexer_table)
+      @lexer_table.push(@template_lexer_table)
     else
       match_text
     end
   end
   
-  def match_left_curly_in_variable
+  def match_left_curly_in_template
     if @text[@cursor + 1, 1] == '{' and @text[@cursor + 2, 2] != "}}"
-      start_span(:VARIABLE, "{{")
+      start_span(:TEMPLATE, "{{")
       @cursor += 2
-      @lexer_table.push(@variable_lexer_table)
+      @lexer_table.push(@template_lexer_table)
     else
       match_text
     end
   end
   
-  def match_right_curly_in_variable
+  def match_right_curly_in_template
     if @text[@cursor + 1, 1] == '}'
-      end_span(:VARIABLE, "}}")
+      end_span(:TEMPLATE, "}}")
       @cursor += 2
       @lexer_table.pop
     else
       match_text
     end
+  end
+
+  def match_pipe_in_template
+    if @tokens.last[0] == :TEMPLATE_START
+      @lexer_table.pop
+      @lexer_table.push(@template_param_lexer_table)
+    end
+    append_to_tokens([:INTLINKSEP, "|"])
+    @cursor += 1
   end
     
   def match_bang_in_table

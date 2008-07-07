@@ -5,10 +5,22 @@
 
 </p><p>this &lt;&gt; that
 
-</p><p>
-
-</p><p>
+</p><p>{{ref}}
 
 </p><p>{{}}
 
-</p><p></p>
+</p><p>{{ }}
+
+</p><p>{{ref|attr1}}
+
+</p><p>{{ref|attr1|attr2|attr3}}
+
+</p><p>{{ref with spaces|attr1 with spaces}}
+
+</p><p>{{NS:ref}}
+
+</p><p>{{NS:ref|attr}}
+
+</p><p>{{NS: ref}}
+
+</p><p>{{NS: ref|attr}}</p>
