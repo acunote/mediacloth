@@ -165,7 +165,15 @@ class SanitizationTest < Test::Unit::TestCase
                           </form>}
   end
 
-  # TODO sanitize tags with closing spaces
+  def test_keeps_and_sanitizes_with_spaces_before_the_closing_bracket
+    assert_sanitizes_to %{Here is some <b  >bold</b> and <em>emphasized</em  >
+                          text. But &lt;script type="text/javascript"  &gt;alert('scripts')&lt;/script   &gt;
+                          get sanitized},
+                        %{Here is some <b  >bold</b> and <em>emphasized</em  >
+                          text. But <script type="text/javascript"  >alert('scripts')</script   >
+                          get sanitized}
+  end
+
   # TODO removes "on" attributes even in legal tags
 
 private
