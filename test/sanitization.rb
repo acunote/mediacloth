@@ -174,6 +174,10 @@ class SanitizationTest < Test::Unit::TestCase
                           get sanitized}
   end
 
+  def test_ignores_case_for_whitelisted_tags
+    assert_no_sanitization "<SUP>Superscript</sup> and <CODE>code</CODE>"
+  end
+
   # TODO removes "on" attributes even in legal tags
 
 private
