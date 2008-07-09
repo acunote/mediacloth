@@ -24,3 +24,9 @@ this &lt;&gt; that
 {{NS: ref}}
 
 {{NS: ref|attr}}
+
+{{ref|{{inner}}}}
+
+{{ref|{{inner}}|{{inner2}}}}
+
+{{ref|{{inner|{{subinner}}}}}}

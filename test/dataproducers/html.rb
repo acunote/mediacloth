@@ -14,5 +14,8 @@ def produce(index)
     file.close
 end
 
-(1..13).each { |i| produce(i) }
-#produce(13)
+if ARGV.empty?
+    (1..13).each { |i| produce(i) }
+else
+    produce ARGV[0].to_i
+end

@@ -23,4 +23,10 @@
 
 </p><p>{{NS: ref}}
 
-</p><p>{{NS: ref|attr}}</p>
+</p><p>{{NS: ref|attr}}
+
+</p><p>{{ref|{{inner}}}}
+
+</p><p>{{ref|{{inner}}|{{inner2}}}}
+
+</p><p>{{ref|{{inner|{{subinner}}}}}}</p>

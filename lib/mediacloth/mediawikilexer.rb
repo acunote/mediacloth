@@ -146,6 +146,7 @@ class MediaWikiLexer
     @template_lexer_table["}"] = method(:match_right_curly_in_template)
         
     @template_param_lexer_table = {}
+    @template_param_lexer_table["{"] = method(:match_left_curly_in_template)
     @template_param_lexer_table["}"] = method(:match_right_curly_in_template)
     @template_param_lexer_table["|"] = method(:match_pipe_in_template)
         

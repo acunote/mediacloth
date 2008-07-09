@@ -140,7 +140,11 @@ protected
 
     def parse_template(ast)
         parameters = ast.children.map do |node|
-            node.parameter_value
+            if node.parameter_value
+                node.parameter_value
+            else
+                parse_template(node.children.first)
+            end
         end
         template_handler.included_template(ast.template_name, parameters)
     end

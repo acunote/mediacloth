@@ -501,6 +501,13 @@ template_parameters:
             result = [p]
             result += val[2] if val[2]
         }
+        | INTLINKSEP template template_parameters
+        {
+            p = TemplateParameterAST.new
+            p.children << val[1]
+            result = [p]
+            result += val[2] if val[2]
+        }
     ;
 
 end
