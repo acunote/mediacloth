@@ -53,6 +53,7 @@ class MediaWikiLexer
     # Lexer table used inside spans of markup, wherein spans of newlines are not
     # automatically treated as paragraphs.
     @markup_lexer_table = @default_lexer_table.dup
+    @markup_lexer_table["{"] = method(:match_left_curly)
     @markup_lexer_table["\n"] = nil
     @markup_lexer_table["\r"] = nil
     

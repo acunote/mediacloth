@@ -378,6 +378,9 @@ class Lexer_Test < Test::Unit::TestCase
         [:TEXT, "iii"], [:VARIABLE_END, "}}"], [:TEXT, "xxx"], [:VARIABLE_END, "}}"],
         [:PARA_END, ""], [false, false]],
       lex("{{xxx{{iii}}xxx}}"))
+    assert_equal([[:PARA_START, ""],  [:TAG_START, "foo"], [:ATTR_NAME, "bar"], [:ATTR_VALUE, "{{ref}}"], [:TAG_END, ""],
+        [:PARA_END, ""], [false, false]],
+      lex("<foo bar='{{ref}}'>"))
   end
   
   def test_xhtml_markup
