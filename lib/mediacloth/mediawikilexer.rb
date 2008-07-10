@@ -160,8 +160,14 @@ class MediaWikiLexer
   # Sanitizes thw raw wiki input for dangerous HTML tags
   def sanitize(input)
     input.gsub(/<(\/?)([^\s>\/]+)([^>]*)>/) do
-      WHITELIST.include?($2.downcase) ? $& : "&lt;#{$1}#{$2}#{$3}&gt;"
+      atts = clean_attributes($3)
+      WHITELIST.include?($2.downcase) ? "<#{$1}#{$2}#{atts}>" :
+                                        "&lt;#{$1}#{$2}#{$3}&gt;"
     end
+  end
+
+  def clean_attributes(input)
+    input.gsub(/on[^=]*=(['|"])[^\1]*\1/, '')
   end
   
   def tokenize(input)

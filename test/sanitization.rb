@@ -178,7 +178,10 @@ class SanitizationTest < Test::Unit::TestCase
     assert_no_sanitization "<SUP>Superscript</sup> and <CODE>code</CODE>"
   end
 
-  # TODO removes "on" attributes even in legal tags
+  def test_removes_on_attributes_even_from_legal_tags
+    assert_sanitizes_to %{Here is some <b >bold</b> text},
+                        %{Here is some <b onMouseOver="alert('Cuidado!')">bold</b> text}
+  end
 
 private
 
