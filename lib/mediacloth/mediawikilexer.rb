@@ -277,6 +277,8 @@ class MediaWikiLexer
                       %w{form input thead tbody label} +
                       %w{nowiki ruby rp rb rt}
 
+  ATTRIBUTE_WHITELIST = HTML5::HTMLSanitizeModule::ALLOWED_ATTRIBUTES + %w{face}
+
   def match_left_angle
     scanner = StringScanner.new(@text[@cursor .. -1])
     if scanner.scan(%r{<(\/?)([^\s<>\/]+)([^>]*)>})
@@ -292,7 +294,7 @@ class MediaWikiLexer
           attrs = {}
           attrs_string.scan(/\s+([a-zA-Z][a-zA-Z0-9\-_]*)\s*=\s*(\'([^\']+)'|\"([^\"]+)\")/) do
           |name, value, sq_value, db_value|
-            attrs[name] = sq_value || db_value
+            attrs[name] = sq_value || db_value if ATTRIBUTE_WHITELIST.include?(name.downcase)
           end
   
           empty_tag = attrs_string[-1] == ?/
