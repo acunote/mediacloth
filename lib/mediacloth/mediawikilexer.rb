@@ -1,5 +1,8 @@
 require 'strscan'
   
+require 'rubygems'
+require 'html5/sanitizer'
+
 class String
   def is_empty_token?
     self.size == 0 or self == "\n" or self == "\r\n"
@@ -150,28 +153,9 @@ class MediaWikiLexer
     @lexer_table.push(@default_lexer_table)
   end
 
-  WHITELIST = %w{del  ins  b    i    em   u    s    strike    font
-                 big  small     sub  sup  cite code tt   var  strong
-                 span h1   h2   h3   h4   h5   h6   div  center
-                 blockquote     ol   li   ul   table     tr   th   td
-                 ruby rb   rp   rt   p    br   hr   dl   dt   dd
-                 pre  nowiki    math}
-
-  # Sanitizes thw raw wiki input for dangerous HTML tags
-  def sanitize(input)
-    input.gsub(/<(\/?)([^\s>\/]+)([^>]*)>/) do
-      atts = clean_attributes($3)
-      WHITELIST.include?($2.downcase) ? "<#{$1}#{$2}#{atts}>" :
-                                        "&lt;#{$1}#{$2}#{$3}&gt;"
-    end
-  end
-
-  def clean_attributes(input)
-    input.gsub(/on[^=]*=(['|"])[^\1]*\1/, '')
-  end
   
   def tokenize(input)
-    @text = sanitize(input)
+    @text = input
     # Current position in the input text
     @cursor = 0
     # Tokens to be returned
@@ -288,35 +272,33 @@ class MediaWikiLexer
       match_text
     end
   end
+
+  ELEMENT_WHITELIST = HTML5::HTMLSanitizeModule::ACCEPTABLE_ELEMENTS -
+                      %w{form input thead tbody label} +
+                      %w{nowiki math ruby rp rb rt}
     
   def match_left_angle
-    next_char = @text[@cursor + 1]
-    if next_char == 47
-      # Might be an XHTML end tag
-      if @text[@cursor .. -1] =~ %r{</([a-zA-Z][a-zA-Z0-9\-_]*)(\s*)>} and @context.include?(:TAG)
-        # Found an XHTML end tag
-        tag_name = $1
-        end_span(:TAG, $1)
-        @lexer_table.pop
-        @cursor += $1.length + $2.length + 3
-      else
-        match_text
-      end
-    elsif next_char > 64 and next_char < 123
-      # Might be an XHTML open or empty tag
-      scanner = StringScanner.new(@text[@cursor .. -1])
-      if scanner.scan(%r{<([a-zA-Z][a-zA-Z0-9\-_]*)})
-        # Sequence begins with a valid tag name, so check for attributes
-        tag_name = scanner[1]
-        attrs = {}
-        while scanner.scan(%r{\s+([a-zA-Z][a-zA-Z0-9\-_]*)\s*=\s*('([^']+)'|"([^"]+)")}) do
-          attrs[scanner[1]] = scanner[3] ? scanner[3] : scanner[4]
-        end
-        scanner.scan(%r{\s*})
-        if ((c = scanner.get_byte) == '>' or (c == '/' and scanner.get_byte == '>'))
+    scanner = StringScanner.new(@text[@cursor .. -1])
+    if scanner.scan(%r{<(\/?)([^\s<>\/]+)([^>]*)>})
+      #XHTML start or end tag, or just something surrounded by angle brackets
+      tag_close_char, tag_name, attrs_string = scanner[1], scanner[2], scanner[3]
+      if ELEMENT_WHITELIST.include?(tag_name.downcase)
+        if tag_close_char == '/' and @context.include?(:TAG)
+          # Found an XHTML end tag
+          end_span(:TAG, tag_name)
+          @lexer_table.pop
+        elsif tag_close_char.empty?
           # Found an XHTML start or empty tag
+          attrs = {}
+          attrs_string.scan(/\s+([a-zA-Z][a-zA-Z0-9\-_]*)\s*=\s*(\'([^\']+)'|\"([^\"]+)\")/) do
+          |name, value, sq_value, db_value|
+            attrs[name] = sq_value || db_value
+          end
+  
+          empty_tag = attrs_string[-1] == ?/
+          
           if tag_name == 'nowiki'
-            @lexer_table.push(@nowiki_lexer_table) unless c == '/'
+            @lexer_table.push(@nowiki_lexer_table) unless empty_tag
           else
             if tag_name == 'pre'
               table = @pre_lexer_table
@@ -330,19 +312,23 @@ class MediaWikiLexer
               append_to_tokens([:ATTR_NAME, name])
               append_to_tokens([:ATTR_VALUE, value]) if value
             end
-            if c == '/'
+            if empty_tag then
               end_span(:TAG, tag_name)
             else
               @lexer_table.push(table)
             end
           end
-          @cursor += scanner.pos
-        else
-          match_text
-        end
+        else        
+          append_to_tokens([:CHAR_ENT, 'lt'])
+          append_to_tokens([:TEXT, tag_close_char + tag_name + attrs_string])
+          append_to_tokens([:CHAR_ENT, 'gt'])
+        end 
       else
-        match_text
+        append_to_tokens([:CHAR_ENT, 'lt'])
+        append_to_tokens([:TEXT, tag_close_char + tag_name + attrs_string])
+        append_to_tokens([:CHAR_ENT, 'gt'])
       end
+      @cursor += 2 + tag_close_char.length + tag_name.length + attrs_string.length
     else
       match_text
     end

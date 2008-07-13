@@ -10,6 +10,7 @@ SPEC = Gem::Specification.new do |s|
     s.summary   = "A MediaWiki syntax parser and HTML generator."
 
     s.add_dependency('builder',    '>= 2.1.2')
+    s.add_dependency('html5',      '>= 0.10.0')
 
     candidates  = Dir.glob("{bin,docs,lib,test}/**/*")
     s.files     = candidates.delete_if do |item|

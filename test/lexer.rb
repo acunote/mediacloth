@@ -391,16 +391,8 @@ class Lexer_Test < Test::Unit::TestCase
       lex("<tt/>"))
     assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:TAG_END, "tt"], [:PARA_END, ""], [false, false]],
       lex("<tt />"))
-    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "123"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
-      lex("<123>"))
-    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx xx"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
-      lex("<xx xx>"))
     assert_equal([[:PARA_START, ""], [:TEXT, "</xxx "], [:PARA_END, ""], [false, false]],
       lex("</xxx "))
-    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx </xx"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
-      lex("<xx </xx>"))
-    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx a='b' c"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
-      lex("<xx a='b' c>"))
     assert_equal([[:PARA_START, ""], [:TEXT, "<>"], [:PARA_END, ""], [false, false]],
       lex("<>"))
     assert_equal([[:PARA_START, ""], [:TAG_START, "tt"], [:ATTR_NAME, 'class'], [:ATTR_VALUE, 'tt'],
@@ -567,6 +559,18 @@ class Lexer_Test < Test::Unit::TestCase
       lex(";a:[[resource:text]]\n"))
   end
 
+  def test_invalid_tags
+    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "123"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
+      lex("<123>"))
+    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx xx"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
+      lex("<xx xx>"))
+    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx </xx"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
+      lex("<xx </xx>"))
+    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx a='b' c"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
+      lex("<xx a='b' c>"))
+    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "invalid /"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
+      lex("<invalid />"))
+  end
   
   private
   
