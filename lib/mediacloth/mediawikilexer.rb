@@ -273,10 +273,10 @@ class MediaWikiLexer
     end
   end
 
-  ELEMENT_WHITELIST = HTML5::HTMLSanitizeModule::ACCEPTABLE_ELEMENTS -
+  ELEMENT_WHITELIST = HTML5::HTMLSanitizeModule::ALLOWED_ELEMENTS -
                       %w{form input thead tbody label} +
-                      %w{nowiki math ruby rp rb rt}
-    
+                      %w{nowiki ruby rp rb rt}
+
   def match_left_angle
     scanner = StringScanner.new(@text[@cursor .. -1])
     if scanner.scan(%r{<(\/?)([^\s<>\/]+)([^>]*)>})
