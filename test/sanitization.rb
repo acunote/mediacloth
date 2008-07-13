@@ -123,8 +123,7 @@ class SanitizationTest < Test::Unit::TestCase
   end
 
   def test_keeps_linebreaks
-    assert_no_sanitization "Break lines with an empty element<br /><br/>
-                            Or using the opening tag only <br>"
+    assert_no_sanitization "Break lines with an empty element<br /><br/>"
   end
 
   def test_keeps_horizontal_rules
@@ -132,10 +131,10 @@ class SanitizationTest < Test::Unit::TestCase
   end
 
   def test_keeps_definition_lists
-    assert_no_sanitization "<dl>
-                              <dt>Definition terms</dt>
-                              <dd>And descriptions</dt>
-                            </dl>"
+    assert_no_sanitization "<dl>" +
+                             "<dt>Definition terms</dt>" +
+                             "<dd>And descriptions</dd>" +
+                           "</dl>"
   end
 
   def test_keeps_preformatted_text
@@ -177,7 +176,7 @@ class SanitizationTest < Test::Unit::TestCase
   end
 
   def test_ignores_case_for_whitelisted_tags
-    assert_no_sanitization "<SUP>Superscript</sup> and <CODE>code</CODE>"
+    assert_no_sanitization "<SUP>Superscript</SUP> and <CODE>code</CODE>"
   end
 
   def test_removes_on_attributes_even_from_legal_tags
