@@ -180,8 +180,18 @@ class SanitizationTest < Test::Unit::TestCase
   end
 
   def test_removes_on_attributes_even_from_legal_tags
-    assert_sanitizes_to %{Here is some <b >bold</b> text},
-                        %{Here is some <b onMouseOver="alert('Cuidado!')">bold</b> text}
+    assert_sanitizes_to "Here is some <b >bold</b> text",
+                        "Here is some <b onMouseOver=\"alert('Watch out!')\">bold</b> text"
+  end
+
+  def test_sanitizes_broken_tags
+    assert_sanitizes_to "&lt;strike &lt;invalid&gt;Striked?&lt;/strike&gt;",
+                        "<strike <invalid>Striked?</strike>"
+  end
+
+  def test_escapes_lt_and_gt_characters
+    assert_sanitizes_to "3 &gt; 0 and 1 &lt; 2",
+                        "3 > 0 and 1 < 2"
   end
 
 private

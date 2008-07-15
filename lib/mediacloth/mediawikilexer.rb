@@ -281,7 +281,7 @@ class MediaWikiLexer
 
   def match_left_angle
     scanner = StringScanner.new(@text[@cursor .. -1])
-    if scanner.scan(%r{<(\/?)([^\s<>\/]+)([^>]*)>})
+    if scanner.scan(%r{<(\/?)([^\s<>\/]+)([^>]*)>}) and !scanner[3].include?(?<)
       #XHTML start or end tag, or just something surrounded by angle brackets
       tag_close_char, tag_name, attrs_string = scanner[1], scanner[2], scanner[3]
       if ELEMENT_WHITELIST.include?(tag_name.downcase)

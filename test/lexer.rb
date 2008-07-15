@@ -564,7 +564,7 @@ class Lexer_Test < Test::Unit::TestCase
       lex("<123>"))
     assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx xx"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
       lex("<xx xx>"))
-    assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx </xx"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
+    assert_equal([[:PARA_START, ""], [:TEXT, "<xx "], [:CHAR_ENT, "lt"], [:TEXT, "/xx"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
       lex("<xx </xx>"))
     assert_equal([[:PARA_START, ""], [:CHAR_ENT, "lt"], [:TEXT, "xx a='b' c"], [:CHAR_ENT, "gt"], [:PARA_END, ""], [false, false]],
       lex("<xx a='b' c>"))
