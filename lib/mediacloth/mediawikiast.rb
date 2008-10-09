@@ -80,6 +80,7 @@ end
 class TableCellAST < AST
     #the type of cell, :head or :body
     attr_accessor :type
+    attr_accessor :attributes
 end
 
 #The node to represent a list

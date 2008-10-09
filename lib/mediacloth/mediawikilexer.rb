@@ -683,6 +683,12 @@ class MediaWikiLexer
         start_span(:HEAD, "||")
       end
     else
+      context = @context[@context.rindex(:TABLE) + 1 .. -1]
+      if context.include? :CELL
+        end_span(:CELL, "attributes")
+        start_span(:CELL, "|")
+        @char = ''
+      end
       match_text
     end
   end
@@ -776,6 +782,12 @@ class MediaWikiLexer
     i = @cursor
     i += 1 while (@text[i,1] == ' ')
     return (@text[i,1] == '' or (@text[i,1] == "\n") or (@text[i,2] == "\r\n"))
+  end
+
+  def look_for_char_before_newline(char)
+    i = @cursor
+    i += 1 while (@text[i,1] != char and @text[i,1] != "\n")
+    @text[i,1] == char ? i : @cursor
   end
 
   # Advances the text cursor to the next non-blank character, without appending

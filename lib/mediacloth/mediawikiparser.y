@@ -322,13 +322,21 @@ row_contents:
         }
     | CELL_START repeated_contents CELL_END row_contents
         {
-            cell = TableCellAST.new
-            cell.children = val[1] unless val[1].nil? or val[1].empty?
-            cell.type = :body
-            result = [cell]
+            if val[2] == 'attributes'
+                result = []
+            else
+                cell = TableCellAST.new
+                cell.children = val[1] unless val[1].nil? or val[1].empty?
+                cell.type = :body
+                result = [cell]
+            end
             result += val[3] unless val[3].nil? or val[3].empty?
+            if val[3] and val[3].first.class == TableCellAST
+                val[3].first.attributes = val[1]
+            end
+            result
         }
-    
+
 
 element:
       TEXT

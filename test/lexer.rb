@@ -272,23 +272,29 @@ class Lexer_Test < Test::Unit::TestCase
     assert_equal([[:TABLE_START, "{|"], [:TEXT, " width='100%'\n"], [:TABLE_END, "|}"],
         [false, false]],
       lex("{| width='100%'\n|}"))
-    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"], 
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"],
         [:CELL_END, ""], [:CELL_START, "|"], [:TEXT, "b\n"], [:CELL_END, ""], [:ROW_END, ""],
         [:TABLE_END, "|}"], [false, false]],
       lex("{|\n|a\n|b\n|}"))
-    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a"], 
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a"],
         [:CELL_END, ""], [:CELL_START, "||"], [:TEXT, "b\n"], [:CELL_END, ""], [:ROW_END, ""],
         [:TABLE_END, "|}"], [false, false]],
       lex("{|\n|a||b\n|}"))
-    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"], 
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"],
         [:CELL_END, ""], [:ROW_END, ""], [:ROW_START, "|-"], [:CELL_START, "|"], [:TEXT, "b\n"],
         [:CELL_END, ""], [:ROW_END, ""], [:TABLE_END, "|}"], [false, false]],
       lex("{|\n|a\n|-\n|b\n|}"))
-    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"], 
-        [:CELL_END, ""], [:ROW_END, ""], [:ROW_START, "|-"], [:TEXT, " align='left'\n"], 
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"],
+        [:CELL_END, ""], [:ROW_END, ""], [:ROW_START, "|-"], [:TEXT, " align='left'\n"],
         [:CELL_START, "|"], [:TEXT, "b\n"], [:CELL_END, ""], [:ROW_END, ""], [:TABLE_END, "|}"],
         [false, false]],
       lex("{|\n|a\n|- align='left'\n|b\n|}"))
+    assert_equal([[:TABLE_START, "{|"], [:ROW_START, ""], [:CELL_START, "|"], [:TEXT, "a\n"], 
+        [:CELL_END, ""], [:ROW_END, ""], [:ROW_START, "|-"], [:CELL_START, "|"],
+        [:TEXT, ' colspan="4" align="center" style="background:#ffdead;"'], [:CELL_END, "attributes"],
+        [:CELL_START, "|"], [:TEXT, " b\n"], [:CELL_END, ""], [:ROW_END, ""], [:TABLE_END, "|}"],
+        [false, false]],
+      lex("{|\n|a\n|-\n| colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"| b\n|}"))
   end
 
   def test_preformatted

@@ -189,7 +189,11 @@ protected
         if ast.type == :head
             "<th>" + super(ast) + "</th>"
         else
-            "<td>" + super(ast) + "</td>"
+            if ast.attributes
+                "<td #{ast.attributes.first.contents}>" + super(ast) + "</td>"
+            else
+                "<td>" + super(ast) + "</td>"
+            end
         end
     end
 
