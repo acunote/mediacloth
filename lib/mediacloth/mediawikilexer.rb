@@ -576,12 +576,18 @@ class MediaWikiLexer
     if @text[@cursor, 6] == '</pre>'
       end_span(:TAG, 'pre')
       @cursor += 6
+      #eat newline after </pre>
+      if @text[@cursor, 1] == "\n"
+        @cursor += 1
+      elsif @text[@cursor, 2] == "\r\n"
+        @cursor += 2
+      end
       @lexer_table.pop
     else
       match_text
     end
   end
-    
+
   def match_left_curly
     if at_start_of_line? and @text[@cursor + 1, 1] == '|'
       start_span(:TABLE, "{|")
@@ -833,7 +839,7 @@ class MediaWikiLexer
   # open paragraph will be closed (or, if empty, removed) before the token start
   # is appended.
   def start_span(symbol, text='')
-    maybe_close_para(symbol)
+    maybe_close_para(symbol, text == 'pre')
     @context << symbol
     append_to_tokens [(symbol.to_s + '_START').to_sym, text]
   end
@@ -858,8 +864,8 @@ class MediaWikiLexer
     maybe_open_para(symbol)
   end
   
-  def maybe_close_para(symbol)
-    if @context.size > 0 and PARA_BREAK_ELEMENTS.include?(symbol)
+  def maybe_close_para(symbol, force = false)
+    if @context.size > 0 and (PARA_BREAK_ELEMENTS.include?(symbol) or force)
       i = 1
       i += 1 while INLINE_ELEMENTS.include?(@context[-i])
       if @context[-i] == :PARA
