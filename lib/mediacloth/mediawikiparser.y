@@ -80,6 +80,7 @@ contents:
     | LINK_START link_contents LINK_END
         {
             l = LinkAST.new
+            l.link_type = val[0]
             l.url = val[1][0]
             l.children += val[1][1..-1] if val[1].length > 1
             result = l

@@ -36,6 +36,7 @@ end
 class LinkAST < AST
     #The link's URL
     attr_accessor :url
+    attr_accessor :link_type
 end
 
 #The node to represent a Mediawiki internal link

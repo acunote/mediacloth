@@ -169,7 +169,7 @@ protected
         text = super(ast)
         href = ast.url
         text = MediaWikiHTMLGenerator.escape(href) if text.length == 0
-        "<a href=\"#{href}\">#{text}</a>"
+        link_handler.absolute_link_for(href, text, ast.link_type)
     end
 
     #Reimplement this

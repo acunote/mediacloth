@@ -63,6 +63,20 @@ class MediaWikiLinkHandler
     "<a href=\"javascript:void(0)\">#{text}</a>"
   end
 
+  #This is invoked to generate an absolute link to a page
+  #when user either puts url onto the page
+  #or uses regular [] syntax
+  #
+  #link_type argument is either empty string or "[". Empty string indicates url written as plain text
+  #and "[" indicates that [] syntax for links was used
+  def absolute_link_for(page, text, link_type)
+    if page =~ /(^|\/)([^\/]*)((\.png)|(\.jpg)|(\.jpeg))$/ and link_type.blank?
+      "<img src=\"#{page}\" alt=\"#{$2}#{$3}\" />"
+    else
+      "<a href=\"#{page}\">#{text}</a>"
+    end
+  end
+
 protected
 
   #A Builder object for rendering XHTML code without having to deal directly
