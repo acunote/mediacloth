@@ -70,7 +70,7 @@ class MediaWikiLinkHandler
   #link_type argument is either empty string or "[". Empty string indicates url written as plain text
   #and "[" indicates that [] syntax for links was used
   def absolute_link_for(page, text, link_type)
-    if page =~ /(^|\/)([^\/]*)((\.png)|(\.jpg)|(\.jpeg))$/ and link_type.blank?
+    if page =~ /(^|\/)([^\/]*)((\.png)|(\.jpg)|(\.jpeg)|(\.gif))$/ and link_type.blank?
       "<img src=\"#{page}\" alt=\"#{$2}#{$3}\" />"
     else
       "<a href=\"#{page}\">#{text}</a>"
