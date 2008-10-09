@@ -501,6 +501,9 @@ class MediaWikiLexer
     if @text[@cursor, 7] == '__TOC__'
       empty_span(:KEYWORD, 'TOC')
       @cursor += 7
+    elsif @text[@cursor, 9] == '__NOTOC__'
+      empty_span(:KEYWORD, 'NOTOC')
+      @cursor += 9
     else
       match_text
     end

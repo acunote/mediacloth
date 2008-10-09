@@ -566,6 +566,11 @@ class Lexer_Test < Test::Unit::TestCase
       lex(";a:[[resource:text]]\n"))
   end
 
+  def test_toc_and_notoc
+    assert_equal([[:KEYWORD, "TOC"], [false, false]], lex("__TOC__"))
+    assert_equal([[:KEYWORD, "NOTOC"], [false, false]], lex("__NOTOC__"))
+  end
+
   
   private
   
