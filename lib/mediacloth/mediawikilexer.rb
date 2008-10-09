@@ -458,7 +458,7 @@ class MediaWikiLexer
   end
 
   def match_space
-    if at_start_of_line?
+    if at_start_of_line? and !blank_line?
       start_span(:PRE)
       @lexer_table.push(@indent_lexer_table)
       match_text
@@ -770,6 +770,12 @@ class MediaWikiLexer
   # Returns true if the text cursor is on the first character of a line
   def at_start_of_line?
     @cursor == 0 or @text[@cursor - 1, 1] == "\n"
+  end
+
+  def blank_line?
+    i = @cursor
+    i += 1 while (@text[i,1] == ' ')
+    return (@text[i,1] == '' or (@text[i,1] == "\n") or (@text[i,2] == "\r\n"))
   end
 
   # Advances the text cursor to the next non-blank character, without appending

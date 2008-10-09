@@ -292,6 +292,12 @@ class Lexer_Test < Test::Unit::TestCase
   end
 
   def test_preformatted
+    assert_equal([[:PARA_START, ''], [:TEXT, "  "], [:PARA_END, ''], [false, false]],
+      lex("  "))
+    assert_equal([[:PARA_START, ''], [:TEXT, "  \n"], [:PARA_END, ''], [false, false]],
+      lex("  \n"))
+    assert_equal([[:PARA_START, ''], [:TEXT, "         \n"], [:PARA_END, ''], [false, false]],
+      lex("         \n"))
     assert_equal([[:PRE_START, ''], [:TEXT, " text\n"], [:PRE_END, ''], [false, false]],
       lex(" text\n"))
     assert_equal([[:PRE_START, ''], [:TEXT, " text\r\n"], [:PRE_END, ''], [false, false]],
