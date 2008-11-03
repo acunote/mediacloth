@@ -4,24 +4,28 @@ require 'testhelper'
 
 class Lexer_Test < Test::Unit::TestCase
 
-  include TestHelper
-    
-  def test_standard_formatted_input
-    test_files("lex") { |input,result,resultname|
+  class << self
+    include TestHelper
+  end
+
+  test_files("lex") do |input,result,resultname|
+    resultname =~ /([0-9]+)$/
+    define_method("test_standard_formatted_input_#{$1}") do
       lexer = MediaWikiLexer.new
       tokens = lexer.tokenize(input)
       assert_equal(result, tokens.to_s, "Mismatch in #{resultname}")
-    }
+    end
   end
-        
-  def test_internet_formatted_input
-    test_files("lex") { |input,result,resultname|
+
+  test_files("lex") do |input,result,resultname|
+    resultname =~ /([0-9]+)$/
+    define_method("test_internet_formatted_input_#{$1}") do
       lexer = MediaWikiLexer.new
       tokens = lexer.tokenize(input.gsub("\n", "\r\n"))
       assert_equal(result.gsub("\n", "\r\n"), tokens.to_s, "Mismatch in #{resultname}")
-    }
+    end
   end
-  
+
   def test_empty
     assert_equal([[false,false]], lex(""))
   end

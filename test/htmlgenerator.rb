@@ -9,11 +9,13 @@ require 'testhelper'
 
 class HTMLGenerator_Test < Test::Unit::TestCase
 
-    include TestHelper
+    class << self
+      include TestHelper
+    end
 
-    def test_input
-      test_files("html") do |input,result, name|
-        puts name
+    test_files("html") do |input,result, name|
+      name =~ /([0-9]+)$/
+      define_method("test_input_#{$1}") do
         assert_generates(result, input, nil, name)
       end
     end
