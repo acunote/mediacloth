@@ -13,6 +13,20 @@ file "lib/mediacloth/mediawikiparser.rb" => ["lib/mediacloth/mediawikiparser.y"]
 end
 task :parser => "lib/mediacloth/mediawikiparser.rb"
 
+namespace :test do
+
+desc '(Re)generate test data'
+task :regenerate do
+    Dir["test/data/input*"].each do |file|
+        if file =~ /input([0-9]+)$/
+            `ruby -I lib/ test/dataproducers/lex.rb #{$1}`
+            `ruby -I lib/ test/dataproducers/html.rb #{$1}`
+        end
+    end
+end
+
+end
+
 
 desc 'Test'
 Rake::TestTask.new(:test => [:parser]) do |t|

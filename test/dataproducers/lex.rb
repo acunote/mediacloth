@@ -1,8 +1,10 @@
 require 'mediacloth/mediawikilexer'
 
+puts 
+
 def produce(index)
-    file = File.new("../test/data/lex#{index}", "w")
-    inputFile = File.new("../test/data/input#{index}", "r")
+    file = File.new("#{File.dirname(__FILE__)}/../data/lex#{index}", "w")
+    inputFile = File.new("#{File.dirname(__FILE__)}/../data/input#{index}", "r")
     input = inputFile.read
 
     lexer = MediaWikiLexer.new

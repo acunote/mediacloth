@@ -28,5 +28,9 @@ To generate API documentation run:
 If you want to modify mediacloth sources you will need:
 1. Download and install RACC parser generator (http://i.loveruby.net/en/projects/racc/)
 2. Execute "rake parser" to update your parser from .y definition
+
 To run tests execute
  rake test
+
+To regenerate test data (html and lex files from wiki input), run:
+ rake test:regenerate

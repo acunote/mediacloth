@@ -1,8 +1,8 @@
 require 'mediacloth'
 
 def produce(index)
-    file = File.new("../test/data/html#{index}", "w")
-    inputFile = File.new("../test/data/input#{index}", "r")
+    file = File.new("#{File.dirname(__FILE__)}/../data/html#{index}", "w")
+    inputFile = File.new("#{File.dirname(__FILE__)}/../data/input#{index}", "r")
     input = inputFile.read
     parser = MediaWikiParser.new
     parser.lexer = MediaWikiLexer.new
