@@ -1,4 +1,4 @@
-<ul><li>1 <a href='#Headline1'> Headline1 </a></li>
+<div class="wikitoc"><ul><li>1 <a href='#Headline1'> Headline1 </a></li>
 <ul><li>1.1 <a href='#Sub_Headline_1a'> Sub Headline 1a </a></li>
 <li>1.2 <a href='#Sub_Headline_1b'> Sub Headline 1b </a></li>
 </ul><li>2 <a href='#Headline2'> Headline2 </a></li>
@@ -6,7 +6,7 @@
 <ul><li>2.1.1 <a href='#Sub_Sub_Headline_2i'> Sub Sub Headline <i>2i</i> </a></li>
 <li>2.1.2 <a href='#Sub_Sub_Headline_2ii'> Sub Sub Headline <b>2ii</b> </a></li>
 </ul><li>2.2 <a href='#Sub_Headline_2b'> Sub Headline 2b </a></li>
-</ul></ul><p><br />
+</ul></ul></div><p><br />
 
 </p><h1><a name='Headline1'></a> Headline1 </h1>
 <h2><a name='Sub_Headline_1a'></a> Sub Headline 1a </h2>

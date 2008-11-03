@@ -248,6 +248,7 @@ protected
               @html += '</ul>'
               @level -= 1
             end
+            @html = "<div class=\"wikitoc\">#{@html}</div>" if @html != ''
         end
       
         protected
