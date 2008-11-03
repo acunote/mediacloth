@@ -16,14 +16,8 @@ class MediaWikiParams
         @author = "Creator"
     end
 
-    #Creation time of the page. Use overrideTime method to override
-    #the value (useful for testing purposes).
     def time
-        if @time
-            return @time
-        else
-            return Time.now
-        end
+        (@time || Time.now).strftime("%H:%M, %d %B %Y ")
     end
 
     def time=(t)
