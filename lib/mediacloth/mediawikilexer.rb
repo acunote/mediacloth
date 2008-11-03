@@ -784,12 +784,6 @@ class MediaWikiLexer
     return (@text[i,1] == '' or (@text[i,1] == "\n") or (@text[i,2] == "\r\n"))
   end
 
-  def look_for_char_before_newline(char)
-    i = @cursor
-    i += 1 while (@text[i,1] != char and @text[i,1] != "\n")
-    @text[i,1] == char ? i : @cursor
-  end
-
   # Advances the text cursor to the next non-blank character, without appending
   # any of the blank characters to the pending text buffer
   def skip_whitespace 

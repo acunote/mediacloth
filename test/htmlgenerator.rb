@@ -67,6 +67,11 @@ class HTMLGenerator_Test < Test::Unit::TestCase
         "{|\n|a\n|-\n| colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"| b\n|}"
     end
 
+    def test_table_without_column_attributes
+      assert_generates "<table><tr><td> a\n</td><td> b\n</td></tr>\n</table>\n",
+        "{|\n| a\n| b\n|}"
+    end
+
 private
 
   def assert_generates(result, input, link_handler=nil, message=nil)

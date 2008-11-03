@@ -331,7 +331,7 @@ row_contents:
                 result = [cell]
             end
             result += val[3] unless val[3].nil? or val[3].empty?
-            if val[3] and val[3].first.class == TableCellAST
+            if val[2] == 'attributes' and val[3] and val[3].first.class == TableCellAST
                 val[3].first.attributes = val[1]
             end
             result
