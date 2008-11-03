@@ -228,52 +228,92 @@ protected
             return "dl"
         end
     end
-    
+
     # AST walker that generates a table of contents, containing links to all
     # section headings in the page.
     class TocGenerator < MediaWikiHTMLGenerator
 
+        class TocNode
+            attr_accessor :children
+            attr_accessor :parent
+            attr_accessor :section
+            def initialize
+                @children = []
+            end
+
+            def add_child(child)
+                @children << child
+                child.parent = self
+            end
+
+            def level
+                res = 0
+                node = self
+                while p = node.parent
+                    res += 1
+                    node = p
+                end
+                res
+            end
+
+            def number
+                res = ''
+                node = self
+                while p = node.parent
+                    res = "#{p.children.index(node)+1}." + res
+                    node = p
+                end
+                res
+            end
+        end
+
         def parse(ast)
             @html = ''
             @text_generator = TextGenerator.new
-            @counter = []
-            @level = 0
-            ast.children.each do
-              |child|
-              if child.class == SectionAST
-                @html += parse_section(child)
-              end
+
+            root = TocNode.new
+            root_stack = [root]
+
+            ast.children.each do |child|
+                if child.class == SectionAST
+                    root_stack.pop while child.level <= ((sec = root_stack.last.section) ? sec.level : 0)
+
+                    node = TocNode.new
+                    node.section = child
+                    root_stack.last.add_child(node)
+
+                    root_stack.push node
+                end
             end
-            while @level > 0 do
-              @html += '</ul>'
-              @level -= 1
-            end
-            @html = "<div class=\"wikitoc\">#{@html}</div>" if @html != ''
+
+            @html += parse_section(root)
+            @html = "<div class=\"wikitoc\">#{@html}\n</div>\n" if @html != ''
         end
-      
+
         protected
 
-        def parse_section(ast)
-            level = ast.level
+        def parse_section(toc_node)
             html = ''
-            while @level > level do
-              html += '</ul>'
-              @level -= 1
+            if toc_node.section
+                anchor = MediaWikiHTMLGenerator.anchor_for(@text_generator.parse(toc_node.section).join(' '))
+                html += "\n<li><a href='##{anchor}'><span class=\"wikitocnumber\">#{toc_node.number}</span><span class=\"wikitoctext\">#{parse_wiki_ast(toc_node.section).strip}</span></a>"
             end
-            while @level < level do
-              @counter[@level] = 0
-              html += '<ul>'
-              @level += 1
+
+            unless toc_node.children.empty?
+                html += "\n<ul class=\"wikitoclevel#{toc_node.level}\">"
+                toc_node.children.each do |child_node|
+                    html += parse_section(child_node)
+                end
+                html += "\n</ul>"
             end
-            @counter[@level - 1] += 1
-            anchor = MediaWikiHTMLGenerator.anchor_for(@text_generator.parse(ast).join(' '))
-            html += "<li>#{@counter[0 ... @level].join('.')} <a href='##{anchor}'>#{parse_wiki_ast(ast)}</a></li>\n"
+
+            html += "</li>" if html[0,4] == "<li>"
             html
         end
-    
+
     end
-    
-      
+
+
     # AST walker that outputs just the text portions of a page.
     class TextGenerator < MediaWikiWalker
 
