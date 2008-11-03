@@ -287,7 +287,7 @@ protected
             end
 
             @html += parse_section(root)
-            @html = "<div class=\"wikitoc\">#{@html}\n</div>\n" if @html != ''
+            @html = "<div class=\"wikitoc\">\n<div class=\"wikitoctitle\">Contents</div>#{@html}\n</div>\n" if @html != ''
         end
 
         protected
