@@ -1,15 +1,15 @@
 <div class="wikitoc">
 <div class="wikitoctitle">Contents</div>
-<ul class="wikitoclevel0">
+<ul>
 <li><a href='#Headline1'><span class="wikitocnumber">1.</span><span class="wikitoctext">Headline1</span></a>
-<ul class="wikitoclevel1">
+<ul>
 <li><a href='#Sub_Headline_1a'><span class="wikitocnumber">1.1.</span><span class="wikitoctext">Sub Headline 1a</span></a>
 <li><a href='#Sub_Headline_1b'><span class="wikitocnumber">1.2.</span><span class="wikitoctext">Sub Headline 1b</span></a>
 </ul>
 <li><a href='#Headline2'><span class="wikitocnumber">2.</span><span class="wikitoctext">Headline2</span></a>
-<ul class="wikitoclevel1">
+<ul>
 <li><a href='#Sub_Headline_2a'><span class="wikitocnumber">2.1.</span><span class="wikitoctext">Sub Headline 2a</span></a>
-<ul class="wikitoclevel2">
+<ul>
 <li><a href='#Sub_Sub_Headline_2i'><span class="wikitocnumber">2.1.1.</span><span class="wikitoctext">Sub Sub Headline <i>2i</i></span></a>
 <li><a href='#Sub_Sub_Headline_2ii'><span class="wikitocnumber">2.1.2.</span><span class="wikitoctext">Sub Sub Headline <b>2ii</b></span></a>
 </ul>
