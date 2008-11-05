@@ -300,7 +300,7 @@ protected
             end
 
             unless toc_node.children.empty?
-                html += "\n<ul class=\"wikitoclevel#{toc_node.level}\">"
+                html += "\n<ul>"
                 toc_node.children.each do |child_node|
                     html += parse_section(child_node)
                 end
