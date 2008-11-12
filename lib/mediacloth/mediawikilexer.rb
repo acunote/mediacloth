@@ -176,7 +176,7 @@ class MediaWikiLexer
       if @lexer_table[@char]
         @lexer_table[@char].call
       else
-        @pending += @char
+        @pending << @char
         @cursor += 1
       end
     end
@@ -209,7 +209,7 @@ class MediaWikiLexer
   private
   
   def match_text
-    @pending += @char
+    @pending << @char
     @cursor += 1
   end
   
