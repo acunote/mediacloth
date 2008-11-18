@@ -51,3 +51,12 @@ Text
 ''Some italic and now '''bold
 
 Text
+
+Invalid and weird sections:
+================
+=
+==
+===
+====
+=====
+======

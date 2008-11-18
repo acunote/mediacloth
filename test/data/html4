@@ -47,4 +47,14 @@ Text
 
 </p><p><i>Some italic and now <b>bold
 
-</b></i></p><p>Text</p>
+</b></i></p><p>Text
+
+</p><p>Invalid and weird sections:
+</p><h6><a name='===='></a>====</h6>
+<p>
+=
+==
+</p><h1><a name='='></a>=</h1>
+<h1><a name='=='></a>==</h1>
+<h2><a name='='></a>=</h2>
+<h2><a name='=='></a>==</h2>

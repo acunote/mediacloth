@@ -346,8 +346,29 @@ class MediaWikiLexer
   def match_equal
     if at_start_of_line?
       @heading = extract_char_sequence('=')
-      start_span(:SECTION, @heading)
-      @lexer_table.push(@heading_lexer_table)
+      if at_end_of_line? or blank_line?
+        #special case - no header text, just "=" signs
+        #try to split header into "=" formatting and text with "=":
+        # example:
+        #  ==== should become: = == =
+        #  ===== should become: == = ==
+        if @heading =~ /(={6})(=+)(={6})/ or
+                @heading =~ /(={5})(=+)(={5})/ or
+                @heading =~ /(={4})(=+)(={4})/ or
+                @heading =~ /(={3})(=+)(={3})/ or
+                @heading =~ /(={2})(=+)(={2})/ or
+                @heading =~ /(=)(=+)(=)/
+            start_span(:SECTION, $1)
+            @tokens << [:TEXT, $2]
+            end_span(:SECTION, $3)
+        else
+            @cursor -= @heading.length
+            match_text
+        end
+      else
+        start_span(:SECTION, @heading)
+        @lexer_table.push(@heading_lexer_table)
+      end
     else
       match_text
     end
@@ -785,6 +806,11 @@ class MediaWikiLexer
   # Returns true if the text cursor is on the first character of a line
   def at_start_of_line?
     @cursor == 0 or @text[@cursor - 1, 1] == "\n"
+  end
+
+  # Returns true if the text cursor is after the last character of a line
+  def at_end_of_line?
+    @text[@cursor, 1] == "\n" or @text[@cursor, 1].nil?
   end
 
   def blank_line?
