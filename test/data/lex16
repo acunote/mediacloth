@@ -24,5 +24,4 @@ PARA_ENDPRE_STARTTEXT <?xml version="1.0" encoding="UTF-8"?>
  </dict>
  </plist>
 PRE_ENDPARA_STARTTEXT
-Some text.
-PARA_ENDfalsefalse
+Some text.TAG_STARTbrTAG_ENDbrTEXTSome other text.TAG_STARTbrTAG_ENDbrTEXTFoo.TAG_STARThrTAG_ENDhrTAG_STARTimgATTR_NAMEsrcATTR_VALUEfooTAG_ENDimgPARA_ENDfalsefalse

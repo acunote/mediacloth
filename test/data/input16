@@ -25,4 +25,4 @@ Some text.
  </dict>
  </plist>
 
-Some text.
+Some text.<br>Some other text.<br/>Foo.<hr><img src="foo">

@@ -23,6 +23,7 @@ class MediaWikiLexer
     menu meta noframes noscript object ol optgroup option p param pre q s samp script select small span
     strike strong style sub sup table tbody td textarea tfoot th thead title tr tt u ul var xmp }
   WIKI_TAGS = %w{ nowiki math }
+  TAGS_WITHOUT_CLOSE_TAG = %w{ br hr img }
 
   
   def initialize
@@ -324,7 +325,7 @@ class MediaWikiLexer
               append_to_tokens([:ATTR_NAME, name])
               append_to_tokens([:ATTR_VALUE, value]) if value
             end
-            if c == '/'
+            if c == '/' or TAGS_WITHOUT_CLOSE_TAG.include? tag_name
               end_span(:TAG, tag_name)
             else
               @lexer_table.push(table)

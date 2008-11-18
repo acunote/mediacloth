@@ -25,5 +25,4 @@
  &lt;/dict&gt;
  &lt;/plist&gt;
 </pre><p>
-Some text.
-</p>
+Some text.<br />Some other text.<br />Foo.<hr /><img src="foo" /></p>
