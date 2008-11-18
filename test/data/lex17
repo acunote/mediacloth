@@ -1,0 +1,9 @@
+TABLE_START{|ROW_STARTCELL_START|TEXT foo
+bar
+zee
+CELL_ENDCELL_START|TEXT moo
+goo
+CELL_ENDCELL_START|TEXT attr="value" otherattr="othervalue" CELL_ENDattributesCELL_START|TEXT nah
+mah
+bah
+CELL_ENDROW_ENDTABLE_END|}falsefalse

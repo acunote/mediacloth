@@ -1,0 +1,10 @@
+<table><tr><td> foo
+bar
+zee
+</td><td> moo
+goo
+</td><td  attr="value" otherattr="othervalue" > nah
+mah
+bah
+</td></tr>
+</table>
