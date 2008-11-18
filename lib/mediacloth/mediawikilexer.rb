@@ -16,6 +16,14 @@ class MediaWikiLexer
   NAME_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-]/ ? true : false}
   TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;?&~=#%\/]/ ? true : false}
 
+
+  HTML_TAGS = %w{ abbr acronym address applet area b base basefont bdo big blockquote body br
+    button caption center cite code col colgroup dd del dir div dfn dl dt em fieldset font form frame
+    frameset h1 h2 h3 h4 h5 h6 head hr html i iframe img input ins isindex kbd label legend li link map
+    menu meta noframes noscript object ol optgroup option p param pre q s samp script select small span
+    strike strong style sub sup table tbody td textarea tfoot th thead title tr tt u ul var xmp }
+  WIKI_TAGS = %w{ nowiki math }
+
   
   def initialize
     # Current position in token list
@@ -291,7 +299,7 @@ class MediaWikiLexer
     elsif next_char > 64 and next_char < 123
       # Might be an XHTML open or empty tag
       scanner = StringScanner.new(@text[@cursor .. -1])
-      if scanner.scan(%r{<([a-zA-Z][a-zA-Z0-9\-_]*)})
+      if scanner.scan(%r{<([a-zA-Z][a-zA-Z0-9\-_]*)}) and (HTML_TAGS.include?(scanner[1]) or WIKI_TAGS.include?(scanner[1]))
         # Sequence begins with a valid tag name, so check for attributes
         tag_name = scanner[1]
         attrs = {}

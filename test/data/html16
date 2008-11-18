@@ -1,0 +1,29 @@
+<h2><a name='Section'></a> Section </h2>
+<p>Some text.
+
+</p><pre> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;<a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd</a>&quot;&gt;
+ &lt;plist version=&quot;1.0&quot;&gt;
+ &lt;dict&gt;
+ &lt;key&gt;Label&lt;/key&gt;
+ &lt;string&gt;Update svn repo&lt;/string&gt;
+ &lt;key&gt;ProgramArguments&lt;/key&gt;
+ &lt;array&gt;
+ &lt;string&gt;updatesvn.sh&lt;/string&gt;
+ &lt;/array&gt;
+ &lt;key&gt;StandardErrorPath&lt;/key&gt;
+ &lt;string&gt;/dev/null&lt;/string&gt;
+ &lt;key&gt;StandardOutPath&lt;/key&gt;
+ &lt;string&gt;/dev/null&lt;/string&gt;
+ &lt;key&gt;StartCalendarInterval&lt;/key&gt;
+ &lt;dict&gt;
+ &lt;key&gt;Hour&lt;/key&gt;
+ &lt;integer&gt;16&lt;/integer&gt;
+ &lt;key&gt;Minute&lt;/key&gt;
+ &lt;integer&gt;40&lt;/integer&gt;
+ &lt;/dict&gt;
+ &lt;/dict&gt;
+ &lt;/plist&gt;
+</pre><p>
+Some text.
+</p>
