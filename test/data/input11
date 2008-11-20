@@ -3,6 +3,8 @@
 Here is a <tt>code sample</tt>.
 
 Another <tt class='code'>code sample</tt>.
+Another <tt class="code">code sample</tt>.
+Another <tt class=code>code sample</tt>.
 
 An example of a <nowiki><tt>code sample</tt></nowiki>.
 

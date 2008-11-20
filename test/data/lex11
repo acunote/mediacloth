@@ -2,6 +2,8 @@ SECTION_START==TEXTExamples of XHTML markup and escaping of XML charactersSECTIO
 Here is a TAG_STARTttTEXTcode sampleTAG_ENDttTEXT.
 
 PARA_ENDPARA_STARTTEXTAnother TAG_STARTttATTR_NAMEclassATTR_VALUEcodeTEXTcode sampleTAG_ENDttTEXT.
+Another TAG_STARTttATTR_NAMEclassATTR_VALUEcodeTEXTcode sampleTAG_ENDttTEXT.
+Another TAG_STARTttATTR_NAMEclassATTR_VALUEcodeTEXTcode sampleTAG_ENDttTEXT.
 
 PARA_ENDPARA_STARTTEXTAn example of a <tt>code sample</tt>.
 

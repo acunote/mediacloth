@@ -304,8 +304,8 @@ class MediaWikiLexer
         # Sequence begins with a valid tag name, so check for attributes
         tag_name = scanner[1]
         attrs = {}
-        while scanner.scan(%r{\s+([a-zA-Z][a-zA-Z0-9\-_]*)\s*=\s*('([^']+)'|"([^"]+)")}) do
-          attrs[scanner[1]] = scanner[3] ? scanner[3] : scanner[4]
+        while scanner.scan(%r{\s+([a-zA-Z][a-zA-Z0-9\-_]*)\s*=\s*('([^']+)'|"([^"]+)"|([^>\s]+))}) do
+          attrs[scanner[1]] = scanner[3] ? scanner[3] : (scanner[4] ? scanner[4] : scanner[5])
         end
         scanner.scan(%r{\s*})
         if ((c = scanner.get_byte) == '>' or (c == '/' and scanner.get_byte == '>'))
