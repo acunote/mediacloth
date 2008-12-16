@@ -17,7 +17,7 @@ class MediaWikiLexer
   TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;?&~=#%\/]/ ? true : false}
 
 
-  HTML_TAGS = %w{ abbr acronym address applet area b base basefont bdo big blockquote body br
+  HTML_TAGS = %w{ a abbr acronym address applet area b base basefont bdo big blockquote body br
     button caption center cite code col colgroup dd del dir div dfn dl dt em fieldset font form frame
     frameset h1 h2 h3 h4 h5 h6 head hr html i iframe img input ins isindex kbd label legend li link map
     menu meta noframes noscript object ol optgroup option p param pre q s samp script select small span
