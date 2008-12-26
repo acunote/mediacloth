@@ -1,0 +1,92 @@
+= MediaCloth Wiki Help =
+
+== Table of Contents ==
+* [[#Basic Formatting|Basic Formatting]]
+* [[#Prefotmatted Text|Preformatted Text]]
+* [[#Headings|Headings]]
+* [[#Lists|Lists]]
+* [[#HTML Formatting|HTML Formatting]]
+* [[#Links|Links]]
+* [[#Inclusions|Inclusions]]
+
+== Basic Formatting ==
+<pre>'''bold'''</pre>
+'''bold'''
+
+<pre>''italic''</pre>
+''italic''
+
+<pre>''''bold italic'''''</pre>
+'''''bold italic'''''
+
+<pre><nowiki>no ''markup''</nowiki></pre>
+<nowiki>no ''markup''</nowiki>
+
+ <tt>monospase</tt>
+<tt>monospase</tt>
+
+== Preformatted Text ==
+<tt>&lt;pre>preformatted text&lt;/pre></tt>
+<pre>preformatted text</pre>
+
+== Headings ==
+<pre>
+=Heading 1=
+==Heading 2==
+===Heading 3===
+====Heading 4====
+</pre>
+=Heading 1=
+==Heading 2==
+===Heading 3===
+====Heading 4====
+
+== Lists ==
+<pre>
+* bullet list 1
+* bullet list 2
+** bullet list 2.1
+*** bullet list 2.1.1
+</pre>
+
+* bullet list 1
+* bullet list 2
+** bullet list 2.1
+*** bullet list 2.1.1
+
+<pre>
+# numbered list 1
+# numbered list 2
+## numbered list 2.1
+## numbered list 2.2
+</pre>
+
+# numbered list 1
+# numbered list 2
+## numbered list 2.1
+## numbered list 2.2
+
+== Horizontal rule
+<pre>----</pre>
+----
+
+== HTML Formatting ==
+Valid HTML markup is almost fully supported. See http://www.w3.org/MarkUp for more details.
+
+== Links ==
+  By default any valid link will be displayed as link automatically
+  http://example.org
+
+  To transfor something to link you should include text into double brackets
+  <nowiki>[[Transform to Link]]</nowiki>
+  [[Transform to Link]]
+
+== Image Inclusions ==
+
+By default any link to the image will include this image into the page
+
+  <nowiki>http://acunote.com/images/logo_acunote_promo.gif</nowiki>
+  http://acunote.com/images/logo_acunote_promo.gif
+
+To render link to the image as link you should include it to double brackets (see [[#Links|Links]] section).<br/>
+Images aslo can be included with HTML &lt;img&gt; (see [[#HTML Formatting|HTML Formatting]] section).
