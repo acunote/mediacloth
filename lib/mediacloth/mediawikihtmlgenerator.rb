@@ -88,8 +88,8 @@ protected
             when :CharacterEntity then "&#{ast.contents};"
             when :HLine then "<hr></hr>"
             when :SignatureDate then @params.time.to_s
-            when :SignatureName then @params.author
-            when :SignatureFull then @params.author + " " + @params.time.to_s
+            when :SignatureName then "[[User:#{@params.author}]]"
+            when :SignatureFull then "[[User:#{@params.author}]] #{@params.time.to_s}"
             end
         else
             escape(ast.contents)
