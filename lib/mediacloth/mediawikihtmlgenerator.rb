@@ -35,6 +35,11 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
     def template_handler
       @template_handler ||= MediaWikiTemplateHandler.new
     end
+
+    attr_writer :params
+    def params
+        @params ||= MediaWikiParams.new
+    end
     
     # Utility method that returns the string with '<', '>', '&' and '"' escaped as 
     # XHTML character entities
@@ -82,9 +87,9 @@ protected
             when :None then MediaWikiHTMLGenerator.escape(ast.contents)
             when :CharacterEntity then "&#{ast.contents};"
             when :HLine then "<hr></hr>"
-            when :SignatureDate then MediaWikiParams.instance.time.to_s
-            when :SignatureName then MediaWikiParams.instance.author
-            when :SignatureFull then MediaWikiParams.instance.author + " " + MediaWikiParams.instance.time.to_s
+            when :SignatureDate then @params.time.to_s
+            when :SignatureName then @params.author
+            when :SignatureFull then @params.author + " " + @params.time.to_s
             end
         else
             escape(ast.contents)

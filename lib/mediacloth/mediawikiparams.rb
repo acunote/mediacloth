@@ -6,9 +6,6 @@ require 'singleton'
 #parser environment variables.
 class MediaWikiParams
 
-    #MediaWikiParams is a signleton class
-    include Singleton
-
     #The name of the wiki page author
     attr_accessor :author
 
@@ -17,7 +14,7 @@ class MediaWikiParams
     end
 
     def time
-        (@time || Time.now).strftime("%H:%M, %d %B %Y ")
+        (@time || Time.now.utc).strftime("%H:%M, %d %B %Y ")
     end
 
     def time=(t)

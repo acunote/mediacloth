@@ -84,9 +84,11 @@ private
       parser = MediaWikiParser.new
       parser.lexer = MediaWikiLexer.new
       ast = parser.parse(input)
-      MediaWikiParams.instance.time = Time.utc(2000, 1, 1, 1, 1, 1, 1)
       generator = MediaWikiHTMLGenerator.new
       generator.link_handler = link_handler if link_handler
+      params = MediaWikiParams.new
+      params.time = Time.utc(2000, 1, 1, 1, 1, 1, 1)
+      generator.params = params
       generator.parse(ast)
       generator.html
    end
