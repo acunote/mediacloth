@@ -122,6 +122,7 @@ class MediaWikiLexer
     @table_lexer_table["|"] = method(:match_pipe_in_table)
     @table_lexer_table["!"] = method(:match_bang_in_table)
     @table_lexer_table["{"] = method(:match_left_curly)
+    @table_lexer_table[" "] = method(:match_space)
     
     # Lexer table used to parse ordered and unordered list items (which may nest)
     @items_lexer_table = @inline_lexer_table.dup
