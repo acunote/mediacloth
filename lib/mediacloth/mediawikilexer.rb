@@ -140,6 +140,11 @@ class MediaWikiLexer
     @pre_lexer_table = {}
     @pre_lexer_table["<"] = method(:match_left_angle_in_pre)
         
+    # Lexer table used inside spans of <code>
+    @code_lexer_table = @inline_lexer_table.dup
+    @code_lexer_table[" "] = method(:match_space_in_code)
+    @code_lexer_table["<"] = method(:match_left_angle_in_code)
+
     # Lexer table used when inside spans of wiki-escaped text
     @nowiki_lexer_table = {}
     @nowiki_lexer_table["<"] = method(:match_left_angle_in_nowiki)
@@ -315,6 +320,8 @@ class MediaWikiLexer
           else
             if tag_name == 'pre'
               table = @pre_lexer_table
+            elsif tag_name == 'code'
+              table = @code_lexer_table
             elsif tag_name == 'math'
               table = @math_lexer_table
             else
@@ -618,6 +625,20 @@ class MediaWikiLexer
       @lexer_table.pop
     else
       match_text
+    end
+  end
+
+  def match_space_in_code
+    match_text
+  end
+
+  def match_left_angle_in_code
+    if @text[@cursor, 7] == '</code>'
+      end_span(:TAG, 'code')
+      @cursor += 7
+      @lexer_table.pop
+    else
+      match_left_angle
     end
   end
 

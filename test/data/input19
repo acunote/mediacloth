@@ -1,0 +1,29 @@
+<pre>
+  foo bar
+</pre>
+
+<code>
+  foo bar
+</code>
+
+<p> hi <br/> bye</p>
+
+<nowiki>test <br/> test</nowiki>
+
+There's something important in this example: <code>int a = '''2'''+2;</code> but I don't know what.
+
+
+There's something important in this example: <code>int a = 2+2;<br/>
+
+int b = a + 2;
+</code> but I don't know what.
+
+<pre>
+    Here's some code:
+
+    <code>
+    int a = 2+2;
+
+    int b = 3+4;
+    </code>
+</pre>

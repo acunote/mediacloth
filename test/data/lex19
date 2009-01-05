@@ -1,0 +1,27 @@
+TAG_STARTpreTEXT
+  foo bar
+TAG_ENDprePARA_STARTTAG_STARTcodeTEXT
+  foo bar
+TAG_ENDcodeTEXT
+
+PARA_ENDPARA_STARTTAG_STARTpTEXT hi TAG_STARTbrTAG_ENDbrTEXT byeTAG_ENDpTEXT
+
+PARA_ENDPARA_STARTTEXTtest <br/> test
+
+PARA_ENDPARA_STARTTEXTThere's something important in this example: TAG_STARTcodeTEXTint a = BOLD_START'''TEXT2BOLD_END'''TEXT+2;TAG_ENDcodeTEXT but I don't know what.
+
+PARA_ENDPARA_STARTTEXT
+There's something important in this example: TAG_STARTcodeTEXTint a = 2+2;TAG_STARTbrTAG_ENDbrTEXT
+
+int b = a + 2;
+TAG_ENDcodeTEXT but I don't know what.
+
+PARA_ENDTAG_STARTpreTEXT
+    Here's some code:
+
+    <code>
+    int a = 2+2;
+
+    int b = 3+4;
+    </code>
+TAG_ENDprefalsefalse

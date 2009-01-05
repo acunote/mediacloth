@@ -1,0 +1,27 @@
+<pre>
+  foo bar
+</pre><p><code>
+  foo bar
+</code>
+
+</p><p><p> hi <br /> bye</p>
+
+</p><p>test &lt;br/&gt; test
+
+</p><p>There's something important in this example: <code>int a = <b>2</b>+2;</code> but I don't know what.
+
+</p><p>
+There's something important in this example: <code>int a = 2+2;<br />
+
+int b = a + 2;
+</code> but I don't know what.
+
+</p><pre>
+    Here's some code:
+
+    &lt;code&gt;
+    int a = 2+2;
+
+    int b = 3+4;
+    &lt;/code&gt;
+</pre>
