@@ -910,7 +910,7 @@ class MediaWikiLexer
   # open paragraph will be closed (or, if empty, removed) before the token start
   # is appended.
   def start_span(symbol, text='')
-    maybe_close_para(symbol, (text == 'pre' or text == 'table'))
+    maybe_close_para(symbol, ['pre','table','p'].include?(text))
     @context << symbol
     append_to_tokens [(symbol.to_s + '_START').to_sym, text]
   end
