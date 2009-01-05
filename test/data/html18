@@ -1,0 +1,8 @@
+<h2><a name='Foobar'></a> Foobar </h2>
+<table border="1px"><tr><th>test
+</th></tr>
+<tr><td>a
+</td></tr>
+</table>
+<h2><a name='Foobar'></a> Foobar </h2>
+<table border="1px"><thead><tr><th>test</th></tr></thead><tbody><tr><td>a</td></tr></tbody></table>

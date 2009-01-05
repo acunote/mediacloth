@@ -1,0 +1,16 @@
+== Foobar ==
+{|border="1px"
+!test
+|-
+|a
+|}
+
+== Foobar ==
+<table border="1px">
+<thead>
+<tr><th>test</th></tr>
+</thead>
+<tbody>
+<tr><td>a</td></tr>
+</tbody>
+</table>
