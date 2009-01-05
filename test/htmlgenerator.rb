@@ -20,6 +20,13 @@ class HTMLGenerator_Test < Test::Unit::TestCase
       end
     end
 
+    def test_http_urls_in_internal_links
+      html = generate('[[http://www.google.com]]', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://www.google.com">http://www.google.com</a></p>'
+      html = generate('[[https://www.google.com]]', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="https://www.google.com">https://www.google.com</a></p>'
+    end
+
     def test_uses_element_attributes_from_link_handler
       html = generate('[[InternalLink|This is just an internal link]]', ClassEmptyLinkHandler.new)
       expected1 = '<p><a class="empty" href="http://www.example.com/wiki/InternalLink">This is just an internal link</a></p>'
