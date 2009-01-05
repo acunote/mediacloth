@@ -41,9 +41,10 @@ class HTMLGenerator_Test < Test::Unit::TestCase
     end
 
     def test_allows_specification_of_all_attributes
-      assert_generates '<p><a href="http://www.mysite.com/MyLink" id="123">Here is my link</a></p>',
-                       '[[MyLink|Here is my link]]',
-                        LinkAttributeHandler.new
+      html = generate('[[MyLink|Here is my link]]', LinkAttributeHandler.new)
+      expected1 = '<p><a href="http://www.mysite.com/MyLink" id="123">Here is my link</a></p>'
+      expected2 = '<p><a id="123" href="http://www.mysite.com/MyLink">Here is my link</a></p>'
+      assert (html == expected1 or html == expected2)
     end
 
     def test_allows_full_customization_of_link_tags
