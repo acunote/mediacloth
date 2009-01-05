@@ -88,8 +88,8 @@ protected
             when :CharacterEntity then "&#{ast.contents};"
             when :HLine then "<hr></hr>"
             when :SignatureDate then @params.time.to_s
-            when :SignatureName then "[[User:#{@params.author}]]"
-            when :SignatureFull then "[[User:#{@params.author}]] #{@params.time.to_s}"
+            when :SignatureName then link_handler.link_for("User:#{@params.author}", @params.author)
+            when :SignatureFull then "#{link_handler.link_for("User:#{@params.author}", @params.author)} #{@params.time.to_s}"
             end
         else
             escape(ast.contents)

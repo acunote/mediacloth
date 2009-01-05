@@ -24,6 +24,7 @@ module MediaCloth
     generator = options[:generator] || MediaWikiHTMLGenerator.new
     generator.link_handler = options[:link_handler] if options[:link_handler]
     generator.template_handler = options[:template_handler] if options[:template_handler]
+    generator.params = options[:params] if options[:params]
     generator.parse(tree)
   end
 
