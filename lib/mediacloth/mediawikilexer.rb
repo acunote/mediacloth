@@ -14,7 +14,7 @@ class MediaWikiLexer
   PARA_BREAK_ELEMENTS = [:UL, :OL, :DL, :PRE, :SECTION, :TABLE, :HLINE, :KEYWORD]
   
   NAME_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-]/ ? true : false}
-  TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;?&~=#%\/]/ ? true : false}
+  TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;:?&~=#%\/]/ ? true : false}
 
 
   HTML_TAGS = %w{ a abbr acronym address applet area b base basefont bdo big blockquote body br
