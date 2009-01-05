@@ -54,4 +54,4 @@ Dictionary lists
 </dt><dd>t
 </dd></dl><dl><dt>d
 </dt><dd>t
-</dd></dl><dl><dt>d </dt><dd>t <a href="javascript:void(0)">image:foo.jpg()</a></dd></dl>
+</dd></dl><dl><dt>d </dt><dd>t <a href="image:foo.jpg">image:foo.jpg</a></dd></dl>

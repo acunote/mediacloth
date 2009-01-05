@@ -53,11 +53,7 @@ class MediaWikiLinkHandler
   #The return value should be a well-formed hyperlink, image, object or 
   #applet tag.
   def link_for_resource(prefix, resource, options=[])
-    case prefix
-      when 'http': "<a href=\"#{prefix}:#{resource}\">#{prefix}:#{resource}</a>"
-      when 'https': "<a href=\"#{prefix}:#{resource}\">#{prefix}:#{resource}</a>"
-      else "<a href=\"javascript:void(0)\">#{prefix}:#{resource}(#{options.join(', ')})</a>"
-    end
+    "<a href=\"#{prefix}:#{resource}\">#{prefix}:#{resource}</a>"
   end
 
   def category_add(name, sort)
