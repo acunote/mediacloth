@@ -7,34 +7,73 @@
 * [[#__TOC___(Table of Contents)|__TOC__ (Table of Contents)]]
 * [[#Headings|Headings]]
 * [[#Lists|Lists]]
-* [[#HTML Formatting|HTML Formatting]]
 * [[#Links|Links]]
 * [[#Inclusions|Inclusions]]
+* [[#HTML Formatting|HTML Formatting]]
 * [[#Formatting Errors|Formatting Errors]]
 
-== Basic Formatting ==
-{|cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc"
-|-
-|width=50%|<tt><nowiki>'''bold'''</nowiki></tt>
-|'''bold'''
-|-
-|<tt><nowiki>''italic''</nowiki></tt>
-|''italic''
-|-
-|<tt><nowiki>''''bold italic'''''</nowiki></tt>
-|'''''bold italic'''''
-|-
-|<tt>&lt;nowiki><nowiki>no ''markup''</nowiki>&lt;/nowiki></tt>
-|<nowiki>no ''markup''</nowiki>
-|-
-|<tt><nowiki><tt>monospase</tt></nowiki></tt>
-|<tt>monospase</tt>
-|}
-
-== Preformatted text ==
 <table cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc">
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+== Basic Formatting ==
+</td>
+</tr>
+
 <tr>
 <td width="50%">
+<tt><nowiki>'''bold'''</nowiki></tt>
+</td>
+<td>
+'''bold'''
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt><nowiki>''italic''</nowiki></tt>
+</td>
+<td>
+''italic''
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>''''bold italic'''''</nowiki></tt>
+</td>
+<td>
+'''''bold italic'''''
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>&lt;nowiki><nowiki>no ''markup''</nowiki>&lt;/nowiki></tt>
+</td>
+<td>
+<nowiki>no ''markup''</nowiki>
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki><tt>monospase</tt></nowiki></tt>
+</td>
+<td>
+<tt>monospase</tt>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="background-color: #eee;"> 
+== Preformatted text ==
+</td>
+</tr>
+
+<tr>
+<td>
 <tt>&lt;pre>preformatted&nbsp;&nbsp;&nbsp;text&lt;/pre></tt>
 </td>
 <td>
@@ -50,12 +89,15 @@
   will also make it preformatted
 </td>
 </tr>
-</table>
-== Paragraphs ==
-To separate paragraphs of text you need to type two line breaks after the line. One break has no effect.
-<table cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc">
+
 <tr>
-<td width="50%">
+<td colspan="2" style="background-color: #eee;">
+== Paragraphs ==
+</td>
+</tr>
+
+<tr>
+<td>
 
 <pre>
 One line break
@@ -85,11 +127,30 @@ separate paragraphs
 <p>Two line breaks</p><p>separate paragraphs</p>
 </td>
 </tr>
-</table>
-== __TOC__ (Table of Contents) ==
-<table cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc">
+
 <tr>
-<td width="50%">
+<td>
+
+<pre>
+HTML tag <br/>breaks line
+</pre>
+
+</td>
+<td>
+
+HTML tag <br/>breaks line
+
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+== __TOC__ (Table of Contents) ==
+
+</td>
+</tr>
+<tr>
+<td>
 <tt><nowiki>__TOC__</nowiki></tt>
 </td>
 <td>
@@ -110,12 +171,14 @@ separate paragraphs
 
 </td>
 </tr>
-</table>
-== Headings ==
-<table cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc">
 <tr>
-<td width="50%">
+<td colspan="2" style="background-color: #eee;">
+== Headings ==
+</td>
+</tr>
 
+<tr>
+<td>
 <tt>
 <nowiki>=Heading 1=</nowiki><br/>
 <nowiki>==Heading 2==</nowiki><br/>
@@ -136,12 +199,15 @@ separate paragraphs
 ======Heading 6======
 </td>
 </tr>
-</table>
-== Lists ==
-<table cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc">
-<tr>
-<td width="50%">
 
+<tr>
+<td colspan="2" style="background-color: #eee;">
+== Lists ==
+</td>
+</tr>
+
+<tr>
+<td>
 <tt>
 <nowiki>* bulleted list item 1</nowiki><br/>
 <nowiki>* bulleted list item 2</nowiki><br/>
@@ -206,75 +272,153 @@ separate paragraphs
 </td>
 </tr>
 
-</table>
-== Horizontal line ==
-<table cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc">
 <tr>
-<td width="50%">
+<td colspan="2" style="background-color: #eee;">
+== Horizontal line ==
+</td>
+</tr>
+
+<tr>
+<td>
 <tt><nowiki>----</nowiki></tt>
 </td>
 <td>
 ----
 </td>
 </tr>
+
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+== Links ==
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>http://example.org</nowiki></tt>
+</td>
+<td>
+http://example.org
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+=== External Links ===
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>[http://example.com]</nowiki></tt>
+</td>
+<td>
+[http://example.com]
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>[http://example.com Different Text]</nowiki></tt>
+</td>
+<td>
+[http://example.com Different Text]
+</td>
+</tr>
+
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+=== Internal Links ===
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>[[My Page]]</nowiki></tt>
+</td>
+<td>
+[[My Page]]
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>[[My Page|Different Text]]</nowiki></tt>
+</td>
+<td>
+[[My Page|Different Text]]
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>[[/SubPage]]</nowiki></tt>
+</td>
+<td>
+[[/SubPage]]
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>[[#Anchor]]</nowiki></tt>
+</td>
+<td>
+[[#Anchor]]
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+== Inclusions ==
+</td>
+</tr>
+
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+=== Image Inclusions ===
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>http://acunote.com/images/logo_acunote_promo.gif</nowiki></tt>
+</td>
+<td>
+http://acunote.com/images/logo_acunote_promo.gif
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki><img src="http://acunote.com/images/logo_acunote_promo.gif" /></nowiki></tt>
+</td>
+<td>
+<img src="http://acunote.com/images/logo_acunote_promo.gif" />
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+=== Page Inclusions ===
+</td>
+</tr>
+
+<tr>
+<td>
+<tt><nowiki>{{Other Page}}</nowiki></tt>
+</td>
+<td>
+<img src="/images/help_wiki_included_page.png" width="355px;" />
+</td>
+</tr>
+
 </table>
 == HTML Formatting ==
 Valid HTML markup is almost fully supported. See http://www.w3.org/MarkUp for more details.
-
-== Links ==
-By default any valid URL will be displayed as link automatically
-
-{|cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc"
-|-
-|width=50%|<tt><nowiki>http://example.org</nowiki></tt>
-|http://example.org
-|}
-
-To transform something to link you should include text into brackets or double brackets. 
-Brackets are used for external links while double brackets are used for internal links.
-
-=== External Links ===
-{|cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc"
-|-
-|width=50%|<tt><nowiki>[http://example.com]</nowiki></tt>
-|[http://example.com]
-|-
-|width=50%|<tt><nowiki>[http://example.com Different Text]</nowiki></tt>
-|[http://example.com Different Text]
-|}
-
-=== Internal Links ===
-{|cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc"
-|-
-|width=50%|<tt><nowiki>[[My Page]]</nowiki></tt>
-|[[My Page]]
-|-
-|<tt><nowiki>[[My Page|Different Text]]</nowiki></tt>
-|[[My Page|Different Text]]
-|-
-|<tt><nowiki>[[/SubPage]]</nowiki></tt>
-|[[/SubPage]]
-|-
-|<tt><nowiki>[[#Anchor]]</nowiki></tt>
-|[[#Anchor]]
-|}
-
-== Inclusions ==
-
-=== Image Inclusions ===
-By default any reference to image URL will include it to the page as image
-{|cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc"
-|-
-|width=50%|<tt><nowiki>http://acunote.com/images/logo_acunote_promo.gif</nowiki></tt>
-|http://acunote.com/images/logo_acunote_promo.gif
-|}
-To render link to the image as link you should include it to brackets.<br/>
-{|cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc"
-|-
-|width=50%|<tt><nowiki>[http://acunote.com/images/logo_acunote_promo.gif]</nowiki></tt>
-|[http://acunote.com/images/logo_acunote_promo.gif]
-|}
-Images aslo can be included with HTML <img> tag.
 
 == Formatting Errors ==
 Erros in wiki or HTML formatting will cause the whole page to be diapayed as preformatted text 
