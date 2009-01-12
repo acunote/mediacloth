@@ -7,15 +7,17 @@
 * [[#__TOC___(Table of Contents)|__TOC__ (Table of Contents)]]
 * [[#Headings|Headings]]
 * [[#Lists|Lists]]
+* [[#Tables|Tables]]
 * [[#Links|Links]]
 * [[#Inclusions|Inclusions]]
 * [[#HTML Formatting|HTML Formatting]]
 * [[#Formatting Errors|Formatting Errors]]
 
-<table cellspacing="0" cellpadding="5px" border="1px" width="750px" style="border-collapse:collapse; border: 1px solid #ccc">
+
+<table cellspacing="0" cellpadding="5px" border="1px" width="90%" style="border-collapse:collapse; border: 1px solid #ccc">
 
 <tr>
-<td colspan="2" style="background-color: #eee;">
+<td colspan="2" style="background-color: #ffc;">
 == Basic Formatting ==
 </td>
 </tr>
@@ -67,7 +69,7 @@
 </tr>
 
 <tr>
-<td colspan="2" style="background-color: #eee;"> 
+<td colspan="2" style="background-color: #ffc;"> 
 == Preformatted text ==
 </td>
 </tr>
@@ -91,7 +93,7 @@
 </tr>
 
 <tr>
-<td colspan="2" style="background-color: #eee;">
+<td colspan="2" style="background-color: #ffc;">
 == Paragraphs ==
 </td>
 </tr>
@@ -144,7 +146,7 @@ HTML tag <br/>breaks line
 </tr>
 
 <tr>
-<td colspan="2" style="background-color: #eee;">
+<td colspan="2" style="background-color: #ffc;">
 == __TOC__ (Table of Contents) ==
 
 </td>
@@ -172,7 +174,7 @@ HTML tag <br/>breaks line
 </td>
 </tr>
 <tr>
-<td colspan="2" style="background-color: #eee;">
+<td colspan="2" style="background-color: #ffc;">
 == Headings ==
 </td>
 </tr>
@@ -201,7 +203,7 @@ HTML tag <br/>breaks line
 </tr>
 
 <tr>
-<td colspan="2" style="background-color: #eee;">
+<td colspan="2" style="background-color: #ffc;">
 == Lists ==
 </td>
 </tr>
@@ -273,7 +275,7 @@ HTML tag <br/>breaks line
 </tr>
 
 <tr>
-<td colspan="2" style="background-color: #eee;">
+<td colspan="2" style="background-color: #ffc;">
 == Horizontal line ==
 </td>
 </tr>
@@ -289,7 +291,238 @@ HTML tag <br/>breaks line
 
 
 <tr>
+<td colspan="2" style="background-color: #ffc;">
+== Tables ==
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>
+<b><nowiki>{|</nowiki></b><br/>
+
+:''...table code...''<br/>
+
+<b><nowiki>}|</nowiki></b><br/>
+</tt>
+</td>
+<td>
+The entire table is enclosed into curly brackets and a pipes.
+Use {| to begin a table, and |} to end it. Each one needs to be on its own line.
+This is equivalent to &lt;table> and &lt;/table> tags.
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt>
+<nowiki>{|</nowiki><br/>
+<b>|-</b>
+:''...table row code...''<br/>
+<nowiki>}|</nowiki><br/>
+</tt></td>
+<td>
+Each table row starts from the |- (pipe and hyphen). This is equivalent to &lt;tr> tag. You don't need to close table row. 
+It will be done automatically either at the next row or at the end of the table
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt>
+<nowiki>{|</nowiki><br/>
+<nowiki>|-</nowiki><br/>
+<b><nowiki>|</nowiki></b>''...cell contents...''<br/>
+<b><nowiki>|</nowiki></b>''...cell contents...''<br/>
+<nowiki>{-</nowiki><br/>
+<b><nowiki>|</nowiki></b>''...cell contents...'' <b><nowiki>||</nowiki></b> ''...cell contents...''<br/>
+<nowiki>}|</nowiki><br/>
+</tt>
+</td>
+<td>
+Vertical pipe represents start of the table cell. Cells can be separated with 
+either a new line and a pipe, or by "||" (double pipe) on the same line.
+</td>
+</tr>
+
+<tr>
 <td colspan="2" style="background-color: #eee;">
+Example
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>
+<nowiki>{|</nowiki><br/>
+<nowiki>|-</nowiki><br/>
+<nowiki>|</nowiki>a1<br/>
+<nowiki>|</nowiki>b1<br/>
+<nowiki>|-</nowiki><br/>
+<nowiki>|</nowiki>a2<nowiki>||</nowiki>b2<br/>
+<nowiki>}|</nowiki><br/>
+</tt></td>
+<td>
+{|
+|-
+|a1
+|b1
+|-
+|a2 || b2
+|}
+</td>
+</tr>
+
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+=== Captions ===
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt>
+<nowiki>{|</nowiki><br/>
+<b><nowiki>!caption1</nowiki></b><br/>
+<b><nowiki>!caption2</nowiki></b><br/>
+<nowiki>|-</nowiki><br/>
+<nowiki>|</nowiki>cell1<br/>
+<nowiki>|</nowiki>cell2<br/>
+<nowiki>}|</nowiki><br/>
+</tt>
+</td>
+<td>
+{|
+!caption1
+!caption2
+|-
+|cell1
+|cell2
+|}
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>
+<nowiki>{|</nowiki><br/>
+<b><nowiki>!caption1 || caption2</nowiki></b><br/>
+<nowiki>|-</nowiki><br/>
+<nowiki>| cell1 || cell2</nowiki><br/>
+<nowiki>}|</nowiki><br/>
+</tt>
+</td>
+<td>
+{|
+!caption1 || caption2
+|-
+|cell1 || cell2
+|}
+</td>
+</tr>
+
+
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+=== Table Attributes ===
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt>
+<b><nowiki>{|cellpadding="5px;" style="background-color: fcf;"</nowiki></b><br/>
+<nowiki>!caption1</nowiki><br/>
+<nowiki>!caption2</nowiki><br/>
+<nowiki>|-</nowiki><br/>
+<nowiki>|</nowiki>cell1<br/>
+<nowiki>|</nowiki>cell2<br/>
+<nowiki>}|</nowiki><br/>
+</tt>
+</td>
+<td>
+{|cellpadding="5px;" style="background: #ffc;"
+!caption1
+!caption2
+|-
+|cell1
+|cell2
+|}
+</td>
+</tr>
+
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+=== Cell Attributes ===
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt>
+<nowiki>{|cellpadding="2px;"</nowiki><br/>
+<nowiki>!caption1</nowiki><br/>
+<nowiki>!caption2</nowiki><br/>
+<nowiki>|-</nowiki><br/>
+<b><nowiki>|style="background: #cff;" align="right"|</nowiki></b>cell1<br/>
+<b><nowiki>|style="background: #fcf;"|</nowiki></b>cell2<br/>
+<nowiki>}|</nowiki><br/>
+</tt>
+</td>
+<td>
+{|cellpadding="5px;"
+!caption1
+!caption2
+|-
+|style="background: #cff;" align="right"|cell1
+|style="background: #fcf;"|cell2
+|}
+</td>
+</tr>
+
+<tr>
+<td colspan="2" style="background-color: #eee;">
+Example
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt>
+<nowiki>{|cellpadding="5px;" border="1px;" style="border-collapse: collapse;"</nowiki><br/>
+<nowiki>|-</nowiki><br/>
+<nowiki>|colspan="2" style="background: #eee;"|'''Good Looking Table'''</nowiki><br/>
+<nowiki>|-</nowiki><br/>
+<nowiki>|</nowiki>cell1<br/>
+<nowiki>|</nowiki>cell2<br/>
+<nowiki>}|</nowiki><br/>
+</tt>
+</td>
+<td>
+{|cellpadding="5px;" border="1px;" style="border-collapse: collapse;" width="100%;"
+|-
+|colspan="2" style="background: #eee;"|'''Good Looking Table'''
+|-
+|cell1
+|cell2
+|}
+</td>
+</tr>
+
+
+
+
+<tr>
+<td colspan="2" style="background-color: #ffc;">
 == Links ==
 </td>
 </tr>
@@ -370,18 +603,13 @@ http://example.org
 </td>
 </tr>
 
+
 <tr>
-<td colspan="2" style="background-color: #eee;">
+<td colspan="2" style="background-color: #ffc;">
 == Inclusions ==
 </td>
 </tr>
 
-
-<tr>
-<td colspan="2" style="background-color: #eee;">
-=== Image Inclusions ===
-</td>
-</tr>
 
 <tr>
 <td>
@@ -398,21 +626,6 @@ http://acunote.com/images/logo_acunote_promo.gif
 </td>
 <td>
 <img src="http://acunote.com/images/logo_acunote_promo.gif" />
-</td>
-</tr>
-
-<tr>
-<td colspan="2" style="background-color: #eee;">
-=== Page Inclusions ===
-</td>
-</tr>
-
-<tr>
-<td>
-<tt><nowiki>{{Other Page}}</nowiki></tt>
-</td>
-<td>
-<img src="/images/help_wiki_included_page.png" width="355px;" />
 </td>
 </tr>
 
