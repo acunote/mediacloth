@@ -14,7 +14,7 @@ token TEXT BOLD_START BOLD_END ITALIC_START ITALIC_END LINK_START LINK_END LINKS
     PARA_START PARA_END UL_START UL_END OL_START OL_END LI_START LI_END
     DL_START DL_END DT_START DT_END DD_START DD_END TAG_START TAG_END ATTR_NAME ATTR_VALUE
     TABLE_START TABLE_END ROW_START ROW_END HEAD_START HEAD_END CELL_START CELL_END
-    KEYWORD TEMPLATE_START TEMPLATE_END CATEGORY
+    KEYWORD TEMPLATE_START TEMPLATE_END CATEGORY PASTE_START PASTE_END
 
 
 rule
@@ -84,6 +84,12 @@ contents:
             l.url = val[1][0]
             l.children += val[1][1..-1] if val[1].length > 1
             result = l
+        }
+    | PASTE_START para_contents PASTE_END
+        {
+            p = PasteAST.new
+            p.children = val[1]
+            result = p
         }
     | INTLINK_START TEXT RESOURCESEP TEXT reslink_repeated_contents INTLINK_END
         {

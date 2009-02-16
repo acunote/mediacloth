@@ -1,0 +1,12 @@
+<paste>This is '''some''' text pasted from anywhere
+with
+new
+lines
+and    multiple    spaces and	tabs
+ and space
+  and two spaces
+with some
+<p attr="xxx" moo="zzz" bar=zzzzz>HTML formatted <a href="foo.bar">text</a> in </p> it.
+</paste>
+<paste></paste>
+<paste/>

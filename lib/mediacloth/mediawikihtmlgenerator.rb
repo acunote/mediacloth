@@ -81,6 +81,11 @@ protected
         end
     end
 
+    def parse_paste(ast)
+        return '' unless ast.children
+        "<div class=\"paste\" style=\"white-space: pre-wrap;\">#{super(ast)}</div>"
+    end
+
     def parse_text(ast)
         if ast.formatting
             case(ast.formatting)

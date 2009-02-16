@@ -22,7 +22,7 @@ class MediaWikiLexer
     frameset h1 h2 h3 h4 h5 h6 head hr html i iframe img input ins isindex kbd label legend li link map
     menu meta noframes noscript object ol optgroup option p param pre q s samp script select small span
     strike strong style sub sup table tbody td textarea tfoot th thead title tr tt u ul var xmp }
-  WIKI_TAGS = %w{ nowiki math }
+  WIKI_TAGS = %w{ nowiki math paste }
   TAGS_WITHOUT_CLOSE_TAG = %w{ br hr img }
 
   
@@ -149,7 +149,12 @@ class MediaWikiLexer
     # Lexer table used when inside spans of wiki-escaped text
     @nowiki_lexer_table = {}
     @nowiki_lexer_table["<"] = method(:match_left_angle_in_nowiki)
-        
+
+    @paste_lexer_table = {}
+    @paste_lexer_table["<"] = method(:match_left_angle_in_paste)
+    @paste_lexer_table["\n"] = method(:match_newline_in_paste)
+    @paste_lexer_table["\r"] = method(:match_newline_in_paste)
+
     # Lexer table used when inside spans of math
     @math_lexer_table = {}
     @math_lexer_table["<"] = method(:match_left_angle_in_math)
@@ -318,6 +323,11 @@ class MediaWikiLexer
           # Found an XHTML start or empty tag
           if tag_name == 'nowiki'
             @lexer_table.push(@nowiki_lexer_table) unless c == '/'
+          elsif tag_name == 'paste'
+            unless c == '/'
+                append_to_tokens([:PASTE_START, ''])
+                @lexer_table.push(@paste_lexer_table)
+            end
           else
             if tag_name == 'pre'
               table = @pre_lexer_table
@@ -602,7 +612,27 @@ class MediaWikiLexer
       match_text
     end
   end
-    
+
+  def match_left_angle_in_paste
+    if @text[@cursor, 8] == '</paste>'
+      @cursor += 8
+      @lexer_table.pop
+      append_to_tokens([:PASTE_END, ''])
+    else
+      match_text
+    end
+  end
+
+  def match_newline_in_paste
+    start_span(:TAG, 'br')
+    end_span(:TAG, 'br')
+    if @text[@cursor, 1] == "\n"
+      @cursor += 1
+    elsif @text[@cursor, 2] == "\r\n"
+      @cursor += 2
+    end
+  end
+
   def match_left_angle_in_math
     if @text[@cursor, 7] == '</math>'
       end_span(:TAG, 'math')

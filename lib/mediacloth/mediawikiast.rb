@@ -20,6 +20,10 @@ end
 class ParagraphAST < AST
 end
 
+#The node to represent paragraph with text pasted into wiki
+class PasteAST < AST
+end
+
 #The node to represent a simple or formatted text
 #with more AST nodes inside.
 class FormattedAST < AST
