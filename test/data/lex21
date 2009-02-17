@@ -1,3 +1,4 @@
-PARA_STARTPASTE_STARTTEXTThis is '''some''' text pasted from anywhereTAG_STARTbrTAG_ENDbrTEXTwithTAG_STARTbrTAG_ENDbrTEXTnewTAG_STARTbrTAG_ENDbrTEXTlinesTAG_STARTbrTAG_ENDbrTEXTand    multiple    spaces and	tabsTAG_STARTbrTAG_ENDbrTEXT and spaceTAG_STARTbrTAG_ENDbrTEXT  and two spacesTAG_STARTbrTAG_ENDbrTEXTwith someTAG_STARTbrTAG_ENDbrTEXT<p attr="xxx" moo="zzz" bar=zzzzz>HTML formatted <a href="foo.bar">text</a> in </p> it.TAG_STARTbrTAG_ENDbrPASTE_ENDPASTE_STARTPASTE_ENDTEXT
+PASTE_STARTTEXTThis is '''some''' text pasted from anywhereTAG_STARTbrTAG_ENDbrTEXTwithTAG_STARTbrTAG_ENDbrTEXTnewTAG_STARTbrTAG_ENDbrTEXTlinesTAG_STARTbrTAG_ENDbrTEXTand    multiple    spaces and	tabsTAG_STARTbrTAG_ENDbrTEXT and spaceTAG_STARTbrTAG_ENDbrTEXT  and two spacesTAG_STARTbrTAG_ENDbrTEXTwith someTAG_STARTbrTAG_ENDbrTEXT<p attr="xxx" moo="zzz" bar=zzzzz>HTML formatted <a href="foo.bar">text</a> in </p> it.TAG_STARTbrTAG_ENDbrPASTE_ENDPASTE_STARTPASTE_ENDPARA_STARTTEXT
 
-PARA_ENDfalsefalse
+
+PARA_ENDSECTION_START==TEXT Section SECTION_END==PASTE_STARTTEXTFooPASTE_ENDfalsefalse

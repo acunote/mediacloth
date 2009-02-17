@@ -11,7 +11,7 @@ class MediaWikiLexer
   
   INLINE_ELEMENTS = [:LINK, :INTLINK, :BOLD, :ITALIC]
   BLOCK_ELEMENTS = [:PARA, :PRE, :UL, :OL, :DL, :LI, :SECTION, :TABLE, :ROW, :CELL, :HEAD]
-  PARA_BREAK_ELEMENTS = [:UL, :OL, :DL, :PRE, :SECTION, :TABLE, :HLINE, :KEYWORD]
+  PARA_BREAK_ELEMENTS = [:UL, :OL, :DL, :PRE, :PASTE_START, :SECTION, :TABLE, :HLINE, :KEYWORD]
   
   NAME_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-]/ ? true : false}
   TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;:?&~=#%\/]/ ? true : false}
@@ -325,8 +325,18 @@ class MediaWikiLexer
             @lexer_table.push(@nowiki_lexer_table) unless c == '/'
           elsif tag_name == 'paste'
             unless c == '/'
+                maybe_close_para(:PASTE_START, true)
                 append_to_tokens([:PASTE_START, ''])
+                @cursor += scanner.pos
                 @lexer_table.push(@paste_lexer_table)
+                #eat newline after <paste> if if exists because otherwise
+                #it will be transformed into <br/>
+                if @text[@cursor, 1] == "\n"
+                    @cursor += 1
+                elsif @text[@cursor, 2] == "\r\n"
+                    @cursor += 2
+                end
+                return
             end
           else
             if tag_name == 'pre'
@@ -618,14 +628,15 @@ class MediaWikiLexer
       @cursor += 8
       @lexer_table.pop
       append_to_tokens([:PASTE_END, ''])
+      maybe_open_para(:PASTE_END)
     else
       match_text
     end
   end
 
   def match_newline_in_paste
-    start_span(:TAG, 'br')
-    end_span(:TAG, 'br')
+    append_to_tokens([:TAG_START, 'br'])
+    append_to_tokens([:TAG_END, 'br'])
     if @text[@cursor, 1] == "\n"
       @cursor += 1
     elsif @text[@cursor, 2] == "\r\n"
