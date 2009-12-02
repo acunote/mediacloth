@@ -73,12 +73,22 @@ class HTMLGenerator_Test < Test::Unit::TestCase
     end
 
     def test_table_with_column_attributes
-      assert_generates "<table><tr><td>a\n</td></tr>\n<tr><td  colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"> b\n</td></tr>\n</table>\n",
+      assert_generates "<table cellpadding=\"5\" border=\"1\"><tr><td>a\n</td></tr>\n<tr><td  colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"> b\n</td></tr>\n</table>\n",
         "{|\n|a\n|-\n| colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"| b\n|}"
     end
 
+    def test_table_with_column_attributes_cellspacing_and_border
+      assert_generates "<table cellpadding=\"10\" border=\"5\"><tr><td>a\n</td></tr>\n<tr><td  colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"> b\n</td></tr>\n</table>\n",
+        "{|cellpadding=\"10\" border=\"5\"\n|a\n|-\n| colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"| b\n|}"
+    end
+
+    def test_table_with_column_attributes_cellspacing_and_border_and_style
+      assert_generates "<table cellspacing=\"0\" cellpadding=\"5\" style=\"border-collapse:collapse\"><tr><td>a\n</td></tr>\n<tr><td  colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"> b\n</td></tr>\n</table>\n",
+        "{|cellspacing=\"0\" cellpadding=\"5\" style=\"border-collapse:collapse\"\n|a\n|-\n| colspan=\"4\" align=\"center\" style=\"background:#ffdead;\"| b\n|}"
+    end
+
     def test_table_without_column_attributes
-      assert_generates "<table><tr><td> a\n</td><td> b\n</td></tr>\n</table>\n",
+      assert_generates "<table cellpadding=\"5\" border=\"1\"><tr><td> a\n</td><td> b\n</td></tr>\n</table>\n",
         "{|\n| a\n| b\n|}"
     end
 

@@ -1,4 +1,4 @@
-<table><tr><td> foo
+<table cellpadding="5" border="1"><tr><td> foo
 bar
 zee
 </td><td> moo

@@ -1,63 +1,63 @@
 <p>Some examples of tables.
 
-</p><table></table>
-<table><tr></tr>
+</p><table cellpadding="5" border="1"></table>
+<table cellpadding="5" border="1"><tr></tr>
 </table>
-<table><tr><td> a
+<table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 </table>
-<table><tr><td> a
+<table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> 1
 </td><td> 2
 </td></tr>
 </table>
-<table><tr><td> a </td><td> b
+<table cellpadding="5" border="1"><tr><td> a </td><td> b
 </td></tr>
 <tr><td> 1 </td><td> 2
 </td></tr>
 </table>
-<table><tr><th> a
+<table cellpadding="5" border="1"><tr><th> a
 </th><th> b
 </th></tr>
 <tr><td> 1
 </td><td> 2
 </td></tr>
 </table>
-<table><tr><th> a </th><th> b
+<table cellpadding="5" border="1"><tr><th> a </th><th> b
 </th></tr>
 <tr><td> 1 </td><td> 2
 </td></tr>
 </table>
-<table><tr><td> a
+<table cellpadding="5" border="1"><tr><td> a
 </td></tr>
 <tr><td> 1
 </td><td> 2
 </td></tr>
 </table>
-<table><tr><td> a
+<table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> 1
 </td></tr>
 </table>
-<table><tr><td> a
+<table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td></td><td> 2
 </td></tr>
 </table>
-<table><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold</b></td></tr>
+<table cellpadding="5" border="1"><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold</b></td></tr>
 <tr><td> <a href="javascript:void(0)">Example</a></td><td> <a href="image:example.jpg">image:example.jpg</a></td></tr>
 </table>
-<table><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold
+<table cellpadding="5" border="1"><tr><td> <a href="http://example.com">Example</a></td><td> <b>bold
 </b></td></tr>
 <tr><td> <a href="javascript:void(0)">Example</a></td><td> <b>bold <i>italic
 </i></b></td></tr>
 </table>
-<table><tr><td> a
+<table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> A list in a cell:
@@ -65,11 +65,11 @@
 </li><li> two
 </li></ul></td></tr>
 </table>
-<table><tr><td> a
+<table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 <tr><td> A table in a cell:
-<table><tr><td> 1
+<table cellpadding="5" border="1"><tr><td> 1
 </td><td> 2
 </td></tr>
 <tr><td> one
@@ -80,7 +80,7 @@
 </table>
 <p><br />
 
-</p><table border="1"><tr><th> a
+</p><table border="1" cellpadding="5"><tr><th> a
 </th><th> b
 </th></tr>
 <tr align="left"><td> 1
@@ -90,13 +90,13 @@
 <p><br />
 
 </p><p>Text before
-</p><table><tr><td> a
+</p><table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 </table>
 <p>
 Text before with <i>italic
-</i></p><table><tr><td> a
+</i></p><table cellpadding="5" border="1"><tr><td> a
 </td><td> b
 </td></tr>
 </table>

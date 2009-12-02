@@ -1,5 +1,5 @@
 <h2><a name='Foobar'></a> Foobar </h2>
-<table border="1px"><tr><th>test
+<table border="1px" cellpadding="5"><tr><th>test
 </th></tr>
 <tr><td>a
 </td></tr>

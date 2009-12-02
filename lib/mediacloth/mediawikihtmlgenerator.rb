@@ -185,6 +185,8 @@ protected
     #Reimplement this
     def parse_table(ast)
         options = ast.options ? ' ' + ast.options.strip : ''
+        options << ' cellpadding="5"' unless options.include?('cellpadding')
+        options << ' border="1"' unless options.include?('border')
         "<table#{options}>" + super(ast) + "</table>\n"
     end
 
