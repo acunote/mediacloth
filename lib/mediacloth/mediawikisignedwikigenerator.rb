@@ -26,11 +26,11 @@ protected
                 @signed_wiki[ast.index + @index_inc, ast.length] = signature
                 @index_inc += signature.length - ast.length
             when :SignatureName then
-                signature = link_handler.link_for("User:#{@params.author}", @params.author)
+                signature = "[[User:#{@params.author}|#{@params.author}]]"
                 @signed_wiki[ast.index + @index_inc, ast.length] = signature
                 @index_inc += signature.length - ast.length
             when :SignatureFull then
-                signature = "#{link_handler.link_for("User:#{@params.author}", @params.author)} #{@params.time}"
+                signature = "[[User:#{@params.author}|#{@params.author}]] #{@params.time}"
                 @signed_wiki[ast.index + @index_inc, ast.length] = signature
                 @index_inc += signature.length - ast.length
           end
