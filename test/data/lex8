@@ -1,1 +1,1 @@
-SECTION_START===TEXT foo SECTION_END===falsefalse
+SECTION_START===[0, 3]TEXT foo [3, 5]SECTION_END===[8, 3]falsefalse[11, 0]

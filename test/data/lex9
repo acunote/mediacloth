@@ -1,14 +1,14 @@
-PARA_STARTTEXTSome examples of wiki escaping.
+PARA_START[0, 0]TEXTSome examples of wiki escaping.
 
-PARA_ENDPARA_STARTTEXTA paragraph with some wiki characters: ''italic'' '''bold''' [[Link]]
+[0, 33]PARA_END[33, 0]PARA_START[33, 0]TEXTA paragraph with some wiki characters: ''italic'' '''bold''' [[Link]]
 
-PARA_ENDPARA_STARTTEXTAn escaped list:
+[33, 71]PARA_END[121, 0]PARA_START[121, 0]TEXTAn escaped list:
 
 * one
 * two
 * three
 
 
-PARA_ENDPARA_STARTTEXTText escaped in a heading:
+[121, 40]PARA_END[178, 0]PARA_START[178, 0]TEXTText escaped in a heading:
 
-PARA_ENDSECTION_START==TEXTHeading with '''SECTION_END==falsefalse
+[178, 28]PARA_END[206, 0]SECTION_START==[206, 2]TEXTHeading with '''[208, 16]SECTION_END==[241, 3]falsefalse[244, 0]

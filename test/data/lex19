@@ -1,22 +1,22 @@
-TAG_STARTpreTEXT
+TAG_STARTpre[0, 5]TEXT
   foo bar
-TAG_ENDprePARA_STARTTAG_STARTcodeTEXT
+[5, 11]TAG_ENDpre[16, 0]PARA_START[16, 8]TAG_STARTcode[24, 6]TEXT
   foo bar
-TAG_ENDcodeTEXT
+[30, 11]TAG_ENDcode[41, 7]TEXT
 
-PARA_ENDTAG_STARTpTEXT hi TAG_STARTbrTAG_ENDbrTEXT byeTAG_ENDpPARA_STARTTEXT
+[48, 2]PARA_END[50, 0]TAG_STARTp[50, 3]TEXT hi [53, 4]TAG_STARTbr[57, 0]TAG_ENDbr[57, 5]TEXT bye[62, 4]TAG_ENDp[66, 0]PARA_START[66, 4]TEXT
 
-PARA_ENDPARA_STARTTEXTtest <br/> test
+[70, 2]PARA_END[72, 0]PARA_START[72, 8]TEXTtest <br/> test
 
-PARA_ENDPARA_STARTTEXTThere's something important in this example: TAG_STARTcodeTEXTint a = BOLD_START'''TEXT2BOLD_END'''TEXT+2;TAG_ENDcodeTEXT but I don't know what.
+[80, 17]PARA_END[106, 0]PARA_START[106, 0]TEXTThere's something important in this example: [106, 45]TAG_STARTcode[151, 6]TEXTint a = [157, 8]BOLD_START'''[165, 3]TEXT2[168, 1]BOLD_END'''[169, 3]TEXT+2;[172, 3]TAG_ENDcode[175, 7]TEXT but I don't know what.
 
-PARA_ENDPARA_STARTTEXT
-There's something important in this example: TAG_STARTcodeTEXTint a = 2+2;TAG_STARTbrTAG_ENDbrTEXT
+[182, 25]PARA_END[207, 0]PARA_START[207, 0]TEXT
+There's something important in this example: [207, 46]TAG_STARTcode[253, 6]TEXTint a = 2+2;[259, 12]TAG_STARTbr[271, 0]TAG_ENDbr[271, 5]TEXT
 
 int b = a + 2;
-TAG_ENDcodeTEXT but I don't know what.
+[276, 17]TAG_ENDcode[293, 7]TEXT but I don't know what.
 
-PARA_ENDTAG_STARTpreTEXT
+[300, 25]PARA_END[325, 0]TAG_STARTpre[325, 5]TEXT
     Here's some code:
 
     <code>
@@ -24,4 +24,4 @@ PARA_ENDTAG_STARTpreTEXT
 
     int b = 3+4;
     </code>
-TAG_ENDprefalsefalse
+[330, 82]TAG_ENDpre[412, 7]falsefalse[419, 0]

@@ -6,6 +6,57 @@ class String
   end
 end
 
+# Class for storing text tokens data - index and text 
+class TokenString < String
+    attr_reader :idx
+    
+    def initialize(lexer, text = '')
+        @lexer = lexer
+        @idx = 0
+        super(text)
+    end
+    
+    def <<(pending_text)
+        # If TokenString.length is 0 and we are pushing some text
+        # than in this moment we can retreive this tokes's index
+        if length == 0
+            @idx = @lexer.cursor
+        end
+        super(pending_text)
+    end
+end
+
+class TokenArray < Array
+    def initialize(lexer)
+        @lexer = lexer
+    end
+
+    def <<(token)
+        if @lexer.tokens.last && (@lexer.tokens.last[3].nil? || @lexer.tokens.last[3] == 0)
+            @lexer.tokens.last[3] = @lexer.cursor - @lexer.tokens.last[2]
+        end
+        token[2] = @lexer.cursor
+        super(token)
+    end
+
+    def append_pending(text)
+        if @lexer.tokens.last && @lexer.tokens.last[3].nil?
+            @lexer.tokens.last[3] = text.idx - @lexer.tokens.last[2]
+        end
+        token = [:TEXT, text, text.idx, text.length]
+        push(token)
+    end
+
+    def to_s
+        string_copy = ""
+        each do |token|
+            string_copy << "#{token[0..1]}[#{token[2]}, #{token[3]}]"
+        end
+        string_copy
+    end
+
+end
+
 
 class MediaWikiLexer
   
@@ -24,6 +75,9 @@ class MediaWikiLexer
     strike strong style sub sup table tbody td textarea tfoot th thead title tr tt u ul var xmp }
   WIKI_TAGS = %w{ nowiki math paste }
   TAGS_WITHOUT_CLOSE_TAG = %w{ br hr img }
+
+  attr_reader :cursor
+  attr_reader :tokens
 
   
   def initialize
@@ -181,11 +235,11 @@ class MediaWikiLexer
     # Current position in the input text
     @cursor = 0
     # Tokens to be returned
-    @tokens = []
+    @tokens = TokenArray.new(self)
     # Stack of open token spans
     @context = []
     # Already lexed character data, not yet added to a TEXT token
-    @pending = ''
+    @pending = TokenString.new(self)
     # List symbols from the most recent line item of a list, e.g. '***'
     @list = ''
         
@@ -207,13 +261,13 @@ class MediaWikiLexer
         @tokens.pop 
       end
     else
-      @tokens << [:TEXT, @pending]
-      @pending = ''
+      @tokens.append_pending(@pending)
+      @pending = TokenString.new(self)
     end
     while(@context.size > 0) do
       @tokens << [(@context.pop.to_s + '_END').to_sym, '']
     end
-    @tokens << [false, false]
+    @tokens << [false, false, 0, 0]
     @tokens
     
   end
@@ -282,14 +336,11 @@ class MediaWikiLexer
 
   def match_tilde
     if @text[@cursor, 5] == "~~~~~"
-      empty_span(:SIGNATURE_DATE, "~~~~~")
-      @cursor += 5
+      empty_span(:SIGNATURE_DATE, "~~~~~", 5)
     elsif @text[@cursor, 4] == "~~~~"
-      empty_span(:SIGNATURE_FULL, "~~~~")
-      @cursor += 4
+      empty_span(:SIGNATURE_FULL, "~~~~", 4)
     elsif @text[@cursor, 3] == "~~~"
-      empty_span(:SIGNATURE_NAME, "~~~")
-      @cursor += 3
+      empty_span(:SIGNATURE_NAME, "~~~", 3)
     else
       match_text
     end
@@ -359,7 +410,7 @@ class MediaWikiLexer
               @lexer_table.push(table)
             end
           end
-          @cursor += scanner.pos
+          @cursor += scanner.pos #FIXME: will break xhtml attribute length calculation
         else
           match_text
         end
@@ -374,7 +425,9 @@ class MediaWikiLexer
   def match_equal
     if at_start_of_line?
       @heading = extract_char_sequence('=')
+      @cursor += @heading.length
       if at_end_of_line? or blank_line?
+        @cursor -= @heading.length
         #special case - no header text, just "=" signs
         #try to split header into "=" formatting and text with "=":
         # example:
@@ -387,14 +440,18 @@ class MediaWikiLexer
                 @heading =~ /(={2})(=+)(={2})/ or
                 @heading =~ /(=)(=+)(=)/
             start_span(:SECTION, $1)
+            @cursor += $1.length
             @tokens << [:TEXT, $2]
+            @cursor += $2.length
             end_span(:SECTION, $3)
+            @cursor += $3.length
         else
-            @cursor -= @heading.length
             match_text
         end
       else
+        @cursor -= @heading.length
         start_span(:SECTION, @heading)
+        @cursor += @heading.length
         @lexer_table.push(@heading_lexer_table)
       end
     else
@@ -407,9 +464,11 @@ class MediaWikiLexer
     if @heading.length <= heading.length 
       end_span(:SECTION, heading)
       @lexer_table.pop
+      @cursor += heading.length
       skip_newline
     else
       @pending << heading
+      @cursor += heading.length
     end
   end
   
@@ -454,8 +513,9 @@ class MediaWikiLexer
   end
   
   def match_space_in_link
-    skip_whitespace
+    spaces = extract_char_sequence(' ')
     append_to_tokens([:LINKSEP, ' ']) unless @text[@cursor, 1] == ']'
+    @cursor += spaces.length
     @lexer_table.pop
     @lexer_table.push(@link_opt_lexer_table)
   end
@@ -500,15 +560,19 @@ class MediaWikiLexer
   end
 
   def match_h_char
-    if @text[@cursor, 7] == 'http://' || @text[@cursor, 8] == 'https://'
-      text = @text[@cursor, 7]
-      @cursor += 7
-      while @cursor < @text.size and TOKEN_CHAR_TABLE[@text[@cursor]] do
-        text << @text[@cursor, 1]
-        @cursor += 1
-      end
+    link = @text[@cursor, 7] if @text[@cursor, 7] == 'http://'
+    link = @text[@cursor, 8] if @text[@cursor, 8] == 'https://'
+    if link
       start_span(:LINK)
-      @pending = text
+      i = @cursor + link.length
+      while i < @text.size and TOKEN_CHAR_TABLE[@text[i]] do
+        link << @text[i, 1]
+        i += 1
+      end
+      
+      @pending = TokenString.new(self)
+      @pending << link
+      @cursor = i
       end_span(:LINK)
     else
       match_text
@@ -528,8 +592,8 @@ class MediaWikiLexer
   def match_newline_in_indent
     match_text
     unless @text[@cursor, 1] == " "
-      @tokens << [:TEXT, @pending]
-      @pending = ''
+      @tokens.append_pending(@pending)
+      @pending = TokenString.new(self)
       end_span(:PRE)
       @lexer_table.pop
     end
@@ -554,14 +618,12 @@ class MediaWikiLexer
       match_text
     end
   end
-  
+
   def match_underscore
     if @text[@cursor, 7] == '__TOC__'
-      empty_span(:KEYWORD, 'TOC')
-      @cursor += 7
+      empty_span(:KEYWORD, 'TOC', 7)
     elsif @text[@cursor, 9] == '__NOTOC__'
-      empty_span(:KEYWORD, 'NOTOC')
-      @cursor += 9
+      empty_span(:KEYWORD, 'NOTOC', 9)
     else
       match_text
     end
@@ -580,8 +642,9 @@ class MediaWikiLexer
     if (char == @list[0, 1])
       list = extract_char_sequence('#*')
       if list == @list
-        end_span(:LI) 
+        end_span(:LI)
         start_span(:LI)
+        @cursor += list.length
       else
         l = @list.length > list.length ? list.length : @list.length
         i = 0
@@ -595,8 +658,9 @@ class MediaWikiLexer
         end
         if i < list.length
           start_span(:LI) if @context.last != :LI
-          open_list(list[i .. -1]) 
+          open_list(list[i .. -1])
         end
+        @cursor += i
         @list = list
       end
     else
@@ -607,8 +671,7 @@ class MediaWikiLexer
   
   def match_dash
     if at_start_of_line? and @text[@cursor, 4] == "----"
-      empty_span(:HLINE, "----")
-      @cursor += 4
+      empty_span(:HLINE, "----", 4)
     else
       match_text
     end
@@ -625,9 +688,9 @@ class MediaWikiLexer
 
   def match_left_angle_in_paste
     if @text[@cursor, 8] == '</paste>'
-      @cursor += 8
       @lexer_table.pop
       append_to_tokens([:PASTE_END, ''])
+      @cursor += 8
       maybe_open_para(:PASTE_END)
     else
       match_text
@@ -636,12 +699,12 @@ class MediaWikiLexer
 
   def match_newline_in_paste
     append_to_tokens([:TAG_START, 'br'])
-    append_to_tokens([:TAG_END, 'br'])
     if @text[@cursor, 1] == "\n"
       @cursor += 1
     elsif @text[@cursor, 2] == "\r\n"
       @cursor += 2
     end
+    append_to_tokens([:TAG_END, 'br'])
   end
 
   def match_left_angle_in_math
@@ -729,7 +792,6 @@ class MediaWikiLexer
     
   def match_bang_in_table
     if at_start_of_line?
-      @cursor += 1
       if @context.last == :CELL
         end_span(:CELL)
       elsif @context.last == :HEAD
@@ -738,6 +800,7 @@ class MediaWikiLexer
         start_span(:ROW)
       end
       start_span(:HEAD, "!")
+      @cursor += 1
     else
       match_text
     end
@@ -745,15 +808,14 @@ class MediaWikiLexer
     
   def match_pipe_in_table
     if at_start_of_line?
-      @cursor += 1
       context = @context[@context.rindex(:TABLE) + 1 .. -1]
-      if @text[@cursor, 1] == '-'
+      if @text[@cursor+1, 1] == '-'
         end_span(:ROW) if context.include? :ROW
         start_span(:ROW, "|-")
-        @cursor += 1
-      elsif @text[@cursor, 1] == '}'
+        @cursor += 2
+      elsif @text[@cursor+1, 1] == '}'
         end_span(:TABLE, "|}")
-        @cursor += 1
+        @cursor += 2
         @lexer_table.pop
         skip_newline
       else
@@ -764,9 +826,9 @@ class MediaWikiLexer
         end
         start_span(:ROW) unless @context.last == :ROW
         start_span(:CELL, "|")
+        @cursor += 1
       end
     elsif @text[@cursor + 1, 1] == '|'
-      @cursor += 2
       context = @context[@context.rindex(:TABLE) + 1 .. -1]
       if context.include?:CELL
         end_span(:CELL)
@@ -775,12 +837,14 @@ class MediaWikiLexer
         end_span(:HEAD)
         start_span(:HEAD, "||")
       end
+      @cursor += 2
     else
       context = @context[@context.rindex(:TABLE) + 1 .. -1]
       if context.include? :CELL
         end_span(:CELL, "attributes")
         start_span(:CELL, "|")
-        @char = ''
+        @char = ''    #WTF?
+        #CHECK: this usecase and cursor increments
       end
       match_text
     end
@@ -806,13 +870,13 @@ class MediaWikiLexer
     if @text[@cursor, 2] == "\n\n"
       start_span(:PARA)
       append_to_tokens([:TEXT, "\n\n"])
-      end_span(:PARA)
       @cursor += 2
+      end_span(:PARA)
     elsif @text[@cursor, 4] == "\r\n\r\n"
       start_span(:PARA)
       append_to_tokens([:TEXT, "\r\n\r\n"])
-      end_span(:PARA)
       @cursor += 4
+      end_span(:PARA)
     else
       match_text
     end
@@ -905,16 +969,17 @@ class MediaWikiLexer
   # text cursor is advanaced to point to the next character after the sequence.
   def extract_char_sequence(char)
     sequence = ''
+    i = @cursor
     if char.length == 1
-      while @text[@cursor, 1] == char do
+      while @text[i, 1] == char do
         sequence << char
-        @cursor += 1
+        i += 1
       end
     else
       chars = char.split('')
-      while chars.include?(@text[@cursor, 1]) do
-        sequence << @text[@cursor, 1]
-        @cursor += 1
+      while chars.include?(@text[i, 1]) do
+        sequence << @text[i, 1]
+        i += 1
       end
     end
     sequence
@@ -922,21 +987,20 @@ class MediaWikiLexer
   
   # Opens list and list item spans for each item symbol in the string specified.
   def open_list(symbols)
-    symbols.split('').each do
-      |symbol|
+    symbols.split('').each do |symbol|
       if symbol == '*'
         start_span(:UL)
       else
         start_span(:OL)
       end
       start_span(:LI)
+      @cursor += symbol.length
     end
   end
   
   # Closes list and list item spans for each item symbol in the string specified.
   def close_list(symbols)
-    symbols.split('').reverse.each do
-      |symbol|
+    symbols.split('').reverse.each do |symbol|
       end_span(:LI)
       if symbol == '*'
         end_span(:UL)
@@ -971,9 +1035,10 @@ class MediaWikiLexer
     maybe_open_para(symbol)
   end
   
-  def empty_span(symbol, text='')
+  def empty_span(symbol, text, cursor_increment)
     maybe_close_para(symbol)
     append_to_tokens [symbol, text]
+    @cursor += cursor_increment
     maybe_open_para(symbol)
   end
   
@@ -1004,9 +1069,9 @@ class MediaWikiLexer
   
   def append_to_tokens(token)
     unless @pending.is_empty_token?
-      @tokens << [:TEXT, @pending]
+      @tokens.append_pending(@pending)
     end
-    @pending = ''
+    @pending = TokenString.new(self)
     @tokens << token
   end
   
@@ -1034,3 +1099,4 @@ class MediaWikiLexer
   end
 
 end
+

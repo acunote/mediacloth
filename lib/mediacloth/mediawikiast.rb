@@ -3,11 +3,15 @@ class AST
     attr_accessor :contents
     attr_accessor :parent
     attr_accessor :children
+    attr_accessor :index
+    attr_accessor :length
 
-    def initialize
+    def initialize(index = 0,length = 0)
         @children = []
         @parent = nil
         @contents = ""
+        @index = index
+        @length = length
     end
 end
 

@@ -1,2 +1,2 @@
-HLINE----PARA_STARTTEXT
-This is a textPARA_ENDfalsefalse
+HLINE----[0, 4]PARA_START[4, 0]TEXT
+This is a text[4, 15]PARA_END[19, 0]falsefalse[19, 0]

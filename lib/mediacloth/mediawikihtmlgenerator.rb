@@ -20,27 +20,6 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
         @html = super(ast)
     end
     
-    #Set this generator's URL handler.
-    def link_handler=(handler)
-      @link_handler = handler
-    end
-    
-    #Returns's this generator URL handler. If no handler was set, returns the
-    #default handler.
-    def link_handler
-      @link_handler ||= MediaWikiLinkHandler.new
-    end
-
-    attr_writer :template_handler
-    def template_handler
-      @template_handler ||= MediaWikiTemplateHandler.new
-    end
-
-    attr_writer :params
-    def params
-        @params ||= MediaWikiParams.new
-    end
-    
     # Utility method that returns the string with '<', '>', '&' and '"' escaped as 
     # XHTML character entities
     def MediaWikiHTMLGenerator.escape(str)

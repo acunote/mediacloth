@@ -1,4 +1,5 @@
 require 'mediacloth/mediawikiast'
+require 'mediacloth/mediawikiparams'
 
 #Default walker to traverse the parse tree.
 #
@@ -13,6 +14,27 @@ class MediaWikiWalker
     #Walks through the AST
     def parse(ast)
         parse_wiki_ast(ast)
+    end
+    
+    #Set generator's URL handler.
+    def link_handler=(handler)
+      @link_handler = handler
+    end
+    
+    #Returns's this generator URL handler. If no handler was set, returns the
+    #default handler.
+    def link_handler
+      @link_handler ||= MediaWikiLinkHandler.new
+    end
+
+    attr_writer :template_handler
+    def template_handler
+      @template_handler ||= MediaWikiTemplateHandler.new
+    end
+
+    attr_writer :params
+    def params
+        @params ||= MediaWikiParams.new
     end
 
 protected

@@ -1,9 +1,9 @@
-TABLE_START{|ROW_STARTCELL_START|TEXT foo
+TABLE_START{|[0, 3]ROW_START[3, 0]CELL_START|[3, 1]TEXT foo
 bar
 zee
-CELL_ENDCELL_START|TEXT moo
+[4, 13]CELL_END[17, 0]CELL_START|[17, 1]TEXT moo
 goo
-CELL_ENDCELL_START|TEXT attr="value" otherattr="othervalue" CELL_ENDattributesCELL_START|TEXT nah
+[18, 9]CELL_END[27, 0]CELL_START|[27, 1]TEXT attr="value" otherattr="othervalue" [28, 37]CELL_ENDattributes[65, 0]CELL_START|[65, 1]TEXT nah
 mah
 bah
-CELL_ENDROW_ENDTABLE_END|}falsefalse
+[66, 13]CELL_END[79, 0]ROW_END[79, 0]TABLE_END|}[79, 3]falsefalse[82, 0]

@@ -22,7 +22,7 @@ rule
 wiki:
     repeated_contents
         {
-            @nodes.push WikiAST.new
+            @nodes.push WikiAST.new(@token_index, @token_length)
             #@nodes.last.children.insert(0, val[0])
             #puts val[0]
             @nodes.last.children += val[0]
@@ -44,7 +44,7 @@ contents:
         }
     | dictionary_list
         {
-            list = ListAST.new
+            list = ListAST.new(@token_index, @token_length)
             list.list_type = :Dictionary
             list.children = val[0]
             result = list
@@ -67,19 +67,19 @@ contents:
         }
     | KEYWORD
         {
-            k = KeywordAST.new
+            k = KeywordAST.new(@token_index, @token_length)
             k.text = val[0]
             result = k
         }
     | PARA_START para_contents PARA_END
         {
-            p = ParagraphAST.new
+            p = ParagraphAST.new(@token_index, @token_length)
             p.children = val[1]
             result = p
         }
     | LINK_START link_contents LINK_END
         {
-            l = LinkAST.new
+            l = LinkAST.new(@token_index, @token_length)
             l.link_type = val[0]
             l.url = val[1][0]
             l.children += val[1][1..-1] if val[1].length > 1
@@ -87,13 +87,13 @@ contents:
         }
     | PASTE_START para_contents PASTE_END
         {
-            p = PasteAST.new
+            p = PasteAST.new(@token_index, @token_length)
             p.children = val[1]
             result = p
         }
     | INTLINK_START TEXT RESOURCESEP TEXT reslink_repeated_contents INTLINK_END
         {
-            l = ResourceLinkAST.new
+            l = ResourceLinkAST.new(@token_index, @token_length)
             l.prefix = val[1]
             l.locator = val[3]
             l.children = val[4] unless val[4].nil? or val[4].empty?
@@ -101,21 +101,21 @@ contents:
         }
     | INTLINK_START TEXT intlink_repeated_contents INTLINK_END
         {
-            l = InternalLinkAST.new
+            l = InternalLinkAST.new(@token_index, @token_length)
             l.locator = val[1]
             l.children = val[2] unless val[2].nil? or val[2].empty?
             result = l
         }
     | INTLINK_START CATEGORY TEXT cat_sort_contents INTLINK_END
         {
-            l = CategoryAST.new
+            l = CategoryAST.new(@token_index, @token_length)
             l.locator = val[2]
             l.sort_as = val[3]
             result = l
         }
     | INTLINK_START RESOURCESEP CATEGORY TEXT intlink_repeated_contents INTLINK_END
         {
-            l = CategoryLinkAST.new
+            l = CategoryLinkAST.new(@token_index, @token_length)
             l.locator = val[3]
             l.children = val[4] unless val[4].nil? or val[4].empty?
             result = l
@@ -139,7 +139,7 @@ tag:
             if val[0] != val[2] 
                 raise Racc::ParseError.new("XHTML end tag #{val[2]} does not match start tag #{val[0]}")
             end
-            elem = ElementAST.new
+            elem = ElementAST.new(@token_index, @token_length)
             elem.name = val[0]
             elem.attributes = val[1]
             result = elem
@@ -149,7 +149,7 @@ tag:
             if val[0] != val[3] 
                 raise Racc::ParseError.new("XHTML end tag #{val[3]} does not match start tag #{val[0]}")
             end
-            elem = ElementAST.new
+            elem = ElementAST.new(@token_index, @token_length)
             elem.name = val[0]
             elem.attributes = val[1]
             elem.children += val[2]
@@ -232,7 +232,7 @@ reslink_repeated_contents:
         }
     | INTLINKSEP repeated_contents reslink_repeated_contents
         {
-            i = InternalLinkItemAST.new
+            i = InternalLinkItemAST.new(@token_index, @token_length)
             i.children = val[1]
             result = [i]
             result += val[2] if val[2]
@@ -254,7 +254,7 @@ repeated_contents: contents
 
 text: element
         {
-            p = TextAST.new
+            p = TextAST.new(@token_index, @token_length)
             p.formatting = val[0][0]
             p.contents = val[0][1]
             result = p
@@ -268,13 +268,13 @@ text: element
 table:
       TABLE_START table_contents TABLE_END
         {
-            table = TableAST.new
+            table = TableAST.new(@token_index, @token_length)
             table.children = val[1] unless val[1].nil? or val[1].empty?
             result = table
         }
     | TABLE_START TEXT table_contents TABLE_END
         {
-            table = TableAST.new
+            table = TableAST.new(@token_index, @token_length)
             table.options = val[1]
             table.children = val[2] unless val[2].nil? or val[2].empty?
             result = table
@@ -286,14 +286,14 @@ table_contents:
         }
     | ROW_START row_contents ROW_END table_contents
         {
-            row = TableRowAST.new
+            row = TableRowAST.new(@token_index, @token_length)
             row.children = val[1] unless val[1].nil? or val[1].empty?
             result = [row]
             result += val[3] unless val[3].nil? or val[3].empty?
         }
     | ROW_START TEXT row_contents ROW_END table_contents
         {
-            row = TableRowAST.new
+            row = TableRowAST.new(@token_index, @token_length)
             row.children = val[2] unless val[2].nil? or val[2].empty?
             row.options = val[1]
             result = [row]
@@ -306,14 +306,14 @@ row_contents:
         }
     | HEAD_START HEAD_END row_contents
         {
-            cell = TableCellAST.new
+            cell = TableCellAST.new(@token_index, @token_length)
             cell.type = :head
             result = [cell]
             result += val[2] unless val[2].nil? or val[2].empty?
         }
     | HEAD_START repeated_contents HEAD_END row_contents
         {
-            cell = TableCellAST.new
+            cell = TableCellAST.new(@token_index, @token_length)
             cell.children = val[1] unless val[1].nil? or val[1].empty?
             cell.type = :head
             result = [cell]
@@ -321,7 +321,7 @@ row_contents:
         }
     | CELL_START CELL_END row_contents
         {
-            cell = TableCellAST.new
+            cell = TableCellAST.new(@token_index, @token_length)
             cell.type = :body
             result = [cell]
             result += val[2] unless val[2].nil? or val[2].empty?
@@ -331,7 +331,7 @@ row_contents:
             if val[2] == 'attributes'
                 result = []
             else
-                cell = TableCellAST.new
+                cell = TableCellAST.new(@token_index, @token_length)
                 cell.children = val[1] unless val[1].nil? or val[1].empty?
                 cell.type = :body
                 result = [cell]
@@ -362,26 +362,26 @@ element:
 formatted_element: 
       BOLD_START BOLD_END
         {
-            result = FormattedAST.new
+            result = FormattedAST.new(@token_index, @token_length)
             result.formatting = :Bold
             result
         } 
     | ITALIC_START ITALIC_END
         {
-            result = FormattedAST.new
+            result = FormattedAST.new(@token_index, @token_length)
             result.formatting = :Italic
             result
         }
     | BOLD_START repeated_contents BOLD_END
         {
-            p = FormattedAST.new
+            p = FormattedAST.new(@token_index, @token_length)
             p.formatting = :Bold
             p.children += val[1]
             result = p
         }
     | ITALIC_START repeated_contents ITALIC_END
         {
-            p = FormattedAST.new
+            p = FormattedAST.new(@token_index, @token_length)
             p.formatting = :Italic
             p.children += val[1]
             result = p
@@ -390,7 +390,7 @@ formatted_element:
 
 bulleted_list: UL_START list_item list_contents UL_END
         {
-            list = ListAST.new
+            list = ListAST.new(@token_index, @token_length)
             list.list_type = :Bulleted
             list.children << val[1]
             list.children += val[2]
@@ -400,7 +400,7 @@ bulleted_list: UL_START list_item list_contents UL_END
 
 numbered_list: OL_START list_item list_contents OL_END
         {
-            list = ListAST.new
+            list = ListAST.new(@token_index, @token_length)
             list.list_type = :Numbered
             list.children << val[1]
             list.children += val[2]
@@ -422,11 +422,11 @@ list_contents:
 list_item: 
       LI_START LI_END
         {
-            result = ListItemAST.new
+            result = ListItemAST.new(@token_index, @token_length)
         }
     | LI_START repeated_contents LI_END
         {
-            li = ListItemAST.new
+            li = ListItemAST.new(@token_index, @token_length)
             li.children += val[1]
             result = li
         }
@@ -447,11 +447,11 @@ dictionary_list:
 dictionary_term:
       DT_START DT_END
         {
-            result = ListTermAST.new
+            result = ListTermAST.new(@token_index, @token_length)
         }
     | DT_START repeated_contents DT_END
         {
-            term = ListTermAST.new
+            term = ListTermAST.new(@token_index, @token_length)
             term.children += val[1]
             result = term
         }
@@ -470,18 +470,18 @@ dictionary_contents:
 dictionary_definition:
       DD_START DD_END
         {
-            result = ListDefinitionAST.new
+            result = ListDefinitionAST.new(@token_index, @token_length)
         }
     | DD_START repeated_contents DD_END
         {
-            term = ListDefinitionAST.new
+            term = ListDefinitionAST.new(@token_index, @token_length)
             term.children += val[1]
             result = term
         }
 
 preformatted: PRE_START repeated_contents PRE_END
         {
-            p = PreformattedAST.new
+            p = PreformattedAST.new(@token_index, @token_length)
             p.children += val[1]
             result = p
         }
@@ -489,7 +489,7 @@ preformatted: PRE_START repeated_contents PRE_END
 
 section: SECTION_START repeated_contents SECTION_END
         { result = [val[1], val[0].length] 
-            s = SectionAST.new
+            s = SectionAST.new(@token_index, @token_length)
             s.children = val[1]
             s.level = val[0].length
             result = s
@@ -498,7 +498,7 @@ section: SECTION_START repeated_contents SECTION_END
 
 template: TEMPLATE_START TEXT template_parameters TEMPLATE_END
         {
-            t = TemplateAST.new
+            t = TemplateAST.new(@token_index, @token_length)
             t.template_name = val[1]
             t.children = val[2] unless val[2].nil? or val[2].empty?
             result = t
@@ -511,14 +511,14 @@ template_parameters:
         }
         | INTLINKSEP TEXT template_parameters
         {
-            p = TemplateParameterAST.new
+            p = TemplateParameterAST.new(@token_index, @token_length)
             p.parameter_value = val[1]
             result = [p]
             result += val[2] if val[2]
         }
         | INTLINKSEP template template_parameters
         {
-            p = TemplateParameterAST.new
+            p = TemplateParameterAST.new(@token_index, @token_length)
             p.children << val[1]
             result = [p]
             result += val[2] if val[2]
@@ -549,5 +549,8 @@ end
 
 #Asks the lexer to return the next token.
 def next_token
-    return @lexer.lex
+    token = @lexer.lex
+    @token_index = token[2]
+    @token_length = token[3]
+    return token[0..1]
 end

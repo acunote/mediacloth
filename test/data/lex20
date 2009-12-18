@@ -1,7 +1,7 @@
-TABLE_START{|TEXT border="1" cellpadding="2" cellspacing="0"
-ROW_STARTCELL_START|TEXT xxx
-CELL_ENDCELL_START|PRE_STARTTEXT  test
+TABLE_START{|[0, 2]TEXT border="1" cellpadding="2" cellspacing="0"
+[2, 44]ROW_START[46, 0]CELL_START|[46, 1]TEXT xxx
+[47, 5]CELL_END[52, 0]CELL_START|[52, 2]PRE_START[54, 0]TEXT  test
   test
   test
-PRE_ENDCELL_ENDCELL_START|TEXT yyy
-CELL_ENDROW_ENDTABLE_END|}falsefalse
+[54, 21]PRE_END[75, 0]CELL_END[75, 0]CELL_START|[75, 1]TEXT yyy
+[76, 5]CELL_END[81, 0]ROW_END[81, 0]TABLE_END|}[81, 3]falsefalse[84, 0]
