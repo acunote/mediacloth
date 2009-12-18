@@ -48,6 +48,8 @@ class SignedWikiGenerator_Test < Test::Unit::TestCase
                        "~~~some text~~~~'''bold'''~~~~~"
       assert_generates "[[User:Creator|Creator]] 01:01, 01 January 2000 ''''bold italic'''''01:01, 01 January 2000 some\ntext[[User:Creator|Creator]] 01:01, 01 January 2000 ",
                        "~~~~''''bold italic'''''~~~~~some\ntext~~~~"
+      assert_generates "* [[User:Creator|Creator]]\n* [[User:Creator|Creator]] 01:01, 01 January 2000 \n* 01:01, 01 January 2000 \n",
+                       "* ~~~\n* ~~~~\n* ~~~~~\n"
     end
 
     def test_signature_replacement_in_wiki_structures

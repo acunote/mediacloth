@@ -1037,7 +1037,7 @@ class MediaWikiLexer
   
   def empty_span(symbol, text, cursor_increment)
     maybe_close_para(symbol)
-    append_to_tokens [symbol, text]
+    append_to_tokens [symbol, text, @cursor, cursor_increment]
     @cursor += cursor_increment
     maybe_open_para(symbol)
   end
