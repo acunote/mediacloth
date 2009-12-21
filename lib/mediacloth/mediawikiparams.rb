@@ -14,7 +14,7 @@ class MediaWikiParams
     end
 
     def time
-        (@time || Time.now.utc).strftime("%H:%M, %d %B %Y ")
+        (@time || Time.now.utc).strftime("%a %b %d, %Y %H:%M")
     end
 
     def time=(t)
