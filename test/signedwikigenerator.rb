@@ -17,10 +17,10 @@ class SignedWikiGenerator_Test < Test::Unit::TestCase
       assert_generates "[[User:Creator|Creator]]",
                        "~~~",
                         "SignatureName replacement failed"
-      assert_generates "[[User:Creator|Creator]] 01:01, 01 January 2000 ",
+      assert_generates "[[User:Creator|Creator]] Sat Jan 01, 2000 01:01",
                        "~~~~",
                         "SignatureFull replacement failed"
-      assert_generates "01:01, 01 January 2000 ",
+      assert_generates "Sat Jan 01, 2000 01:01",
                        "~~~~~",
                         "SignatureDate replacement failed"
     end
@@ -28,27 +28,27 @@ class SignedWikiGenerator_Test < Test::Unit::TestCase
     def test_multiple_signature_replacement
       assert_generates "[[User:Creator|Creator]]sometext[[User:Creator|Creator]]",
                        "~~~sometext~~~"
-      assert_generates "[[User:Creator|Creator]]sometext[[User:Creator|Creator]] 01:01, 01 January 2000 ",
+      assert_generates "[[User:Creator|Creator]]sometext[[User:Creator|Creator]] Sat Jan 01, 2000 01:01",
                        "~~~sometext~~~~"
-      assert_generates "[[User:Creator|Creator]]sometext01:01, 01 January 2000 ",
+      assert_generates "[[User:Creator|Creator]]sometextSat Jan 01, 2000 01:01",
                        "~~~sometext~~~~~"
-      assert_generates "[[User:Creator|Creator]] 01:01, 01 January 2000 some\ntext[[User:Creator|Creator]]",
+      assert_generates "[[User:Creator|Creator]] Sat Jan 01, 2000 01:01some\ntext[[User:Creator|Creator]]",
                        "~~~~some\ntext~~~"
-      assert_generates "[[User:Creator|Creator]] 01:01, 01 January 2000 some\ntext[[User:Creator|Creator]] 01:01, 01 January 2000 ",
+      assert_generates "[[User:Creator|Creator]] Sat Jan 01, 2000 01:01some\ntext[[User:Creator|Creator]] Sat Jan 01, 2000 01:01",
                        "~~~~some\ntext~~~~"
-      assert_generates "[[User:Creator|Creator]] 01:01, 01 January 2000 some\ntext01:01, 01 January 2000 ",
+      assert_generates "[[User:Creator|Creator]] Sat Jan 01, 2000 01:01some\ntextSat Jan 01, 2000 01:01",
                        "~~~~some\ntext~~~~~"
-      assert_generates "01:01, 01 January 2000 sometext[[User:Creator|Creator]]",
+      assert_generates "Sat Jan 01, 2000 01:01sometext[[User:Creator|Creator]]",
                        "~~~~~sometext~~~"
-      assert_generates "01:01, 01 January 2000 sometext[[User:Creator|Creator]] 01:01, 01 January 2000 ",
+      assert_generates "Sat Jan 01, 2000 01:01sometext[[User:Creator|Creator]] Sat Jan 01, 2000 01:01",
                        "~~~~~sometext~~~~"
-      assert_generates "01:01, 01 January 2000 sometext01:01, 01 January 2000 ",
+      assert_generates "Sat Jan 01, 2000 01:01sometextSat Jan 01, 2000 01:01",
                        "~~~~~sometext~~~~~"
-      assert_generates "[[User:Creator|Creator]]some text[[User:Creator|Creator]] 01:01, 01 January 2000 '''bold'''01:01, 01 January 2000 ",
+      assert_generates "[[User:Creator|Creator]]some text[[User:Creator|Creator]] Sat Jan 01, 2000 01:01'''bold'''Sat Jan 01, 2000 01:01",
                        "~~~some text~~~~'''bold'''~~~~~"
-      assert_generates "[[User:Creator|Creator]] 01:01, 01 January 2000 ''''bold italic'''''01:01, 01 January 2000 some\ntext[[User:Creator|Creator]] 01:01, 01 January 2000 ",
+      assert_generates "[[User:Creator|Creator]] Sat Jan 01, 2000 01:01''''bold italic'''''Sat Jan 01, 2000 01:01some\ntext[[User:Creator|Creator]] Sat Jan 01, 2000 01:01",
                        "~~~~''''bold italic'''''~~~~~some\ntext~~~~"
-      assert_generates "* [[User:Creator|Creator]]\n* [[User:Creator|Creator]] 01:01, 01 January 2000 \n* 01:01, 01 January 2000 \n",
+      assert_generates "* [[User:Creator|Creator]]\n* [[User:Creator|Creator]] Sat Jan 01, 2000 01:01\n* Sat Jan 01, 2000 01:01\n",
                        "* ~~~\n* ~~~~\n* ~~~~~\n"
     end
 
@@ -61,9 +61,9 @@ class SignedWikiGenerator_Test < Test::Unit::TestCase
                        "<nowiki> ~~~~~ </nowiki>"
       assert_generates "<tt> [[User:Creator|Creator]] </tt>",
                        "<tt> ~~~ </tt>"
-      assert_generates "<tt> [[User:Creator|Creator]] 01:01, 01 January 2000  </tt>",
+      assert_generates "<tt> [[User:Creator|Creator]] Sat Jan 01, 2000 01:01 </tt>",
                        "<tt> ~~~~ </tt>"
-      assert_generates "<tt> 01:01, 01 January 2000  </tt>",
+      assert_generates "<tt> Sat Jan 01, 2000 01:01 </tt>",
                        "<tt> ~~~~~ </tt>"
       assert_generates "<paste> ~~~ </paste>",
                        "<paste> ~~~ </paste>"
@@ -73,15 +73,15 @@ class SignedWikiGenerator_Test < Test::Unit::TestCase
                        "<paste> ~~~~~ </paste>"
       assert_generates "'' [[User:Creator|Creator]] ''",
                        "'' ~~~ ''"
-      assert_generates "'' [[User:Creator|Creator]] 01:01, 01 January 2000  ''",
+      assert_generates "'' [[User:Creator|Creator]] Sat Jan 01, 2000 01:01 ''",
                        "'' ~~~~ ''"
-      assert_generates "'' 01:01, 01 January 2000  ''",
+      assert_generates "'' Sat Jan 01, 2000 01:01 ''",
                        "'' ~~~~~ ''"
       assert_generates "''' [[User:Creator|Creator]] '''",
                        "''' ~~~ '''"
-      assert_generates "''' [[User:Creator|Creator]] 01:01, 01 January 2000  '''",
+      assert_generates "''' [[User:Creator|Creator]] Sat Jan 01, 2000 01:01 '''",
                        "''' ~~~~ '''"
-      assert_generates "''' 01:01, 01 January 2000  '''",
+      assert_generates "''' Sat Jan 01, 2000 01:01 '''",
                        "''' ~~~~~ '''"
     end
 
