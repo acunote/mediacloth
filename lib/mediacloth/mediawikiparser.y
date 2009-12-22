@@ -536,6 +536,7 @@ attr_accessor :lexer
 
 def initialize
     @nodes = []
+    @context = []
     super
 end
 
@@ -550,7 +551,16 @@ end
 #Asks the lexer to return the next token.
 def next_token
     token = @lexer.lex
-    @token_index = token[2]
-    @token_length = token[3]
+    if token[0].to_s.capitalize.include? "_START"
+        @context << token[2..3]
+    elsif token[0].to_s.capitalize.include? "_END" and @context.last
+        @token_index = @context.last[0]
+        @token_length = token[2] + token[3] - @context.last[0]
+        @context.pop
+    else
+        @token_index = token[2]
+        @token_length = token[3]
+    end
+    
     return token[0..1]
 end
