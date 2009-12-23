@@ -57,7 +57,7 @@ protected
 private
     #Pretty-print ast node information
     def info(ast, *args)
-        @tree += "#{ast.class}"
+        @tree += "#{ast.class}[#{ast.index}, #{ast.length}]"
         if args.length > 0
             @tree += ": "
             args.each { |arg| @tree += "#{arg} " }
