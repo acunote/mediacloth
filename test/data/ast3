@@ -1,0 +1,6 @@
+WikiAST[0, 14]
+    ParagraphAST[0, 16]
+        TextAST[0, 2]: None 
+        TextAST[2, 5]: SignatureDate 
+        TextAST[7, 3]: SignatureName 
+        TextAST[11, 4]: SignatureFull 

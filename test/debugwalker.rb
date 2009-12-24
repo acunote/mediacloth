@@ -17,18 +17,16 @@ class DebugWalker < MediaWikiWalker
     def initialize
         super
         @tree = ""
+        @left_space = 0
     end
 
 protected
 
     def parse_wiki_ast(ast)
         info(ast)
-        super(ast)
-    end
-
-    def parse_paragraph(ast)
-        info(ast)
-        super(ast)
+        @left_space += 1
+        super(ast) if ast.children
+        @left_space -= 1
     end
 
     def parse_text(ast)
@@ -38,26 +36,42 @@ protected
 
     def parse_list(ast)
         info(ast, ast.class)
+        @left_space += 1
         super(ast)
+        @left_space -= 1
     end
 
-    def parse_list_item(ast)
+    def parse_internal_link(ast)
         info(ast)
-        super(ast)
+        @left_space += 1
+        ast.children.map do |c|
+            parse_wiki_ast(c)
+        end
+        @left_space -= 1
     end
 
-    def parse_preformatted(ast)
+    def parse_resource_link(ast)
         info(ast)
+        @left_space += 1
+        ast.children.map do |c|
+            parse_wiki_ast(c)
+        end
+        @left_space -= 1
     end
 
-    def parse_section(ast)
+    def parse_category_link(ast)
         info(ast)
+        @left_space += 1
+        ast.children.map do |c|
+            parse_wiki_ast(c)
+        end
+        @left_space -= 1
     end
 
 private
     #Pretty-print ast node information
     def info(ast, *args)
-        @tree += "#{ast.class}[#{ast.index}, #{ast.length}]"
+        @tree += "#{"    " * @left_space}#{ast.class}[#{ast.index}, #{ast.length}]"
         if args.length > 0
             @tree += ": "
             args.each { |arg| @tree += "#{arg} " }

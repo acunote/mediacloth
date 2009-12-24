@@ -1,0 +1,39 @@
+WikiAST[0, 327]
+    ParagraphAST[0, 65]
+        TextAST[0, 4]: None 
+        TextAST[4, 5]: CharacterEntity 
+        TextAST[9, 7]: None 
+        TextAST[16, 4]: CharacterEntity 
+        TextAST[20, 3]: None 
+        TextAST[23, 4]: CharacterEntity 
+        TextAST[27, 38]: None 
+    ParagraphAST[65, 20]
+        TextAST[65, 5]: None 
+        TextAST[70, 4]: CharacterEntity 
+        TextAST[74, 4]: CharacterEntity 
+        TextAST[78, 7]: None 
+    ParagraphAST[85, 9]
+        TextAST[92, 2]: None 
+    ParagraphAST[94, 6]
+        TextAST[94, 6]: None 
+    ParagraphAST[100, 7]
+        TextAST[105, 2]: None 
+    ParagraphAST[107, 15]
+        TextAST[120, 2]: None 
+    ParagraphAST[122, 27]
+        TextAST[147, 2]: None 
+    ParagraphAST[149, 39]
+        TextAST[186, 2]: None 
+    ParagraphAST[188, 12]
+        TextAST[198, 2]: None 
+    ParagraphAST[200, 17]
+        TextAST[215, 2]: None 
+    ParagraphAST[217, 13]
+        TextAST[228, 2]: None 
+    ParagraphAST[230, 18]
+        TextAST[246, 2]: None 
+    ParagraphAST[248, 19]
+        TextAST[265, 2]: None 
+    ParagraphAST[267, 30]
+        TextAST[295, 2]: None 
+    ParagraphAST[297, 30]

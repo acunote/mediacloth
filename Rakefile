@@ -21,6 +21,7 @@ task :regenerate do
         if file =~ /input([0-9]+)$/
             `ruby -I lib/ test/dataproducers/lex.rb #{$1}`
             `ruby -I lib/ test/dataproducers/html.rb #{$1}`
+            `ruby -I test/ -I lib/ test/dataproducers/ast.rb #{$1}`
         end
     end
 end

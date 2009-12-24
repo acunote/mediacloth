@@ -1,0 +1,9 @@
+WikiAST[0, 82]
+    TableAST[0, 82]
+        TableRowAST[0, 82]
+            TableCellAST[3, 76]
+                TextAST[4, 13]: None 
+            TableCellAST[3, 76]
+                TextAST[18, 9]: None 
+            TableCellAST[3, 76]
+                TextAST[66, 13]: None 

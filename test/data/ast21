@@ -1,0 +1,27 @@
+WikiAST[0, 289]
+    PasteAST[0, 237]
+        TextAST[8, 44]: None 
+        ElementAST[52, 1]
+        TextAST[53, 4]: None 
+        ElementAST[57, 1]
+        TextAST[58, 3]: None 
+        ElementAST[61, 1]
+        TextAST[62, 5]: None 
+        ElementAST[67, 1]
+        TextAST[68, 34]: None 
+        ElementAST[102, 1]
+        TextAST[103, 10]: None 
+        ElementAST[113, 1]
+        TextAST[114, 16]: None 
+        ElementAST[130, 1]
+        TextAST[131, 9]: None 
+        ElementAST[140, 1]
+        TextAST[141, 87]: None 
+        ElementAST[228, 1]
+    PasteAST[238, 15]
+    ParagraphAST[253, 12]
+        TextAST[253, 3]: None 
+    SectionAST[265, 15]
+        TextAST[267, 9]: None 
+    PasteAST[280, 18]
+        TextAST[287, 3]: None 

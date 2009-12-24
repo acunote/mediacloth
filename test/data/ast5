@@ -1,0 +1,122 @@
+WikiAST[0, 239]
+    ParagraphAST[0, 17]
+        TextAST[0, 17]: None 
+    ListAST[17, 31]: ListAST 
+        ListItemAST[17, 23]
+            TextAST[18, 2]: None 
+            ListAST[20, 20]: ListAST 
+                ListItemAST[20, 20]
+                    TextAST[22, 2]: None 
+                    ListAST[24, 16]: ListAST 
+                        ListItemAST[24, 5]
+                            TextAST[27, 2]: None 
+                        ListItemAST[29, 11]
+                            TextAST[32, 2]: None 
+                            ListAST[34, 6]: ListAST 
+                                ListItemAST[34, 6]
+                                    TextAST[38, 2]: None 
+        ListItemAST[40, 7]
+            TextAST[41, 2]: None 
+            ListAST[43, 4]: ListAST 
+                ListItemAST[43, 4]
+                    TextAST[45, 2]: None 
+    ListAST[48, 8]: ListAST 
+        ListItemAST[48, 3]
+            TextAST[49, 2]: None 
+        ListItemAST[51, 3]
+            TextAST[52, 2]: None 
+        ListItemAST[54, 2]
+    ParagraphAST[56, 16]
+        TextAST[56, 16]: None 
+    ListAST[72, 27]: ListAST 
+        ListItemAST[72, 18]
+            TextAST[73, 2]: None 
+            ListAST[75, 15]: ListAST 
+                ListItemAST[75, 15]
+                    TextAST[77, 2]: None 
+                    ListAST[79, 11]: ListAST 
+                        ListItemAST[79, 11]
+                            TextAST[82, 2]: None 
+                            ListAST[84, 6]: ListAST 
+                                ListItemAST[84, 6]
+                                    TextAST[88, 2]: None 
+        ListItemAST[90, 8]
+            TextAST[91, 2]: None 
+            ListAST[93, 5]: ListAST 
+                ListItemAST[93, 5]
+                    TextAST[95, 3]: None 
+    ListAST[99, 8]: ListAST 
+        ListItemAST[99, 3]
+            TextAST[100, 2]: None 
+        ListItemAST[102, 3]
+            TextAST[103, 2]: None 
+        ListItemAST[105, 2]
+    ParagraphAST[107, 14]
+        TextAST[107, 14]: None 
+    ListAST[121, 15]: ListAST 
+        ListItemAST[121, 11]
+            TextAST[122, 2]: None 
+            ListAST[124, 8]: ListAST 
+                ListItemAST[124, 4]
+                    TextAST[126, 2]: None 
+                ListItemAST[128, 4]
+                    TextAST[130, 2]: None 
+        ListItemAST[132, 3]
+            TextAST[133, 2]: None 
+    ListAST[136, 19]: ListAST 
+        ListItemAST[136, 16]
+            TextAST[137, 2]: None 
+            ListAST[139, 13]: ListAST 
+                ListItemAST[139, 4]
+                    TextAST[141, 2]: None 
+                ListItemAST[143, 9]
+                    TextAST[145, 2]: None 
+                    ListAST[147, 5]: ListAST 
+                        ListItemAST[147, 5]
+                            TextAST[150, 2]: None 
+        ListItemAST[152, 3]
+            TextAST[153, 2]: None 
+    ParagraphAST[155, 19]
+        TextAST[155, 19]: None 
+    ListAST[174, 3]: ListAST 
+        ListTermAST[174, 3]
+            TextAST[175, 2]: None 
+    ParagraphAST[177, 2]
+        TextAST[177, 2]: None 
+    ListAST[179, 3]: ListAST 
+        ListDefinitionAST[179, 3]
+            TextAST[180, 2]: None 
+    ParagraphAST[182, 2]
+        TextAST[182, 2]: None 
+    ListAST[184, 6]: ListAST 
+        ListTermAST[184, 3]
+            TextAST[185, 2]: None 
+        ListDefinitionAST[187, 3]
+            TextAST[188, 2]: None 
+    ParagraphAST[190, 2]
+        TextAST[190, 2]: None 
+    ListAST[192, 9]: ListAST 
+        ListTermAST[192, 3]
+            TextAST[193, 2]: None 
+        ListDefinitionAST[195, 3]
+            TextAST[196, 2]: None 
+        ListDefinitionAST[198, 3]
+            TextAST[199, 2]: None 
+    ParagraphAST[201, 2]
+        TextAST[201, 2]: None 
+    ListAST[203, 6]: ListAST 
+        ListTermAST[203, 3]
+            TextAST[204, 2]: None 
+        ListDefinitionAST[206, 3]
+            TextAST[207, 2]: None 
+    ListAST[209, 7]: ListAST 
+        ListTermAST[209, 3]
+            TextAST[210, 2]: None 
+        ListDefinitionAST[212, 3]
+            TextAST[213, 2]: None 
+    ListAST[216, 23]: ListAST 
+        ListTermAST[216, 3]
+            TextAST[217, 2]: None 
+        ListDefinitionAST[219, 20]
+            TextAST[220, 2]: None 
+            ResourceLinkAST[222, 17]

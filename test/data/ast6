@@ -1,0 +1,22 @@
+WikiAST[0, 161]
+    ParagraphAST[0, 83]
+        TextAST[0, 23]: None 
+        FormattedAST[23, 10]
+            TextAST[26, 4]: None 
+        TextAST[33, 5]: None 
+        FormattedAST[38, 10]
+            TextAST[40, 6]: None 
+        TextAST[48, 35]: None 
+    ListAST[83, 66]: ListAST 
+        ListItemAST[83, 52]
+            TextAST[84, 13]: None 
+            ListAST[97, 38]: ListAST 
+                ListItemAST[97, 19]
+                    TextAST[99, 17]: None 
+                ListItemAST[116, 19]
+                    TextAST[118, 17]: None 
+        ListItemAST[135, 14]
+            TextAST[136, 13]: None 
+    ParagraphAST[149, 8]
+        TextAST[149, 8]: None 
+    TextAST[157, 4]: HLine 
