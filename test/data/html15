@@ -1,29 +1,29 @@
 <div class="wikitoc">
 <div class="wikitoctitle">Contents</div>
 <ul>
-<li><a href='#Headline1_1'><span class="wikitocnumber">1.</span><span class="wikitoctext">Headline1</span></a>
+<li><a href='#Headline1'><span class="wikitocnumber">1.</span><span class="wikitoctext">Headline1</span></a>
 <ul>
-<li><a href='#Sub_Headline_1a_2'><span class="wikitocnumber">1.1.</span><span class="wikitoctext">Sub Headline 1a</span></a>
-<li><a href='#Sub_Headline_1b_3'><span class="wikitocnumber">1.2.</span><span class="wikitoctext">Sub Headline 1b</span></a>
+<li><a href='#Sub_Headline_1a'><span class="wikitocnumber">1.1.</span><span class="wikitoctext">Sub Headline 1a</span></a>
+<li><a href='#Sub_Headline_1b'><span class="wikitocnumber">1.2.</span><span class="wikitoctext">Sub Headline 1b</span></a>
 </ul>
-<li><a href='#Headline2_4'><span class="wikitocnumber">2.</span><span class="wikitoctext">Headline2</span></a>
+<li><a href='#Headline2'><span class="wikitocnumber">2.</span><span class="wikitoctext">Headline2</span></a>
 <ul>
-<li><a href='#Sub_Headline_2a_5'><span class="wikitocnumber">2.1.</span><span class="wikitoctext">Sub Headline 2a</span></a>
+<li><a href='#Sub_Headline_2a'><span class="wikitocnumber">2.1.</span><span class="wikitoctext">Sub Headline 2a</span></a>
 <ul>
-<li><a href='#Sub_Sub_Headline_2i_6'><span class="wikitocnumber">2.1.1.</span><span class="wikitoctext">Sub Sub Headline <i>2i</i></span></a>
-<li><a href='#Sub_Sub_Headline_2ii_7'><span class="wikitocnumber">2.1.2.</span><span class="wikitoctext">Sub Sub Headline <b>2ii</b></span></a>
+<li><a href='#Sub_Sub_Headline_2i'><span class="wikitocnumber">2.1.1.</span><span class="wikitoctext">Sub Sub Headline <i>2i</i></span></a>
+<li><a href='#Sub_Sub_Headline_2ii'><span class="wikitocnumber">2.1.2.</span><span class="wikitoctext">Sub Sub Headline <b>2ii</b></span></a>
 </ul>
-<li><a href='#Sub_Headline_2b_8'><span class="wikitocnumber">2.2.</span><span class="wikitoctext">Sub Headline 2b</span></a>
+<li><a href='#Sub_Headline_2b'><span class="wikitocnumber">2.2.</span><span class="wikitoctext">Sub Headline 2b</span></a>
 </ul>
 </ul>
 </div>
 <p><br />
 
-</p><h2><a name='Headline1_1'></a> Headline1 </h2>
-<h3><a name='Sub_Headline_1a_2'></a> Sub Headline 1a </h3>
-<h3><a name='Sub_Headline_1b_3'></a> Sub Headline 1b </h3>
-<h2><a name='Headline2_4'></a> Headline2 </h2>
-<h3><a name='Sub_Headline_2a_5'></a> Sub Headline 2a </h3>
-<h4><a name='Sub_Sub_Headline_2i_6'></a> Sub Sub Headline <i>2i</i> </h4>
-<h4><a name='Sub_Sub_Headline_2ii_7'></a> Sub Sub Headline <b>2ii</b> </h4>
-<h3><a name='Sub_Headline_2b_8'></a> Sub Headline 2b </h3>
+</p><h2><a name='Headline1'></a> Headline1 </h2>
+<h3><a name='Sub_Headline_1a'></a> Sub Headline 1a </h3>
+<h3><a name='Sub_Headline_1b'></a> Sub Headline 1b </h3>
+<h2><a name='Headline2'></a> Headline2 </h2>
+<h3><a name='Sub_Headline_2a'></a> Sub Headline 2a </h3>
+<h4><a name='Sub_Sub_Headline_2i'></a> Sub Sub Headline <i>2i</i> </h4>
+<h4><a name='Sub_Sub_Headline_2ii'></a> Sub Sub Headline <b>2ii</b> </h4>
+<h3><a name='Sub_Headline_2b'></a> Sub Headline 2b </h3>
