@@ -25,17 +25,17 @@ Test bold and italic wrapped around inline links:
 Test unclosed bold and italic formatting:
 
 </p><p><i>Some italic and now </i>bold
-</p><h2><a name='Heading'></a>Heading</h2>
+</p><h2><a name='Heading_1'></a>Heading</h2>
 <p>Text
 
 </p><p><i>Some italic and now <b>bold
-</b></i></p><h2><a name='Heading'></a>Heading</h2>
+</b></i></p><h2><a name='Heading_2'></a>Heading</h2>
 <p>
 Text
 
 </p><p><i>Some italic and now <b>bold
 
-</b></i></p><h2><a name='Heading'></a>Heading</h2>
+</b></i></p><h2><a name='Heading_3'></a>Heading</h2>
 <p><br />
 
 </p><p>Text
@@ -50,11 +50,11 @@ Text
 </b></i></p><p>Text
 
 </p><p>Invalid and weird sections:
-</p><h6><a name='===='></a>====</h6>
+</p><h6><a name='====_4'></a>====</h6>
 <p>
 =
 ==
-</p><h1><a name='='></a>=</h1>
-<h1><a name='=='></a>==</h1>
-<h2><a name='='></a>=</h2>
-<h2><a name='=='></a>==</h2>
+</p><h1><a name='=_5'></a>=</h1>
+<h1><a name='==_6'></a>==</h1>
+<h2><a name='=_7'></a>=</h2>
+<h2><a name='==_8'></a>==</h2>

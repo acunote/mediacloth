@@ -10,18 +10,18 @@ Another one.
 
 </p><p>We can have headlines:
 
-</p><h1><a name='Headline1'></a> Headline1 </h1>
-<h2><a name='Headline2'></a> Headline2 </h2>
-<h3><a name='Headline3'></a> Headline3 </h3>
-<h4><a name='Headline4'></a> Headline4 </h4>
-<h5><a name='Headline5'></a> Headline5 </h5>
-<h6><a name='Headline6'></a> Headline6 </h6>
-<h7><a name='Headline7'></a> Headline7 </h7>
+</p><h1><a name='Headline1_1'></a> Headline1 </h1>
+<h2><a name='Headline2_2'></a> Headline2 </h2>
+<h3><a name='Headline3_3'></a> Headline3 </h3>
+<h4><a name='Headline4_4'></a> Headline4 </h4>
+<h5><a name='Headline5_5'></a> Headline5 </h5>
+<h6><a name='Headline6_6'></a> Headline6 </h6>
+<h7><a name='Headline7_7'></a> Headline7 </h7>
 <p>
 Headlines may have formatting:
 
-</p><h1><a name='See_for_more_info'></a> See <a href="javascript:void(0)">Internal Link</a> for more info </h1>
-<h2><a name='This_is_an_important_heading'></a> This is an <b>important</b> heading </h2>
+</p><h1><a name='See_for_more_info_8'></a> See <a href="javascript:void(0)">Internal Link</a> for more info </h1>
+<h2><a name='This_is_an_important_heading_9'></a> This is an <b>important</b> heading </h2>
 <pre> This is a preformatted <b> </b> &lt;&lt; <i> </i> text
  yes
 </pre><hr></hr><p>
@@ -29,4 +29,4 @@ This is a text after the line.
 
 </p><ul><li>foo
 </li><li> foo2
-</li></ul><h2><a name='There_aren_t_any_closing_quotes_inside_this_headline_s_name'></a> There aren't any closing quotes inside this headline's name </h2>
+</li></ul><h2><a name='There_aren_t_any_closing_quotes_inside_this_headline_s_name_10'></a> There aren't any closing quotes inside this headline's name </h2>

@@ -17,6 +17,7 @@ class MediaWikiHTMLGenerator < MediaWikiWalker
     def parse(ast)
         @html = ""
         @ast = ast
+        @section_index = 0
         @html = super(ast)
     end
     
@@ -111,7 +112,8 @@ protected
     def parse_section(ast)
         generator = TextGenerator.new
         anchor = MediaWikiHTMLGenerator.anchor_for(generator.parse(ast).join(' '))
-        "<h#{ast.level}><a name='#{anchor}'></a>" + super(ast) + "</h#{ast.level}>\n"
+        @section_index += 1
+        "<h#{ast.level}><a name='#{anchor}_#{@section_index}'></a>" + super(ast) + "</h#{ast.level}>\n"
     end
     
     def parse_internal_link(ast)
@@ -260,6 +262,7 @@ protected
 
         def parse(ast)
             @html = ''
+            @section_index = 0
             @text_generator = TextGenerator.new
 
             root = TocNode.new
@@ -287,7 +290,8 @@ protected
             html = ''
             if toc_node.section
                 anchor = MediaWikiHTMLGenerator.anchor_for(@text_generator.parse(toc_node.section).join(' '))
-                html += "\n<li><a href='##{anchor}'><span class=\"wikitocnumber\">#{toc_node.number}</span><span class=\"wikitoctext\">#{parse_wiki_ast(toc_node.section).strip}</span></a>"
+                @section_index += 1
+                html += "\n<li><a href='##{anchor}_#{@section_index}'><span class=\"wikitocnumber\">#{toc_node.number}</span><span class=\"wikitoctext\">#{parse_wiki_ast(toc_node.section).strip}</span></a>"
             end
 
             unless toc_node.children.empty?
