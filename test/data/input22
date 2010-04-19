@@ -1,0 +1,20 @@
+__TOC__
+
+<div>
+= Headline1 =
+<span>
+== Sub Headline 1a ==
+</span>
+== Sub Headline 1b ==
+</div>
+= Headline2 =
+<table>
+<tr>
+<td>
+== Sub Headline 2a ==
+</td>
+<td>
+== Sub Headline 2b ==
+</td>
+</tr>
+</table>

@@ -265,17 +265,21 @@ protected
             root = TocNode.new
             root_stack = [root]
 
-            ast.children.each do |child|
-                if child.class == SectionAST
-                    root_stack.pop while child.level <= ((sec = root_stack.last.section) ? sec.level : 0)
+            parse_branch = lambda do |ast| 
+                ast.children.each do |child|
+                    if child.class == SectionAST
+                        root_stack.pop while child.level <= ((sec = root_stack.last.section) ? sec.level : 0)
 
-                    node = TocNode.new
-                    node.section = child
-                    root_stack.last.add_child(node)
+                        node = TocNode.new
+                        node.section = child
+                        root_stack.last.add_child(node)
 
-                    root_stack.push node
+                        root_stack.push node
+                    end
+                    parse_branch.call(child)
                 end
             end
+            parse_branch.call(ast)
 
             @html += parse_section(root)
             @html = "<div class=\"wikitoc\">\n<div class=\"wikitoctitle\">Contents</div>#{@html}\n</div>\n" if @html != ''
