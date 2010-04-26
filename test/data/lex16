@@ -1,6 +1,6 @@
 SECTION_START==[0, 2]TEXT Section [2, 9]SECTION_END==[11, 0]PARA_START[11, 3]TEXTSome text.
 
-[14, 12]PARA_END[26, 0]PRE_START[26, 0]TEXT <?xml version="1.0" encoding="UTF-8"?>
+[14, 12]PARA_END[26, 0]PREINDENT_START[26, 0]TEXT <?xml version="1.0" encoding="UTF-8"?>
  <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "[26, 104]LINK_START[130, 0]TEXThttp://www.apple.com/DTDs/PropertyList-1.0.dtd[130, 46]LINK_END[176, 0]TEXT">
  <plist version="1.0">
  <dict>
@@ -23,5 +23,5 @@ SECTION_START==[0, 2]TEXT Section [2, 9]SECTION_END==[11, 0]PARA_START[11, 3]TEX
  </dict>
  </dict>
  </plist>
-[176, 431]PRE_END[607, 0]PARA_START[607, 0]TEXT
+[176, 431]PREINDENT_END[607, 0]PARA_START[607, 0]TEXT
 Some text.[607, 11]TAG_STARTbr[618, 0]TAG_ENDbr[618, 4]TEXTSome other text.[622, 16]TAG_STARTbr[638, 0]TAG_ENDbr[638, 5]TEXTFoo.[643, 4]TAG_STARThr[647, 0]TAG_ENDhr[647, 4]TAG_STARTimg[651, 0]ATTR_NAMEsrc[651, 0]ATTR_VALUEfoo[651, 0]TAG_ENDimg[651, 16]PARA_END[667, 0]falsefalse[667, 0]

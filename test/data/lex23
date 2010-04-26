@@ -1,0 +1,7 @@
+TAG_STARTpre[0, 5]TEXT
+  This is
+    preformatted text
+
+[5, 34]TAG_ENDpre[39, 8]PREINDENT_START[47, 0]TEXT  And this is
+    preformatted text
+[47, 36]PREINDENT_END[83, 0]falsefalse[83, 0]

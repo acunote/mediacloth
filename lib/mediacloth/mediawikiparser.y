@@ -9,7 +9,8 @@
 class MediaWikiParser
 
 token TEXT BOLD_START BOLD_END ITALIC_START ITALIC_END LINK_START LINK_END LINKSEP
-    INTLINK_START INTLINK_END INTLINKSEP RESOURCESEP PRE_START PRE_END CHAR_ENT
+    INTLINK_START INTLINK_END INTLINKSEP RESOURCESEP CHAR_ENT 
+    PRE_START PRE_END PREINDENT_START PREINDENT_END 
     SECTION_START SECTION_END HLINE SIGNATURE_NAME SIGNATURE_DATE SIGNATURE_FULL
     PARA_START PARA_END UL_START UL_END OL_START OL_END LI_START LI_END
     DL_START DL_END DT_START DT_END DD_START DD_END TAG_START TAG_END ATTR_NAME ATTR_VALUE
@@ -482,6 +483,13 @@ dictionary_definition:
 preformatted: PRE_START repeated_contents PRE_END
         {
             p = PreformattedAST.new(@ast_index, @ast_length)
+            p.children += val[1]
+            result = p
+        }
+        | PREINDENT_START repeated_contents PREINDENT_END
+        {
+            p = PreformattedAST.new(@ast_index, @ast_length)
+            p.indented = true
             p.children += val[1]
             result = p
         }

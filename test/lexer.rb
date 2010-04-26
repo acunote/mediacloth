@@ -321,20 +321,20 @@ class Lexer_Test < Test::Unit::TestCase
       lex("  \n"))
     assert_equal([[:PARA_START, '', 0, 0], [:TEXT, "         \n", 0, 10], [:PARA_END, '', 10, 0], [false, false, 10, 0]],
       lex("         \n"))
-    assert_equal([[:PRE_START, '', 0, 0], [:TEXT, " text\n", 0, 6], [:PRE_END, '', 6, 0], [false, false, 6, 0]],
+    assert_equal([[:PREINDENT_START, '', 0, 0], [:TEXT, " text\n", 0, 6], [:PREINDENT_END, '', 6, 0], [false, false, 6, 0]],
       lex(" text\n"))
-    assert_equal([[:PRE_START, '', 0, 0], [:TEXT, " text\r\n", 0, 7], [:PRE_END, '', 7, 0], [false, false, 7, 0]],
+    assert_equal([[:PREINDENT_START, '', 0, 0], [:TEXT, " text\r\n", 0, 7], [:PREINDENT_END, '', 7, 0], [false, false, 7, 0]],
       lex(" text\r\n"))
-    assert_equal([[:PRE_START, '', 0, 0], [:TEXT, " text\n text\n", 0, 12], [:PRE_END, '', 12, 0], [false, false, 12, 0]],
+    assert_equal([[:PREINDENT_START, '', 0, 0], [:TEXT, " text\n text\n", 0, 12], [:PREINDENT_END, '', 12, 0], [false, false, 12, 0]],
       lex(" text\n text\n"))
-    assert_equal([[:PARA_START, '', 0, 0], [:TEXT, "text\n", 0, 5], [:PARA_END, '', 5, 0], [:PRE_START, '', 5, 0],
-        [:TEXT, " text\n", 5, 6], [:PRE_END, '', 11, 0], [false, false, 11, 0]], 
+    assert_equal([[:PARA_START, '', 0, 0], [:TEXT, "text\n", 0, 5], [:PARA_END, '', 5, 0], [:PREINDENT_START, '', 5, 0],
+        [:TEXT, " text\n", 5, 6], [:PREINDENT_END, '', 11, 0], [false, false, 11, 0]], 
       lex("text\n text\n"))
-    assert_equal([[:PRE_START, '', 0, 0], [:TEXT, " text\n", 0, 6], [:PRE_END, '', 6, 0], [:PARA_START, '', 6, 0], 
+    assert_equal([[:PREINDENT_START, '', 0, 0], [:TEXT, " text\n", 0, 6], [:PREINDENT_END, '', 6, 0], [:PARA_START, '', 6, 0], 
         [:TEXT, "text\n", 6, 5], [:PARA_END, '', 11, 0], [false, false, 11, 0]], 
       lex(" text\ntext\n"))
-    assert_equal([[:PRE_START, '', 0, 0], [:TEXT, ' ', 0, 1], [:ITALIC_START, "''", 1, 2], [:TEXT, "italic", 3, 6], 
-        [:ITALIC_END, "''", 9, 2], [:TEXT, "\n", 11, 1], [:PRE_END, '', 12, 0], [false, false, 12, 0]],
+    assert_equal([[:PREINDENT_START, '', 0, 0], [:TEXT, ' ', 0, 1], [:ITALIC_START, "''", 1, 2], [:TEXT, "italic", 3, 6], 
+        [:ITALIC_END, "''", 9, 2], [:TEXT, "\n", 11, 1], [:PREINDENT_END, '', 12, 0], [false, false, 12, 0]],
       lex(" ''italic''\n"))
   end
   

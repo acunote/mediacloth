@@ -1,7 +1,7 @@
 <h2><a name='Section'></a> Section </h2>
 <p>Some text.
 
-</p><pre> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+</p><pre class="indent"> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
  &lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;<a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd</a>&quot;&gt;
  &lt;plist version=&quot;1.0&quot;&gt;
  &lt;dict&gt;

@@ -105,7 +105,11 @@ protected
     end
 
     def parse_preformatted(ast)
-        "<pre>" + super(ast) + "</pre>"
+        if ast.indented
+            "<pre class=\"indent\">" + super(ast) + "</pre>"
+        else
+            "<pre>" + super(ast) + "</pre>"
+        end
     end
 
     def parse_section(ast)

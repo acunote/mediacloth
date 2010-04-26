@@ -118,6 +118,7 @@ end
 
 #The node to represent a preformatted contents
 class PreformattedAST < AST
+    attr_accessor :indented
 end
 
 #The node to represent an XHTML element and its contents

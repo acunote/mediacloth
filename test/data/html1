@@ -22,7 +22,7 @@ Headlines may have formatting:
 
 </p><h1><a name='See_for_more_info'></a> See <a href="javascript:void(0)">Internal Link</a> for more info </h1>
 <h2><a name='This_is_an_important_heading'></a> This is an <b>important</b> heading </h2>
-<pre> This is a preformatted <b> </b> &lt;&lt; <i> </i> text
+<pre class="indent"> This is a preformatted <b> </b> &lt;&lt; <i> </i> text
  yes
 </pre><hr></hr><p>
 This is a text after the line.

@@ -61,8 +61,8 @@ end
 class MediaWikiLexer
   
   INLINE_ELEMENTS = [:LINK, :INTLINK, :BOLD, :ITALIC]
-  BLOCK_ELEMENTS = [:PARA, :PRE, :UL, :OL, :DL, :LI, :SECTION, :TABLE, :ROW, :CELL, :HEAD]
-  PARA_BREAK_ELEMENTS = [:UL, :OL, :DL, :PRE, :PASTE_START, :SECTION, :TABLE, :HLINE, :KEYWORD]
+  BLOCK_ELEMENTS = [:PARA, :PRE, :PREINDENT, :UL, :OL, :DL, :LI, :SECTION, :TABLE, :ROW, :CELL, :HEAD]
+  PARA_BREAK_ELEMENTS = [:UL, :OL, :DL, :PRE, :PREINDENT, :PASTE_START, :SECTION, :TABLE, :HLINE, :KEYWORD]
   
   NAME_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-]/ ? true : false}
   TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;:?&~=#%\/]/ ? true : false}
@@ -581,7 +581,7 @@ class MediaWikiLexer
 
   def match_space
     if at_start_of_line? and !blank_line?
-      start_span(:PRE)
+      start_span(:PREINDENT)
       @lexer_table.push(@indent_lexer_table)
       match_text
     else
@@ -594,7 +594,7 @@ class MediaWikiLexer
     unless @text[@cursor, 1] == " "
       @tokens.append_pending(@pending)
       @pending = TokenString.new(self)
-      end_span(:PRE)
+      end_span(:PREINDENT)
       @lexer_table.pop
     end
   end
