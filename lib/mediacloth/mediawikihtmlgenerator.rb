@@ -105,8 +105,15 @@ protected
     end
 
     def parse_preformatted(ast)
-        if ast.indented
-            "<pre class=\"indent\">" + super(ast) + "</pre>"
+        if ast.indented 
+            original_text = super(ast)
+            lines = original_text.split("\n").sort
+            shortest_space = lines.last.scan(/\s+/)[0]
+            contents = ""
+            original_text.each do |line|
+                contents << line.sub(shortest_space, "")
+            end
+            "<pre class=\"indent\">" + contents + "</pre>"
         else
             "<pre>" + super(ast) + "</pre>"
         end
