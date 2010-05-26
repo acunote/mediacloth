@@ -108,10 +108,14 @@ protected
         if ast.indented 
             original_text = super(ast)
             lines = original_text.split("\n").sort
-            shortest_space = lines.last.scan(/\s+/)[0]
+            shortest_space = lines.last.scan(/^\s+/)[0]
             contents = ""
-            original_text.each do |line|
-                contents << line.sub(shortest_space, "")
+            if shortest_space
+                original_text.each do |line|
+                    contents << line.sub(shortest_space, "")
+                end
+            else
+                contents = original_text
             end
             "<pre class=\"indent\">" + contents + "</pre>"
         else
