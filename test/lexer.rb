@@ -602,6 +602,17 @@ class Lexer_Test < Test::Unit::TestCase
     assert_equal([[:KEYWORD, "NOTOC", 0, 9], [false, false, 9, 0]], lex("__NOTOC__"))
   end
 
+  # This test should not pass. It works because of bug in mediawiki lexer
+  def test_formatted_html
+    formatted_html = "\
+<ul>
+    <li>
+    </li>
+</ul>
+"
+    assert_equal ([[:PARA_START, "", 0, 0], [:TAG_START, "ul", 0, 5], [:PREINDENT_START, "", 5, 0], [:TEXT, "    ", 5, 4], [:TAG_START, "li", 9, 5], [:PREINDENT_START, "", 14, 0], [:TEXT, "    ", 14, 4], [:PREINDENT_END, "", 18, 0], [:TAG_END, "li", 18, 6], [:PREINDENT_END, "", 24, 0], [:TAG_END, "ul", 24, 5], [:TEXT, "\n", 29, 1], [:PARA_END, "", 30, 0], [:PREINDENT_END, "", 30, 0], [false, false, 30, 0]],
+        lex(formatted_html))
+  end
   
   private
   
