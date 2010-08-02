@@ -602,7 +602,11 @@ class Lexer_Test < Test::Unit::TestCase
     assert_equal([[:KEYWORD, "NOTOC", 0, 9], [false, false, 9, 0]], lex("__NOTOC__"))
   end
 
-  # This test should not pass. It works because of bug in mediawiki lexer
+  # This test should not pass. It works because of bug in mediawiki lexer.
+  # Mediawiki lexer builds invalid tree for indented html.
+  # Indentation is considered as preformatted text and preformatted text end tags has 
+  # wrongs place.
+  # Last PREINDENT_END shoul be right after first :TAG_START for li
   def test_formatted_html
     formatted_html = "\
 <ul>
