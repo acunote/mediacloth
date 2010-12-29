@@ -8,6 +8,8 @@ Another one.
 
 </p><p>This is text with <a href="javascript:void(0)">Internal Link</a> and <a href="http://www.example.com">external link</a>.
 
+</p><p><a href="http://inline.link/with?at@character">http://inline.link/with?at@character</a>
+
 </p><p>We can have headlines:
 
 </p><h1><a name='Headline1'></a> Headline1 </h1>

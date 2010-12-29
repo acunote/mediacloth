@@ -8,6 +8,8 @@ Another one.
 
 This is text with [[Internal Link]] and [http://www.example.com external link].
 
+http://inline.link/with?at@character
+
 We can have headlines:
 
 
