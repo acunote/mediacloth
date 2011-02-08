@@ -70,7 +70,7 @@ protected
             case(ast.formatting)
             when :None then MediaWikiHTMLGenerator.escape(ast.contents)
             when :CharacterEntity then "&#{ast.contents};"
-            when :HLine then "<hr></hr>"
+            when :HLine then "<hr/>"
             when :SignatureDate then @params.time.to_s
             when :SignatureName then link_handler.link_for("User:#{@params.author}", @params.author)
             when :SignatureFull then "#{link_handler.link_for("User:#{@params.author}", @params.author)} #{@params.time.to_s}"

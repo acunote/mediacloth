@@ -26,7 +26,7 @@ Headlines may have formatting:
 <h2><a name='This_is_an_important_heading'></a> This is an <b>important</b> heading </h2>
 <pre class="indent">This is a preformatted <b> </b> &lt;&lt; <i> </i> text
 yes
-</pre><hr></hr><p>
+</pre><hr/><p>
 This is a text after the line.
 
 </p><ul><li>foo
