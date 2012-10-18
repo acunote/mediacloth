@@ -66,7 +66,6 @@ class MediaWikiLexer
   
   NAME_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-]/ ? true : false}
   TOKEN_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[a-zA-Z0-9_\-.;:?&@~=#%\/]/ ? true : false}
-  PUNCTUATION_CHAR_TABLE = (0 .. 255).collect{|n| n.chr =~ /[\.,;:\-?]/ ? true : false}
 
 
   HTML_TAGS = %w{ a abbr acronym address applet area b base basefont bdo big blockquote body br
@@ -569,12 +568,6 @@ class MediaWikiLexer
       while i < @text.size and TOKEN_CHAR_TABLE[@text[i]] do
         link << @text[i, 1]
         i += 1
-      end
-
-      #exclude punctuation at the end
-      while link.length > 0 and PUNCTUATION_CHAR_TABLE[link[-1]] do
-        link = link[0..-2]
-        i -= 1
       end
       
       @pending = TokenString.new(self)
