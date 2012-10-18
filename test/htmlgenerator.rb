@@ -27,6 +27,28 @@ class HTMLGenerator_Test < Test::Unit::TestCase
       assert_equal html, '<p><a href="https://www.google.com">https://www.google.com</a></p>'
     end
 
+    def test_punctuation_at_the_end_of_absolute_links
+      html = generate('http://example.com.', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com">http://example.com</a>.</p>'
+      html = generate('http://example.com...', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com">http://example.com</a>...</p>'
+      html = generate('http://example.com,', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com">http://example.com</a>,</p>'
+      html = generate('http://example.com:', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com">http://example.com</a>:</p>'
+      html = generate('http://example.com;', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com">http://example.com</a>;</p>'
+      html = generate('http://example.com-', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com">http://example.com</a>-</p>'
+    end
+
+    def test_punctuation_at_the_end_of_internal_links
+      html = generate('[http://example.com/page. Example]', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com/page.">Example</a></p>'
+      html = generate('[http://example.com/page- Example]', MediaWikiLinkHandler.new)
+      assert_equal html, '<p><a href="http://example.com/page-">Example</a></p>'
+    end
+
     def test_uses_element_attributes_from_link_handler
       html = generate('[[InternalLink|This is just an internal link]]', ClassEmptyLinkHandler.new)
       expected1 = '<p><a class="empty" href="http://www.example.com/wiki/InternalLink">This is just an internal link</a></p>'
