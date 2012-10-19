@@ -412,6 +412,24 @@ class Lexer_Test < Test::Unit::TestCase
   end
   
   def test_xhtml_markup
+    # not closed angles
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "<", 0, 1], [:PARA_END, "", 1, 0], [false, false, 1, 0]], lex("<"))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, ">", 0, 1], [:PARA_END, "", 1, 0], [false, false, 1, 0]], lex(">"))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "< ", 0, 2], [:PARA_END, "", 2, 0], [false, false, 2, 0]], lex("< "))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "> ", 0, 2], [:PARA_END, "", 2, 0], [false, false, 2, 0]], lex("> "))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "text <", 0, 6], [:PARA_END, "", 6, 0], [false, false, 6, 0]], 
+        lex("text <"))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "text >", 0, 6], [:PARA_END, "", 6, 0], [false, false, 6, 0]], 
+        lex("text >"))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "text < ", 0, 7], [:PARA_END, "", 7, 0], [false, false, 7, 0]], 
+        lex("text < "))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "text > ", 0, 7], [:PARA_END, "", 7, 0], [false, false, 7, 0]], 
+        lex("text > "))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "< text", 0, 6], [:PARA_END, "", 6, 0], [false, false, 6, 0]], 
+        lex("< text"))
+    assert_equal([[:PARA_START, "", 0, 0], [:TEXT, "> text ", 0, 7],[:PARA_END, "", 7, 0], [false, false, 7, 0]], 
+        lex("> text "))
+
     assert_equal([[:PARA_START, "", 0, 0], [:TAG_START, "tt", 0, 4], [:TEXT, "text", 4, 4], [:TAG_END, "tt", 8, 5],
         [:PARA_END, "", 13, 0], [false, false, 13, 0]],
       lex("<tt>text</tt>"))

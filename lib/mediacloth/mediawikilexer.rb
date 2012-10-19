@@ -349,7 +349,9 @@ class MediaWikiLexer
     
   def match_left_angle
     next_char = @text[@cursor + 1]
-    if next_char == 47
+    if !next_char
+      match_text
+    elsif next_char == 47
       # Might be an XHTML end tag
       if @text[@cursor .. -1] =~ %r{</([a-zA-Z][a-zA-Z0-9\-_]*)(\s*)>} and @context.include?(:TAG)
         # Found an XHTML end tag
