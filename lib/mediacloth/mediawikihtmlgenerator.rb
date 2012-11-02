@@ -111,7 +111,7 @@ protected
             shortest_space = lines.last.scan(/^\s+/)[0]
             contents = ""
             if shortest_space
-                original_text.each do |line|
+                original_text.each_line do |line|
                     contents << line.sub(shortest_space, "")
                 end
             else

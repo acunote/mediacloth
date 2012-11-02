@@ -290,7 +290,7 @@ class MediaWikiLexer
   
   def match_ampersand
     i = @cursor + 1
-    i += 1 while i < @text.size and NAME_CHAR_TABLE[@text[i]]
+    i += 1 while i < @text.size and NAME_CHAR_TABLE[@text[i].ord]
     if @text[i, 1] == ';'
       append_to_tokens([:CHAR_ENT, @text[(@cursor + 1) ... i]])
       @cursor = i + 1
@@ -351,7 +351,7 @@ class MediaWikiLexer
     next_char = @text[@cursor + 1]
     if !next_char
       match_text
-    elsif next_char == 47
+    elsif next_char.ord == 47
       # Might be an XHTML end tag
       if @text[@cursor .. -1] =~ %r{</([a-zA-Z][a-zA-Z0-9\-_]*)(\s*)>} and @context.include?(:TAG)
         # Found an XHTML end tag
@@ -362,7 +362,7 @@ class MediaWikiLexer
       else
         match_text
       end
-    elsif next_char > 64 and next_char < 123
+    elsif next_char.ord > 64 and next_char.ord < 123
       # Might be an XHTML open or empty tag
       scanner = StringScanner.new(@text[@cursor .. -1])
       if scanner.scan(%r{<([a-zA-Z][a-zA-Z0-9\-_]*)}) and (HTML_TAGS.include?(scanner[1]) or WIKI_TAGS.include?(scanner[1]))
@@ -568,13 +568,13 @@ class MediaWikiLexer
     if link
       start_span(:LINK)
       i = @cursor + link.length
-      while i < @text.size and TOKEN_CHAR_TABLE[@text[i]] do
+      while i < @text.size and TOKEN_CHAR_TABLE[@text[i].ord] do
         link << @text[i, 1]
         i += 1
       end
 
       #exclude punctuation at the end
-      while link.length > 0 and PUNCTUATION_CHAR_TABLE[link[-1]] do
+      while link.length > 0 and PUNCTUATION_CHAR_TABLE[link[-1].ord] do
         link = link[0..-2]
         i -= 1
       end
