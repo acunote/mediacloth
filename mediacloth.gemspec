@@ -2,23 +2,23 @@ require 'rubygems'
 
 SPEC = Gem::Specification.new do |s|
     s.name      = "mediacloth"
-    s.version   = "0.0.3"
+    s.version   = "0.5"
     s.author    = "Pluron Inc."
     s.email     = "support@pluron.com"
-    s.homepage  = "http://mediacloth.rubyforge.org/"
+    s.homepage  = "https://github.com/adymo/mediacloth"
     s.platform  = Gem::Platform::RUBY
-    s.summary   = "A MediaWiki syntax parser and HTML generator."
+    s.description = "MediaWiki syntax to HTML converter"
+    s.summary   = "Ruby library to convert MediaWiki syntax to HTML, similar to Kramdown or Redcloth."
 
-    s.add_dependency('builder',    '>= 2.1.2')
+    s.add_development_dependency('racc',    '>= 1.1.3')
 
     candidates  = Dir.glob("{bin,docs,lib,test}/**/*")
     s.files     = candidates.delete_if do |item|
-                    item.include?(".svn") || item.include?("rdoc")
+                    item.include?("rdoc")
                   end
 
     s.require_path      = "lib"
-    s.autorequire       = "mediacloth"
     s.has_rdoc          = true
-    s.extra_rdoc_files  = ["README"]
-    s.rdoc_options      << '--title' << 'MediaCloth' << '--main' << 'README'
+    s.extra_rdoc_files  = ["README.md"]
+    s.rdoc_options      << '--title' << 'MediaCloth' << '--main' << 'README.md'
 end
