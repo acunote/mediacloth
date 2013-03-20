@@ -632,7 +632,7 @@ class Lexer_Test < Test::Unit::TestCase
     </li>
 </ul>
 "
-    assert_equal ([[:PARA_START, "", 0, 0], [:TAG_START, "ul", 0, 5], [:PREINDENT_START, "", 5, 0], [:TEXT, "    ", 5, 4], [:TAG_START, "li", 9, 5], [:PREINDENT_START, "", 14, 0], [:TEXT, "    ", 14, 4], [:PREINDENT_END, "", 18, 0], [:TAG_END, "li", 18, 6], [:PREINDENT_END, "", 24, 0], [:TAG_END, "ul", 24, 5], [:TEXT, "\n", 29, 1], [:PARA_END, "", 30, 0], [:PREINDENT_END, "", 30, 0], [false, false, 30, 0]],
+    assert_equal([[:PARA_START, "", 0, 0], [:TAG_START, "ul", 0, 5], [:PREINDENT_START, "", 5, 0], [:TEXT, "    ", 5, 4], [:TAG_START, "li", 9, 5], [:PREINDENT_START, "", 14, 0], [:TEXT, "    ", 14, 4], [:PREINDENT_END, "", 18, 0], [:TAG_END, "li", 18, 6], [:PREINDENT_END, "", 24, 0], [:TAG_END, "ul", 24, 5], [:TEXT, "\n", 29, 1], [:PARA_END, "", 30, 0], [:PREINDENT_END, "", 30, 0], [false, false, 30, 0]],
         lex(formatted_html))
   end
   
