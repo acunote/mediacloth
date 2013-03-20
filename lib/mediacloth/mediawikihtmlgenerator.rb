@@ -246,7 +246,8 @@ protected
             end
             @counter[@level - 1] += 1
             anchor = MediaWikiHTMLGenerator.anchor_for(@text_generator.parse(ast).join(' '))
-            html += "<li>#{@counter[0 ... @level].join('.')} <a href='##{anchor}'>#{parse_wiki_ast(ast)}</a></li>\n"
+            number = @counter[0 ... @level].select{ |l| l != 0 }.join('.')
+            html += "<li>#{number} <a href='##{anchor}'>#{parse_wiki_ast(ast)}</a></li>\n"
             html
         end
     
