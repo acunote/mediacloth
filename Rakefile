@@ -1,6 +1,6 @@
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rdoc/task'
 
 task :default => [:parser]
 
@@ -42,7 +42,7 @@ desc 'Generate documentation.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
     rdoc.rdoc_dir = 'rdoc'
     rdoc.title    = 'Mediacloth'
-    rdoc.options << '--line-numbers' << '--inline-source'
-    rdoc.rdoc_files.include('README')
+    rdoc.options << '--line-numbers'
+    rdoc.rdoc_files.include('README.md')
     rdoc.rdoc_files.include('lib/**/*.rb')
 end
