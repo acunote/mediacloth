@@ -2,7 +2,7 @@ require 'rubygems'
 
 SPEC = Gem::Specification.new do |s|
     s.name      = "mediacloth"
-    s.version   = "0.5"
+    s.version   = "0.6"
     s.author    = "Pluron Inc."
     s.email     = "support@pluron.com"
     s.homepage  = "https://github.com/adymo/mediacloth"
