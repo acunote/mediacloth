@@ -19,7 +19,9 @@ class MediaWikiLinkHandler
   #* <tt>[[My Page|Click ''here'' to view my page]]</tt>
   #The return value should be an URL that references the page resource
   def url_for(page)
-    "javascript:void(0)"
+    page_name, page_title = page.split('|')
+    page_title ||= page_name
+    "/" + page_name.gsub(/\s+/, "_") + ".html"
   end
 
   #Provides a hash with the attributes for page links. The options provided
